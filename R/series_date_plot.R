@@ -1,0 +1,74 @@
+#' RingdateR shiny server file
+#'
+#' This function creates the shiny user interface
+#' @keywords GUI
+#' @param the.data a dataframe to be organised so it can be plotted
+#' @export
+
+
+dated_line_plot<-function(the.data){
+
+ser.names<-colnames(the.data)
+
+# ORGANISE THE DATA SO THAT THE FIRST COLUMN CONTAINS THE EARLIEST SERIES
+
+col<-2
+dates<-data.frame()
+
+for (i in 1:(ncol(the.data)-1)){
+
+  name<-ser.names[col]
+  sub<-data.frame(the.data[,1],the.data[,col])
+  sub<- subset(sub, complete.cases(sub))
+  temp.len<-min(sub[,1])
+  temp.res<-data.frame(name,temp.len)
+  dates<-rbind(dates,temp.res)
+  col<-col+1
+}
+
+dates<-dates[order(dates[,2]),]
+dates[,1]<-as.character(dates[,1])
+
+ordered.dat<-data.frame(the.data[,1])
+a<-1
+
+for (i in 1:nrow(dates)){
+
+  ordered.dat<-cbind(ordered.dat, the.data[[dates[a,1]]])
+  a<-a+1
+}
+
+colnames(ordered.dat)<-c("Year", dates[,1])
+ordered.names<-colnames(ordered.dat)
+
+# Now generate a dATAFRAME THAT CAN BE USED O PLOT THE DATA
+
+res<-data.frame()
+col<-2
+samp<-1
+
+for (i in 1:(ncol(the.data)-1)){
+
+  name<-ordered.names[col]
+  sub<-data.frame(ordered.dat[,1],ordered.dat[,col])
+
+  sub<- subset(sub, complete.cases(sub))
+
+  d.of.s <- min(sub[,1])
+  d.of.d <- max(sub[,1])
+
+  dates<-c(d.of.s,d.of.d)
+  name.val<-c(name,name)
+  samp.val<-c(samp,samp)
+
+  temp<- data.frame(name.val,samp.val,dates)
+  res<-rbind(res,temp)
+
+  col<-col+1
+  samp<-samp+1
+}
+
+#PRODUCE THE PLOT
+
+return(res)
+}

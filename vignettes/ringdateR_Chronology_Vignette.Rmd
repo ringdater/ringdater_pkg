@@ -1,0 +1,158 @@
+---
+title: "RingdateR Chronology Vignette"
+author: "David J. Reynolds, David C. Edge, Bryan A. Black"
+date: "14 April, 2020"
+output:
+  html_document:
+    theme: cosmo
+    toc: yes
+vignette: >
+  %\VignetteIndexEntry{RingdateR Chronology Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<a href="https://ringdater.github.io/ringdater/help.html">Return to RingdateR Help webpage</a>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+RingdateR is designed to facilitate visual and statistical crossdating of tree ring and growth increment width series of both live- and dead-collected samples. RingdateR has a particular focus on facilitating the crossdating of dead-collected samples, with unknown antiquities, either against each other (i.e. pairwise analysis) or an existing absolutely dated chronology. As RingdateR is a crossdating application, it has not been designed for the construction of chronologies and as such does not contain facilities for performing regional curve standardisation or signal free detrending or more sophisticated tools for combining data sets into robust mean chronologies. The tools set out in RingdateR are designed to facilitate the evaluation of growth patterns in annually resolved archives to facilitate the dating of samples either relative to each other, or relative to an existing mean chronology.  
+
+Before using any of the RingdateR functions, you will need to install the package from the CRAN library.
+
+
+You will also need to load the package.
+
+```{r message = FALSE, warning=FALSE}
+library(ringdater)
+```
+
+
+## Loading Data
+
+RingdateR is compatable with an array of file formats including: csv, txt (tab delimitted), MS Excel, pos (cooRecorder), and lps (ImagePro). Loading series of any format follows a similar procedure:
+
+###Example data can be downloaded from a GitHub repository at the following URL:
+
+https://github.com/davidjreynolds/ringdater.git
+
+After unzipping the example data to a known location, you can proceed to load the data into R using various data loading functions.
+
+**For other file loading methods (.xlsx, .pos, .lps, .txt), see the ringdateR Pairwise Vignette**
+
+###Load an undated series file (csv)
+
+```{r}
+undated <- load_undated("example_data/UndatedSeries.csv")
+undated <- normalise(the.data = undated, detrending_select = 3, splinewindow = 21)
+```
+
+###Load a chronology file (csv)
+
+```{r}
+chronoData <- load_chron("example_data/chronologies/ExampleChron.csv")
+chronoData<-normalise(chronoData, detrending_select = 3, splinewindow = 21)
+chronoData<-data.frame(chronoData[,1], rowMeans(chronoData[,-1], na.rm = TRUE))
+colnames(chronoData)<-c("year","chronoData")
+plot(chronoData, type ="l", xlab = "Year", ylab = "Standardised growth index")
+```
+
+
+###Combine the chronology and undated series into a single data frame for analysis
+```{r}
+chron_n_series <- comb.NA(chronoData, undated[,-1], fill = NA)
+```
+
+```{r comment='', echo=FALSE, results='asis'}
+df <- chron_n_series[1:6,1:6]
+knitr::kable(df, caption = "Preview of Combined Data", floating.environment="sidewaystable")
+
+```
+
+## Run Lead-lag analysis
+
+```{r}
+chron_comp <- lead_lag_analysis(the_data = chron_n_series, mode = 2, neg_lag = -20, pos_lag = 20, complete = TRUE, shiny = FALSE)
+```
+
+```{r comment='', echo=FALSE, results='asis'}
+df <- chron_comp[[1]][2:9,]
+knitr::kable(df, caption = "Chronology Corelations", floating.environment="sidewaystable")
+
+```
+
+
+### Line plot of Series vs. the Chronology
+
+Examine one of the undated series plotted against the chronology at the strongest lag position
+
+```{r}
+line_plot(the_data = chron_n_series, series_1 = "chronoData", series_2 = "ID_021b", lag = 58)
+```
+
+### Lead-lag results bar chart
+
+Examine the lead-lag results between the two samples as a bar chart
+
+```{r}
+lead_lag_bar(the_data = as.data.frame(chron_comp[2]), sample_1 = "chronoData", sample_2 = "ID_021b")
+```
+
+
+### Lead-lag results heatmap
+
+The heatmap provides an additional visual tool for assessing the crossdating. The sample numbers come from the column positions of the samples: the chronology is sample 2 and "x021b" is sample 4.
+
+"center" defines the midpoint (in the y direction) of the plot region
+"neg_lag" and "pos_leg" set the y-limits of the plot relative to the midpoint
+"complete", when set to TRUE, overrides plot position details and returns the full plot
+"leg_size" defines the size of the legend
+
+
+```{r}
+heatmap_analysis(the_data = chron_n_series, s1 = "chronoData", s2 = "ID_021b", neg_lag = -10, pos_lag = 10, center = 58, complete = FALSE, leg_size = 1)
+```
+
+
+## Check statistics
+
+First we can filter the pairwise data by r-value, p-value, overlap, and sample ID.
+
+```{r}
+filtered_data <- filter_crossdates(the_data = as.data.frame(chron_comp[1]), r_val = 0.6, p_val = 0.05, overlap = 40, target = colnames(chron_n_series)[2])
+```
+
+```{r comment='', echo=FALSE, results='asis'}
+df <- filtered_data[1:6,1:9]
+knitr::kable(df, caption = "Filtered Data", floating.environment="sidewaystable")
+```
+
+
+## Align and plot the data
+
+We can now align and plot all of the data that meets the criterea set above.
+
+```{r}
+aligned_data <- align_series(the_data = chron_n_series, cross_dates = filtered_data, sel_target = colnames(chron_n_series)[2])
+plot_all_series(aligned_data)
+```
+
+
+
+# Evaluate the newly aligned data
+
+Correlations between each sample and the arithemtic mean chronology with replacement.
+
+```{r}
+alignmentStats <- correl_replace(aligned_data)
+```
+
+```{r comment='', echo=FALSE, results='asis'}
+df <- alignmentStats[2:9,]
+knitr::kable(df, caption = "Check Alignment Stats", floating.environment="sidewaystable")
+```
+

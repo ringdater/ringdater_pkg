@@ -1,0 +1,160 @@
+---
+title: "RingdateR Pairwise Vignette"
+author: "David J. Reynolds, David C. Edge, Bryan A. Black"
+date: "14 April, 2020"
+output:
+  html_document:
+    theme: cosmo
+    toc: yes
+vignette: >
+  %\VignetteIndexEntry{RingdateR Pairwise Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<a href="https://ringdater.github.io/ringdater/help.html">Return to RingdateR Help webpage</a>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+RingdateR is designed to facilitate visual and statistical crossdating of tree ring and growth increment width series of both live- and dead-collected samples. RingdateR has a particular focus on facilitating the crossdating of dead-collected samples, with unknown antiquities, either against each other (i.e. pairwise analysis) or an existing absolutely dated chronology. As RingdateR is a crossdating application, it has not been designed for the construction of chronologies and as such does not contain facilities for performing regional curve standardisation or signal free detrending or more sophisticated tools for combining data sets into robust mean chronologies. The tools set out in RingdateR are designed to facilitate the evaluation of growth patterns in annually resolved archives to facilitate the dating of samples either relative to each other, or relative to an existing mean chronology.  
+
+Before using any of the RingdateR functions, you will need to install the package from the CRAN library.
+
+
+You will also need to load the package.
+
+```{r message = FALSE, warning=FALSE}
+library(ringdater)
+```
+
+
+## Loading Undated Time Series
+
+RingdateR is compatable with an array of file formats including: csv, txt (tab delimitted), MS Excel, pos (cooRecorder), and lps (ImagePro). Loading series of any format follows a similar procedure:
+
+###Example data can be downloaded from a GitHub repository at the following URL:
+
+https://github.com/davidjreynolds/ringdater.git
+
+After unzipping the example data to a known location, you can proceed to load the data into R using various data loading functions.
+
+*make sure to set your working directory to the foler containing the unzipped example data*
+
+###Load undated series 
+
+Files can be in several formats including:
+ImagePro (lps), CooRecorder (pos), Comma separated values (csv), Tab delimmited (txt) files
+
+```{r}
+exampleData <- load_undated("example_data/UndatedSeries.csv")
+
+```
+
+***The following example is based on the csv file data loaded above***
+
+Preview the rwl data
+
+```{r comment='', echo=FALSE, results='asis'}
+df <- exampleData[1:5,1:5]
+knitr::kable(df, caption = "Preview", floating.environment="sidewaystable")
+```
+
+## Detrending ring width data
+
+```{r}
+detrending.plot.fun(undet.data = exampleData, first_series = "ID_021a", detrending_select = 3, splinewindow = 21, 
+font_size = 12, axis_line_width = 0.5, plot_line = 0.5)
+detrendedData <- normalise(the.data = exampleData, detrending_select = 3, splinewindow = 7)
+```
+
+
+## Lead-lag analysis
+
+Pairwise analysis performs corelations of all possible sample pairings at all lags requested. In this case we will compare all samples at lags ranging from -20 to +20. 
+
+The summary of results of one such pairwise comparison is printed here:
+
+*The pairwise lead-lag analysis function returns a list. In order to access the data, we ask for the first item in the list with [[1]]. To choose one analysis, we subset by row, and to view the best match, we also subset the first several columns.*
+
+```{r}
+pairwiseData <- lead_lag_analysis(the_data = detrendedData, mode = 1, neg_lag = -20, pos_lag = 20, complete = TRUE, shiny = FALSE)
+```
+
+```{r comment='', echo=FALSE, results='asis'}
+df <- pairwiseData[[1]][1:10,]
+knitr::kable(df, caption = "Pairwise Corelations", floating.environment="sidewaystable")
+```
+
+### Line plot of Series vs. the Chronology
+
+Examine one of the undated series plotted against the chronology at the strongest lag position
+
+*The lag position is taken from the table above*
+
+```{r}
+line_plot(the_data = detrendedData, series_1 = "ID_021a", "ID_032a", lag = 30)
+```
+
+### Lead-lag results bar chart
+
+Examine the lead-lag results between the two samples as a bar chart
+
+```{r}
+lead_lag_bar(the_data = as.data.frame(pairwiseData[2]), sample_1 = "ID_021b", sample_2 = "ID_032a")
+```
+
+
+### Lead-lag results heatmap
+
+The heatmap provides an additional visual tool for assessing the crossdating. The sample numbers come from the column positions of the samples: "sc52l_l1" is sample 2 and "sc55r_l2" is sample 5.
+
+```{r}
+heatmap_analysis(the_data = detrendedData, s1 = "ID_032a", s2 = "ID_021b") 
+```
+
+
+## Check statistics
+
+First we can filter the pairwise data by r-value, p-value, overlap, and sample ID.
+
+```{r}
+filtered_data <- filter_crossdates(the_data = as.data.frame(pairwiseData[1]), r_val = 0.6, p_val = 0.01, overlap = 30, target = "ID_032a")
+```
+
+```{r comment='', echo=FALSE, results='asis'}
+df <- filtered_data[,1:9]
+knitr::kable(df, caption = "Filtered Data Preview", floating.environment="sidewaystable")
+```
+
+
+## Align and plot the data
+
+We can now align and plot all of the data that meets the criterea set above.
+
+```{r}
+aligned_data <- align_series(the_data = detrendedData, cross_dates = filtered_data, sel_target = "ID_032a")
+
+plot_all_series(aligned_data)
+```
+
+
+
+# Evaluate the newly aligned data
+
+Correlations between each sample and the arithemtic mean chronology with replacement.
+
+```{r}
+alignmentStats <- correl_replace(aligned_data)
+```
+
+View the stats
+```{r comment='', echo=FALSE, results='asis'}
+df <- alignmentStats
+knitr::kable(df, caption = "Aligned Data", floating.environment="sidewaystable")
+```
+
+
