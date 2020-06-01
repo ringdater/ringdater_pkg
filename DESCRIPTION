@@ -12,7 +12,11 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
-Imports:
+Suggests: 
+    knitr, 
+    rmarkdown
+VignetteBuilder: knitr
+Imports: 
     data.table,
     DataCombine,
     DescTools,
@@ -26,19 +30,15 @@ Imports:
     htmlwidgets,
     magrittr,
     readxl,
-    shiny,
     shinycssloaders,
     shinydashboard,
     shinyjs,
     shinyalert,
-    shinyWidgets,
     stats,
     stringr,
     tidyselect,
     xml2,
     zoo,
-    zoocat
-Suggests: 
-    knitr, 
-    rmarkdown
-VignetteBuilder: knitr
+    zoocat,
+    shiny,
+    shinyWidgets

@@ -8,5 +8,5 @@
 run_ringdater<-function(){
   options(shiny.maxRequestSize = 50*1024^2)
   registerDoParallel(cores=2)
-  shinyApp(ui = ui, server = RingServer)
+  runApp(list(ui = ui, server = RingServer), launch.browser = TRUE)
 }
