@@ -1,5 +1,5 @@
 # RingdateR Read Me
-
+<a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
 <a href="https://github.com/ringdater/ringdater_pkg/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/ringdater/ringdater_pkg"></a>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
