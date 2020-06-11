@@ -5,8 +5,13 @@
 #' @param series_data A data.frame containing the undetrended individual ring width series.
 #' @param detrending_select A numeric integer to define which detrending method to use. 1 = Do nothing, 2 = Z-scores, 3 = spline detrending, 4 = Mod. negative exponentia, 5 = Friedman, 6 = ModHugershoff, 7 = First difference. Spline is slected by default.
 #' @param splinewindow A numeric integer to define the length of the spline to be used in splne detrending (if option 3 selected).
-#' @import dplR
+#' @importFrom dplR detrend.series
 #' @export
+#' @examples
+#' path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' the_data<-load_undated(path)
+#' detcurves(series_data = the_data, detrending_select = 3, splinewindow = 21)
+
 
 detcurves<-function(series_data, detrending_select = 1, splinewindow = 21){
 

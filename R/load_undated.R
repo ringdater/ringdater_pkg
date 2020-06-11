@@ -7,7 +7,11 @@
 #' @param shiny a logical to set series names. If running in cosole can be ignored.
 #' @param col1 A character string to label the first column (e.g. Year or Ring)
 #' @importFrom magrittr %<>%
+#' @importFrom dplR read.rwl
 #' @export
+#' @examples
+#' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' load_undated(undated_path)
 
 load_undated<-function(files, col1 = "ring", series_names = NULL, shiny = FALSE){
 

@@ -7,7 +7,7 @@
 normalise(the.data, detrending_select = 1, splinewindow = 21)
 }
 \arguments{
-\item{the.data}{A dataframe containingthe data to be detrended.}
+\item{the.data}{A dataframe containing the data to be detrended.}
 
 \item{detrending_select}{A numeric integer to define which detrending method to use. 1 = Do nothing, 2 = Z-scores, 3 = spline detrending, 4 = Mod. negative exponentia, 5 = Friedman, 6 = ModHugershoff, 7 = First difference. Spline is slected by default.}
 
@@ -15,5 +15,10 @@ normalise(the.data, detrending_select = 1, splinewindow = 21)
 }
 \description{
 This function detrends data in a dataframe
+}
+\examples{
+undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+undated_data <- load_undated(undated_path)
+normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
 }
 \keyword{detrending}

@@ -5,6 +5,10 @@
 #' @param ... Either a dataframe and a vector or two data frames to be combined.
 #' @param fill Either NA or a character string to be used to extend columns
 #' @export
+#' @examples
+#' df1<-data.frame(a=1:10, b=2:11)
+#' df2<-data.frame(c=5:10, d=6:11)
+#' comb.NA(df1,df2)
 
 comb.NA <- function (..., fill = NA)
 {

@@ -5,10 +5,44 @@
 #' @keywords statistics tests
 #' @param the_data A dataframe created by lead_lag_analysis() function (lead_lag_analysis()[1]). Must be a dataframe.
 #' @param r_val A numeric value (>=0 and <=1). Correlation coefficient.
-#' @param p_val A numeric value (>=0 and <=1). Probablility value.
+#' @param p_val A numeric value (>=0 and <=1). Probability value.
 #' @param overlap An integer >0. This value represents the period of overlap between samples.
 #' @param target a column name to be used as the target sample
 #' @export
+#' @examples
+#' # undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' # undated_data <- load_undated(undated_path)
+#' # undated      <- normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
+#' #
+#' # chron_path  <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+#' # chron_data  <- load_chron(chron_path)
+#' # chrono      <- normalise(the.data = chron_data, detrending_select = 3, splinewindow = 21)
+#' # chrono      <- data.frame(chrono[,1], rowMeans(chrono[,-1], na.rm = TRUE))
+#' # colnames(chrono)<-c("year", "mean_chronology")
+#' #
+#' # chron_n_series <- comb.NA(chrono, undated[,-1], fill = NA)
+#' # chron_n_series[1:6,1:6]
+#' #
+#' # chron_comp <- lead_lag_analysis(the_data = chron_n_series,
+#' #                                 mode = 2,
+#' #                                 complete = TRUE,
+#' #                                 shiny = FALSE)
+#'
+#' # For speed, the results of the analyses above are imported as two CSV files and put
+#' # together into a list (chron_comp).
+#' exmp_analysis_1 <- system.file("extdata", "chron_comp_1.csv", package="ringdater")
+#' chron_comp_1 <- read.csv(exmp_analysis_1, stringsAsFactors = FALSE, header = TRUE)
+#'
+#' exmp_analysis_2 <- system.file("extdata", "chron_comp_2.csv", package="ringdater")
+#' chron_comp_2 <- read.csv(exmp_analysis_2, stringsAsFactors = FALSE, header = TRUE)
+#'
+#' chron_comp<-list(chron_comp_1,chron_comp_2)
+#'
+#' filtered_data <- filter_crossdates(the_data = as.data.frame(chron_comp[1]),
+#'                                   r_val = 0.4,
+#'                                   p_val = 0.05,
+#'                                   overlap = 30,
+#'                                   target = "mean_chronology")
 
 filter_crossdates<-function(the_data, r_val = 0.5, p_val = 0.05, overlap = 50, target = NULL){
 

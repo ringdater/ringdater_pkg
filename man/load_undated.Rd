@@ -18,4 +18,8 @@ load_undated(files, col1 = "ring", series_names = NULL, shiny = FALSE)
 \description{
 This function creates a dataframe containing the data from multiple files loaded at one.
 }
+\examples{
+undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+load_undated(undated_path)
+}
 \keyword{RingdateR}

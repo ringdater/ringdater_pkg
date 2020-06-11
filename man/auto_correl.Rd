@@ -12,4 +12,8 @@ auto_correl(the_data)
 \description{
 Calculate the autocorrelation (1-10th orders) contained in a series.
 }
+\examples{
+the_data <-data.frame(x=1:100, y= rnorm(100, 1, 2))
+auto_correl(the_data)
+}
 \keyword{autocorrelation}

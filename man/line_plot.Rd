@@ -13,10 +13,17 @@ line_plot(the_data, series_1_nm, series_2_nm, lag = 0)
 
 \item{series_2_nm}{A character string containing a column name in the the_data to be plotted. This series will be lagged.}
 
-\item{lag}{A numeric integerto lag series series_2_nm by.}
+\item{lag}{A numeric integer to lag series series_2_nm by.}
 }
 \description{
 PLot two timeseries and adjust the lag of the second series
+}
+\examples{
+test1 <- system.file("extdata", "undated_example.csv", package="ringdater")
+the_data <- load_undated(test1)
+series_1 <- colnames(the_data)[2]
+series_2 <- colnames(the_data)[3]
+line_plot(the_data = the_data, series_1_nm = series_1, series_2_nm = series_2, lag = -7)
 }
 \keyword{analysis}
 \keyword{lead-lag}

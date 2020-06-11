@@ -5,7 +5,7 @@
 #' @param path The file path as a character string.
 #' @importFrom xml2 as_list
 #' @importFrom xml2 read_xml
-#' @export
+
 
 load_lps<-function(series, path){
   run<-TRUE
@@ -55,6 +55,7 @@ load_lps<-function(series, path){
     for (i in 1:lineCount){
       colnames(lps_loader)[i+1] <- paste0(series, "_L", i)
     }
+    colnames(lps_loader)[1]<-"ring"
     return(lps_loader)
   }
 }

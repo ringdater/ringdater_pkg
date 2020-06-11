@@ -2,7 +2,7 @@
 % Please edit documentation in R/series_date_plot.R
 \name{dated_line_plot}
 \alias{dated_line_plot}
-\title{RingdateR shiny server file}
+\title{Produces sample distribution plot data}
 \usage{
 dated_line_plot(the.data)
 }
@@ -10,6 +10,14 @@ dated_line_plot(the.data)
 \item{the.data}{a dataframe to be organised so it can be plotted}
 }
 \description{
-This function creates the shiny user interface
+Organise data for plotting the distribution plot
 }
-\keyword{GUI}
+\examples{
+chron_path  <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+chron_data  <- load_chron(chron_path)
+plot_data <- dated_line_plot(chron_data)
+ggplot2::ggplot(data = plot_data, ggplot2::aes(x=dates, y=samp.val, group = name.val))+
+ggplot2::geom_line() +ggplot2::theme_minimal()
+}
+\keyword{data}
+\keyword{organisation}

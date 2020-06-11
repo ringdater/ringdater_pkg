@@ -10,7 +10,7 @@ pairwise_data_check(the_data)
 \item{the_data}{A data frame containing the undated series}
 }
 \description{
-Check if thre are any problems with the loaded undated series
+Check if the are any problems with the loaded undated series
 }
 \keyword{RingdateR}
 \keyword{load}

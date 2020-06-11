@@ -5,8 +5,14 @@
 #' @param the_data A data.frame containing the series to be plotted. The first column should contain years/ring numbers
 #' @param series_1_nm A character string containing a column name in the the_data to be plotted.
 #' @param series_2_nm A character string containing a column name in the the_data to be plotted. This series will be lagged.
-#' @param lag A numeric integerto lag series series_2_nm by.
+#' @param lag A numeric integer to lag series series_2_nm by.
 #' @export
+#' @examples
+#' test1 <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' the_data <- load_undated(test1)
+#' series_1 <- colnames(the_data)[2]
+#' series_2 <- colnames(the_data)[3]
+#' line_plot(the_data = the_data, series_1_nm = series_1, series_2_nm = series_2, lag = -7)
 
 line_plot<-function(the_data, series_1_nm, series_2_nm, lag = 0){
   run<-TRUE

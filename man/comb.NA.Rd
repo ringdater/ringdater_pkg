@@ -14,4 +14,9 @@ comb.NA(..., fill = NA)
 \description{
 Combines vector with a dataframe of a different length
 }
+\examples{
+df1<-data.frame(a=1:10, b=2:11)
+df2<-data.frame(c=5:10, d=6:11)
+comb.NA(df1,df2)
+}
 \keyword{autocorrelation}

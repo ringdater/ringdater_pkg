@@ -16,8 +16,15 @@
 #' @param center A numeric integer used to center the lead lag limits around. e.g. the pos lag is added to this value.
 #' @param leg_size A numeric integer to define the size of the colour bar legend.
 #' @export
+#' @examples
+#' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' undated_data <- load_undated(undated_path)
+#' undated_data <- name_check(undated_data)
+#' undated      <- normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
+#' heatmap_analysis(the_data = undated, s1 = colnames(undated)[2], s2 = colnames(undated)[3],
+#'                  neg_lag = -20, pos_lag = 20, win = 21, complete = FALSE)
 
-  heatmap_analysis<-function(the_data, s1, s2, neg_lag = -20, pos_lag = 20, win = 21, center = 0, complete = TRUE, sel_col_pal = 1, font_size = 12, axis_line_width = 1, plot_line = 1, leg_size = 1){
+heatmap_analysis<-function(the_data, s1, s2, neg_lag = -20, pos_lag = 20, win = 21, center = 0, complete = TRUE, sel_col_pal = 1, font_size = 12, axis_line_width = 1, plot_line = 1, leg_size = 1){
 
   plot.data <-  running_lead_lag(the_data=the_data, s1=s1, s2=s2, neg_lag = neg_lag + center, pos_lag = pos_lag + center, win = win, complete = complete)
 

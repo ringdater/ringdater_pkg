@@ -20,5 +20,10 @@ Output codes:
 1 = The first column in the dataframe conatins NA values.
 2 = The loaded data are discontinuous/contain missing values.
 }
+\examples{
+the_data <- data.frame(x = 1:10, y = 1:10)
+loaded_data_check(the_data)
+# Return of 0 means no errors
+}
 \keyword{data}
 \keyword{quality}

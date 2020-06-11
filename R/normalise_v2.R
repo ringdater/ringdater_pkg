@@ -2,10 +2,15 @@
 #'
 #' This function detrends data in a dataframe
 #' @keywords detrending
-#' @param the.data A dataframe containingthe data to be detrended.
+#' @param the.data A dataframe containing the data to be detrended.
 #' @param detrending_select A numeric integer to define which detrending method to use. 1 = Do nothing, 2 = Z-scores, 3 = spline detrending, 4 = Mod. negative exponentia, 5 = Friedman, 6 = ModHugershoff, 7 = First difference. Spline is slected by default.
 #' @param splinewindow A numeric integer to define the length of the spline to be used in splne detrending (if option 3 selected).
 #' @export
+#' @examples
+#' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' undated_data <- load_undated(undated_path)
+#' normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
+
 
 normalise<-function(the.data, detrending_select = 1, splinewindow = 21){
   if (detrending_select %in% c(1:7) == FALSE){

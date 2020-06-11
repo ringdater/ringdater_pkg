@@ -1,9 +1,16 @@
 #' Plot all data in dataframe along with the arithmetic mean chronology
 #'
-#' Generate a plot of all the aligned data alogn with the arithmetic mean chronology
+#' Generate a plot of all the aligned data along with the arithmetic mean chronology
 #' @keywords plot
 #' @param aligned_data A data frame containing multiple ring width series aligned in time. First column should be years/ring count
 #' @export
+#' @examples
+#' chron_path  <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+#' chron_data  <- load_chron(chron_path)
+#' chron_data  <- name_check(chron_data)
+#' chrono      <- normalise(the.data = chron_data, detrending_select = 3, splinewindow = 21)
+#'
+#' plot_all_series(chrono)
 
 plot_all_series<-function(aligned_data){
 

@@ -8,6 +8,10 @@
 #' @param the.data A dataframe containing at least three series and a year column
 #' @importFrom stats cor.test
 #' @export
+#' @examples
+#' file_path <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+#' the_data<-load_chron(file_path)
+#' correl_replace(the_data)
 
 correl_replace<-function(the.data){
   # check the data are a data.frame

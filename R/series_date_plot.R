@@ -1,10 +1,15 @@
-#' RingdateR shiny server file
+#' Produces sample distribution plot data
 #'
-#' This function creates the shiny user interface
-#' @keywords GUI
+#' Organise data for plotting the distribution plot
+#' @keywords data organisation
 #' @param the.data a dataframe to be organised so it can be plotted
 #' @export
-
+#' @examples
+#' chron_path  <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+#' chron_data  <- load_chron(chron_path)
+#' plot_data <- dated_line_plot(chron_data)
+#' ggplot2::ggplot(data = plot_data, ggplot2::aes(x=dates, y=samp.val, group = name.val))+
+#' ggplot2::geom_line() +ggplot2::theme_minimal()
 
 dated_line_plot<-function(the.data){
 

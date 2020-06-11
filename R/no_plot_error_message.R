@@ -1,10 +1,12 @@
-#' Dusplay error messages in a plot
+#' Display error messages in a plot
 #'
 #' This function creates error messages to be displayed in place of a plot in the shiny app
 #' @keywords errors
 #' @param plot.err TRUE/FALSE
-#' @param message A string of characters to convey an erro message.
+#' @param message A string of characters to convey an error message.
 #' @export
+#' @examples
+#' RingdateR_error_message(message = "There has been an error")
 
 RingdateR_error_message<-function(message="Can't display plot", plot.err = TRUE){
 

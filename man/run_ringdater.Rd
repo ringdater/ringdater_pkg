@@ -9,6 +9,10 @@ run_ringdater()
 \description{
 This function runs RingdateR as a shiny app
 }
+\examples{
+# To launch RingdateR as a shiny app simply run:
+# run_ringdater()
+}
 \keyword{Shiny}
 \keyword{app}
 \keyword{crossdating}

@@ -2,8 +2,8 @@
 #'
 #' This function reads pos formated files created by Image Pro and outputs a data.frame
 #' @keywords pos, image pro
-#' @export
 #' @param file_path A character string containing the file path to be loaded.
+
 
 load_pos<-function(file_path){
   run<-TRUE

@@ -32,6 +32,15 @@ detrending.plot.fun(
 \description{
 This function produces a plot of the raw and detrended ring width data as well as the corresponding autocorrelation.
 }
+\examples{
+path <- system.file("extdata", "undated_example.csv", package="ringdater")
+the_data <- load_undated(path)
+series <- colnames(the_data)[2]
+detrending.plot.fun(undet.data = the_data,
+                   first_series = series,
+                   detrending_select = 3,
+                   splinewindow = 21)
+}
 \keyword{image}
 \keyword{pos,}
 \keyword{pro}

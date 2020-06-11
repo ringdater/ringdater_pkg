@@ -16,5 +16,10 @@ detcurves(series_data, detrending_select = 1, splinewindow = 21)
 \description{
 This function creates a dataframe containing teh detrending curve data used in the normalise function.
 }
+\examples{
+path <- system.file("extdata", "undated_example.csv", package="ringdater")
+the_data<-load_undated(path)
+detcurves(series_data = the_data, detrending_select = 3, splinewindow = 21)
+}
 \keyword{curves}
 \keyword{detrending}

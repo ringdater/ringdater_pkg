@@ -5,7 +5,12 @@
 #' @param file A  files path as a character string
 #' @export
 #' @importFrom readxl read_excel
-#'
+#' @importFrom dplR read.rwl
+#' @examples
+#' chron_path <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+#' load_chron(chron_path)
+
+
 load_chron<- function(file){
 
   file_detect<-function(x,n){

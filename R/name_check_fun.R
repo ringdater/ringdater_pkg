@@ -1,8 +1,13 @@
-#' Check the names of samples laoded into RingdateR
+#' Check the names of samples loaded into RingdateR
 #'
-#' This function checksthe column names of samples loaded into RingdateR
+#' This function checks the column names of samples loaded into RingdateR. IT will automatically change them
+#' to make them suitable for use in R and other functions in RingdateR
 #' @param the_data A dataframe to check the colnames.
 #' @export
+#' @examples
+#' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' undated_data <- load_undated(undated_path)
+#' name_check(undated_data)
 
 name_check<-function(the_data){
   # Extract the old names

@@ -34,5 +34,9 @@ Create a dataframe containing the arithmetic mean chronologies from multiple fil
 containing either two column chronologies or files containing multiple series to be
 compiled as a chronology.
 }
+\examples{
+chron_path  <- system.file("extdata", "undated_chron.xlsx", package="ringdater")
+chron_data  <- ld_undated_chron(chron_path)
+}
 \keyword{RingdateR}
 \keyword{load}

@@ -7,6 +7,6 @@
 ui()
 }
 \description{
-This function creates the shiny user interface
+This function creates the graphical user interface
 }
 \keyword{GUI}

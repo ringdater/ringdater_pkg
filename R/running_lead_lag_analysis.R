@@ -1,17 +1,26 @@
 #' running lead_lag analysis
 #'
-#' This function rperforms running lead-lag correlation analysis between two timeseries
+#' This function performs running lead-lag correlation analysis between two time series.
+#' The output dataframe is used to produce the heatmaps
 #' @keywords pairwise_lead_lag
 #' @param the_data A dataframe containing the timeseries. First column should contain dates.
 #' @param s1 the name of a sample - must match a column name exactly
 #' @param s2 the name of a sample - must match a column name exactly
 #' @param neg_lag An integer
 #' @param pos_lag An integer
-#' @param complete A boolean to classify whther to run the lead-lag over the maximum range of leads and lags
+#' @param complete A boolean to classify whether to run the lead-lag over the maximum range of
+#' leads and lags between the two selected samples
 #' @param win The window with which the running correlations are calculated over
 #' @importFrom zoocat rollcor
 #' @importFrom zoo rollmean
 #' @export
+#' @examples
+#' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' undated_data <- load_undated(undated_path)
+#' undated_data <- name_check(undated_data)
+#' undated      <- normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
+#' running_lead_lag(the_data = undated, s1 = colnames(undated)[2], s2 = colnames(undated)[3],
+#'                  neg_lag = -20, pos_lag = 20, win = 21, complete = FALSE)
 
 running_lead_lag<-function(the_data, s1, s2, neg_lag = -20, pos_lag = 20, win = 21, complete = TRUE){
   if(is.null(the_data)){return(NULL)

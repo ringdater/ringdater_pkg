@@ -10,6 +10,14 @@
 #' @param font_size A numeric integer to define the size of axis labels
 #' @param axis_line_width A numeric integer to define the thickness ofthe axis lines
 #' @param plot_line A numeric integer to define the thickness of the plotted lines
+#' @examples
+#' path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' the_data <- load_undated(path)
+#' series <- colnames(the_data)[2]
+#' detrending.plot.fun(undet.data = the_data,
+#'                    first_series = series,
+#'                    detrending_select = 3,
+#'                    splinewindow = 21)
 
 detrending.plot.fun<- function(undet.data, first_series, detrending_select = 3, splinewindow = 21, font_size = 12, axis_line_width = 1, plot_line = 1){
 

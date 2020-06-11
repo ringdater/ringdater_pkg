@@ -1,15 +1,35 @@
 #' lead-lag analysis
 #'
-#' This function runs lead-lag correlation analysis between multiple timeseries
+#' This function runs lead-lag correlation analysis between multiple timeseries. It outputs a list containing two
+#' dataframes that can be used in conjunction with other RingdateR functions to produce summary plots of crossdtes
+#' between two samples. It also outputs a data.frame containing the best three matches for each sample.
 #' @keywords pairwise_lead_lag
 #' @param the_data A dataframe containing the timeseries. First column should contain dates.
 #' @param neg_lag An integer
 #' @param pos_lag An integer
 #' @param complete A boolean to classify whther to run the lead-lag over the maximum range of leads and lags
-#' @param mode either 1 or 2. 1 = Pairwise analysis mode, 2 = Chronology analysis mode.
+#' @param mode Either 1 or 2. 1 = Pairwise analysis mode, 2 = Chronology analysis mode.
 #' @param shiny defines whether the function is being called in the shiny app or not.
 #' @importFrom stats cor.test
 #' @export
+#' @examples
+#' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' undated_data <- load_undated(undated_path)
+#' undated      <- normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
+#'
+#' chron_path <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+#' chron_data <- load_chron(chron_path)
+#' chrono      <- normalise(the.data = chron_data, detrending_select = 3, splinewindow = 21)
+#' chrono      <- data.frame(chrono[,1], rowMeans(chrono[,-1], na.rm = TRUE))
+#'
+#' chron_n_series <- comb.NA(chrono, undated[,-1], fill = NA)
+#'
+#' chron_comp <- lead_lag_analysis(the_data = chron_n_series,
+#'                                mode = 2,
+#'                                pos_lag= 20,
+#'                                neg_lag = -20,
+#'                                complete = FALSE,
+#'                                shiny = FALSE)
 
 lead_lag_analysis<-function(the_data, mode = 1, neg_lag = -20, pos_lag = 20, complete = TRUE, shiny = TRUE){
   if (class(neg_lag) != "numeric"){warning("Neg_lag needs to be a numeric integer")

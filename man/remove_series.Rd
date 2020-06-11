@@ -12,7 +12,14 @@ remove_series(the.data, series.id)
 \item{series.id}{A list of sample ID's (column names) that are to be removed from the.data}
 }
 \description{
-This function removes data that have been aligned from the orignially loaded undated series in the shiny app.
+This function removes data that have been aligned from the originally loaded undated series in the shiny app.
+}
+\examples{
+undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+undated_data <- load_undated(undated_path)
+samples <- colnames(undated_data )[c(2,3,6)]
+remove_series(undated_data, samples)
+
 }
 \keyword{data}
 \keyword{handling}

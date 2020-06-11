@@ -4,6 +4,9 @@
 #' @keywords Shiny crossdating app
 #' @importFrom doParallel registerDoParallel
 #' @export
+#' @examples
+#' # To launch RingdateR as a shiny app simply run:
+#' # run_ringdater()
 
 run_ringdater<-function(){
   options(shiny.maxRequestSize = 50*1024^2)

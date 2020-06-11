@@ -16,6 +16,12 @@ R_dateR_theme(text.size = 12, line.width = 1, l = 10, leg_size = 3)
 \item{leg_size}{A numeric integer to set the size of the colour legends in the heat map plots.}
 }
 \description{
-Modify the theme used in the plots displ;ayed in RingdateR
+Modify the theme used in the plots displayed in RingdateR
+}
+\examples{
+# plot_data <-data.frame(x = 1:10, y = 1:10)
+# ggplot(data = plot_data, aes(x = x, y=y))+
+# geom_point() + R_dateR_theme()
+
 }
 \keyword{GUI}

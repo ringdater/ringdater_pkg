@@ -13,7 +13,13 @@
 #' @param powerT A boolean to dictate whether or not to power transform the data.
 #' @param shiny A boolean to let the function know if it is being run in the shiny app or in the console.
 #' @importFrom readxl read_excel
+#' @importFrom dplR read.rwl
+#' @importFrom dplR chron
 #' @export
+#' @examples
+#' chron_path  <- system.file("extdata", "undated_chron.xlsx", package="ringdater")
+#' chron_data  <- ld_undated_chron(chron_path)
+
 ld_undated_chron<-function(files, series_names = NULL, pair_detrend = FALSE, detrending_select = 3, splinewindow = 21, powerT = FALSE, shiny = FALSE){
   run<-TRUE
 

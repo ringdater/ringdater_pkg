@@ -1,10 +1,10 @@
 #' pairwise data check
 #'
-#' Check if thre are any problems with the loaded undated series
+#' Check if the are any problems with the loaded undated series
 #'
 #' @keywords RingdateR load
 #' @param the_data A data frame containing the undated series
-#' @export
+
 
 pairwise_data_check<-function(the_data){
 

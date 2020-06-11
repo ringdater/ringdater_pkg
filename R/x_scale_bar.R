@@ -4,7 +4,6 @@
 #' @keywords scale_x_Axis
 #' @param x.min a numeric integer
 #' @param x.max a numeric integer
-#' @export
 
 x.scale.bar<-function(x.min,x.max){
   run<-TRUE

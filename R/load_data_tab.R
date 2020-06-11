@@ -5,6 +5,10 @@
 #' @param the_data A dataframe containing ring width series to be summarised.
 #' @importFrom stats sd
 #' @export
+#' @examples
+#' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+#' undated_data <- load_undated(undated_path)
+#' load_data_tabs(undated_data)
 
 load_data_tabs <- function(the_data){
 

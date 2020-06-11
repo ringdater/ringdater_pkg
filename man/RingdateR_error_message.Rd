@@ -2,16 +2,19 @@
 % Please edit documentation in R/no_plot_error_message.R
 \name{RingdateR_error_message}
 \alias{RingdateR_error_message}
-\title{Dusplay error messages in a plot}
+\title{Display error messages in a plot}
 \usage{
 RingdateR_error_message(message = "Can't display plot", plot.err = TRUE)
 }
 \arguments{
-\item{message}{A string of characters to convey an erro message.}
+\item{message}{A string of characters to convey an error message.}
 
 \item{plot.err}{TRUE/FALSE}
 }
 \description{
 This function creates error messages to be displayed in place of a plot in the shiny app
+}
+\examples{
+RingdateR_error_message(message = "There has been an error")
 }
 \keyword{errors}

@@ -14,4 +14,9 @@ Calculate the correlation of each sample, used to construct an arithmetic
 mean chronology, against the arithmetic mean chronology constructed excluding
 the selected sample
 }
+\examples{
+file_path <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+the_data<-load_chron(file_path)
+correl_replace(the_data)
+}
 \keyword{correlations}

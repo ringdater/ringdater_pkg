@@ -17,8 +17,8 @@
 #' @importFrom DescTools %like%
 #' @importFrom grid grid.draw
 #' @importFrom tidyselect contains
+#' @importFrom dplR write.rwl
 #' @import ggplot2
-#' @export
 
 RingServer <- function(input, output, session) {
 
@@ -978,7 +978,6 @@ RingServer <- function(input, output, session) {
     return(run_cor_res)
 
   }
-
 
   # Running lead lag analysis over +/-10 year window
   pairwise_small_hm_fun<-function(){

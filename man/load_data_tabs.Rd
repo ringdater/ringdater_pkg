@@ -12,4 +12,9 @@ load_data_tabs(the_data)
 \description{
 This function creates the loaded data summary tables.
 }
+\examples{
+undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+undated_data <- load_undated(undated_path)
+load_data_tabs(undated_data)
+}
 \keyword{summary}

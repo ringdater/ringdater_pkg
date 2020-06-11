@@ -12,4 +12,8 @@ load_chron(file)
 \description{
 This function creates a dataframe containing the data from a dated chronology.
 }
+\examples{
+chron_path <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+load_chron(chron_path)
+}
 \keyword{RingdateR}

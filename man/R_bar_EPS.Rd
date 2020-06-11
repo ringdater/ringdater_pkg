@@ -14,6 +14,13 @@ R_bar_EPS(the.data, window = 25)
 \description{
 This function uses dplR to calculate the Rbar and EPS of a chronology
 }
+\examples{
+chron_path  <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+chron_data  <- load_chron(chron_path)
+chron_data  <- name_check(chron_data)
+chrono      <- normalise(the.data = chron_data, detrending_select = 3, splinewindow = 21)
+R_bar_EPS(chrono, window = 21)
+}
 \keyword{EPS}
 \keyword{Rbar}
 \keyword{chronology}

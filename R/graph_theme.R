@@ -1,13 +1,17 @@
 #' Theme for plots in RingdateR
 #'
-#' Modify the theme used in the plots displ;ayed in RingdateR
+#' Modify the theme used in the plots displayed in RingdateR
 #' @keywords GUI
 #' @param text.size A numeric integer to define the size of the text displayed in the figures
 #' @param line.width A numeric integer to set the width of the axis lines.
 #' @param leg_size A numeric integer to set the size of the colour legends in the heat map plots.
 #' @param l A numeric integer to define the size of the left margin
 #' @import ggplot2
-#' @export
+#' @examples
+#' # plot_data <-data.frame(x = 1:10, y = 1:10)
+#' # ggplot(data = plot_data, aes(x = x, y=y))+
+#' # geom_point() + R_dateR_theme()
+#'
 
 R_dateR_theme<-function(text.size = 12, line.width = 1, l = 10, leg_size = 3){
 

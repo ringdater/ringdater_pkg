@@ -11,9 +11,8 @@
 #' @param font_size The size of the font (numeric)
 #' @param axis_line_width The width of the axis (numeric)
 #' @param plot_line The width of the line (numeric)
-#' @param sel_col_pal The colour pallate to use (numeric)
+#' @param sel_col_pal The colour pallet to use (numeric)
 #' @param leg_size a numeric value to define the length of the colour scale legend
-#' @export
 
 plotting_sing_hm<- function(plot.data , the_data, s1, s2, font_size = 12, axis_line_width = 0.5, plot_line = 0.5, neg_lag = -20, pos_lag = 20, sel_col_pal = 1, leg_size = 1){
   if(is.null(plot.data)){return(warning("Insufficient overlap to perform running correlation analysis"))

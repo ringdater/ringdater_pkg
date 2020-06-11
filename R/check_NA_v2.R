@@ -12,16 +12,20 @@
 #' @keywords data quality
 #' @param the_data A dataframe containing the series to be used in RingdateR
 #' @export
+#' @examples
+#' the_data <- data.frame(x = 1:10, y = 1:10)
+#' loaded_data_check(the_data)
+#' # Return of 0 means no errors
 
 loaded_data_check<-function(the_data){
 
   # example check for a dataframe with at least 2 columns of data.
   if (class(the_data) != "data.frame"){
-    warning("Error in correl_replace(). Required data are not a data.frame")
+    warning(" Required data are not a data.frame")
     return(NULL)
     # Check thre is enough data in the data.frame
   } else if (ncol(the_data)<2){
-    warning("Error in correl_replace(). Insufficient data to calculate correlations")
+    warning("Insufficient data")
     return(NULL)
   } else {
 

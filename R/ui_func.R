@@ -1,8 +1,7 @@
 #' RingdateR GUI
 #'
-#' This function creates the shiny user interface
+#' This function creates the graphical user interface
 #' @keywords GUI
-#' @export
 #' @importFrom shinyalert useShinyalert
 #' @importFrom shinyjs useShinyjs
 #' @import shiny

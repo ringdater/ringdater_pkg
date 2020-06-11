@@ -27,9 +27,19 @@ running_lead_lag(
 
 \item{win}{The window with which the running correlations are calculated over}
 
-\item{complete}{A boolean to classify whther to run the lead-lag over the maximum range of leads and lags}
+\item{complete}{A boolean to classify whether to run the lead-lag over the maximum range of
+leads and lags between the two selected samples}
 }
 \description{
-This function rperforms running lead-lag correlation analysis between two timeseries
+This function performs running lead-lag correlation analysis between two time series.
+The output dataframe is used to produce the heatmaps
+}
+\examples{
+undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+undated_data <- load_undated(undated_path)
+undated_data <- name_check(undated_data)
+undated      <- normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
+running_lead_lag(the_data = undated, s1 = colnames(undated)[2], s2 = colnames(undated)[3],
+                 neg_lag = -20, pos_lag = 20, win = 21, complete = FALSE)
 }
 \keyword{pairwise_lead_lag}

@@ -5,6 +5,9 @@
 #' @param the_data A dataframe containing series to be analysed.
 #' @importFrom stats cor
 #' @export
+#' @examples
+#' the_data <-data.frame(x=1:100, y= rnorm(100, 1, 2))
+#' auto_correl(the_data)
 
 auto_correl<- function(the_data){
 
