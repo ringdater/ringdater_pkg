@@ -1,6 +1,7 @@
 # RingdateR Read Me
 
 <a href="https://github.com/ringdater/ringdater_pkg/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/ringdater/ringdater_pkg"></a>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # RingdateR web page
 The RingdateR webpage can be accessed <a href="https://ringdater.github.io/ringdater/">here</a>.
