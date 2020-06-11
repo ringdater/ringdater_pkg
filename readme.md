@@ -1,6 +1,8 @@
 # RingdateR Read Me
 Authors: David Reynolds, David Edge, Bryan Black
+
 Current Version: 0.1.0
+
 Last updated: 11/06/2020
 
 <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
@@ -10,10 +12,9 @@ Last updated: 11/06/2020
 ## RingdateR web page
 The RingdateR webpage can be accessed <a href="https://ringdater.github.io/ringdater/">here</a>.
 
-# About
+## About
 RingdateR is an R Package and interactive shiny based application for statistical and visual crossdating annually resolved data (e.g. tree rings or mollusc and fish otolith growth increments). RingdateR utilizes lead-lag analyses to identify possible matches between samples and presents running-lead-lag correlation analyses, presented as heat maps, to evaluate for potential errors within measurement timeseries. If significant crossdates are identified, RingdateR can automatically align the data ready for further analyses. 
 
-# Installing and Running RingdateR
 ## RRunning RingdateR online
 <a href="https://ringdater.shinyapps.io/launcher/">Use this link to launch the online version of RingdateR</a>.
 <b>Please note that we strongly recommend you download and run RingdateR in RStudio if you decide to use it regularly</b>. There is limited access to the online version and the online server will time out after 30 minutes of inactive use. Any analyses not downloaded will be lost if the server times out. There are no usage limits when using RingdateR in RStudio.
@@ -44,7 +45,7 @@ library(ringdater)
 
 run_ringdater()
 
-# Help Files and Vignettes
+## Help Files and Vignettes
 ## Using the RingdateR App (online and in RStudio)
 <a href="https://ringdater.shinyapps.io/ringdater_shiny_vig_v2/"> RingdateR shiny app interactive vignette. </a>
 
