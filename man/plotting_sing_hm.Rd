@@ -37,7 +37,7 @@ plotting_sing_hm(
 
 \item{pos_lag}{An integer}
 
-\item{sel_col_pal}{The colour pallate to use (numeric)}
+\item{sel_col_pal}{The colour pallet to use (numeric)}
 
 \item{leg_size}{a numeric value to define the length of the colour scale legend}
 }
