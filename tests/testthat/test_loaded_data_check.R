@@ -3,10 +3,10 @@ library(ringdater)
 
 test_that("loaded_data_check() evaluates the data loaded inthe the shiny app and returns an error code", {
   test1 <- c(1:10)
-  expect_warning(loaded_data_check(test1), "Required data are not a data.frame")
+  expect_error(loaded_data_check(test1))
 
   test2 <- data.frame(x = 1:10)
-  expect_warning(loaded_data_check(test2), "Insufficient data")
+  expect_error(loaded_data_check(test2))
 
   test3 <- data.frame(x = 1:10, y = 1:10)
   expect_equal(loaded_data_check(test3), 0)
