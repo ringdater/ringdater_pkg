@@ -113,7 +113,7 @@ ui <- function(){
                    useShinyalert(),
 
                                   tags$h2(id = "side_h2_1","Plot options"),
-                                  numericInput("text.size", label = h2(id = "side_h2_2","Plot text size"), value = 12, min = 1), # changes the plot text size
+                                  numericInput("text.size", label = h2(id = "side_h2_2","Plot text size"), value = 12, min = 1, max = 48), # changes the plot text size
                                   numericInput("plot.line", label = h2(id = "side_h2_3"," Plotted line thickness"), value = 0.5, min = 0), # changes the plotted line thickness
                                   numericInput("line.width", label = h2(id = "side_h2_4"," Axis line weighting"), value = 0.5, min = 0), # Change the axis thickness
                                   tags$hr(),
