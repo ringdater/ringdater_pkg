@@ -16,4 +16,40 @@ and the undated series that hve been aligned in time with the mean chronology.}
 This function replaces the arithmetic mean chronology, which has been aligned with undated series,
 with the individual series used to generate the arithmetic mean chronology.
 }
+\examples{
+undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+undated_data <- load_undated(undated_path)
+undated      <- normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
+
+chron_path  <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+chron_data  <- load_chron(chron_path)
+chrono_det  <- normalise(the.data = chron_data, detrending_select = 3, splinewindow = 21)
+chrono      <- data.frame(chrono_det[,1], rowMeans(chrono_det[,-1], na.rm = TRUE))
+colnames(chrono)<-c("year", "mean_chronology")
+
+chron_n_series <- comb.NA(chrono, undated[,-1], fill = NA)
+
+exmp_analysis_1 <- system.file("extdata", "chron_comp_1.csv", package="ringdater")
+chron_comp_1 <- read.csv(exmp_analysis_1, stringsAsFactors = FALSE, header = TRUE)
+
+exmp_analysis_2 <- system.file("extdata", "chron_comp_2.csv", package="ringdater")
+chron_comp_2 <- read.csv(exmp_analysis_2, stringsAsFactors = FALSE, header = TRUE)
+
+chron_comp <- list(chron_comp_1,chron_comp_2)
+
+filtered_data <- filter_crossdates(the_data = as.data.frame(chron_comp[1]),
+                                  r_val = 0.4,
+                                  p_val = 0.05,
+                                  overlap = 30,
+                                  target = "mean_chronology")
+
+# Align the crossdated series to the mean chronology
+aligned_data <- align_series(the_data = chron_n_series,
+                             cross_dates = filtered_data,
+                             sel_target = "mean_chronology")
+# REplace the arithmetic mean chronology with the individual timeseries
+# used to generate the chronology
+fully_aligned <- align_to_chron(the.data = aligned_data,
+                               chrono = chrono_det)
+}
 \keyword{crossdating}
