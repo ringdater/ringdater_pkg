@@ -12,18 +12,26 @@
 #' normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
 
 
-normalise<-function(the.data, detrending_select = 1, splinewindow = 21, shiny = FALSE){
+normalise<-function(the.data, detrending_select = 1, splinewindow = 21){
   if (!detrending_select %in% c(1:7)){
-      stop("Error in normalise(). detrending_select must be a numeric integer from 1 to 7.")
+    stop("Error in normalise(). detrending_select must be a numeric integer from 1 to 7.")
+
   }
   if (class(splinewindow) != "numeric"){
-      stop("Error in normalise(). splinewindow must be a numeric integer from 5 to 500.")
+    stop("Error in normalise(). splinewindow must be a numeric integer")
+
+  }
+  if (splinewindow <5 || splinewindow >200){
+    stop("Error in normalise(). splinewindow must be a numeric integer from 5 to 500.")
+
   }
   if (class(the.data) != "data.frame"){
     stop("Error in normalise(). Required data are not a data.frame")
+
   }
   if (ncol(the.data)<2){
     stop("Error in normalise(). Insufficient data to calculate correlations")
+
   }
     series_data<-the.data
     no.series<-ncol(the.data)-1

@@ -45,14 +45,11 @@ lead_lag_analysis<-function(the_data, mode = 1, neg_lag = -20, pos_lag = 20, com
     stop("shiny missing TRUE/FALSE")
   }
   if (is.null(the_data)){
-    if (shiny){
-        shinyalert("Oops!", "You need to load some data to run this analysis.", type = "error")
-    } else if (!shiny){
-        stop("Required data.frame is NULL - Enter a data.frame with at least three columns")
-      }
+    stop("Required data.frame is NULL - Enter a data.frame with at least three columns")
   }
 
   de.tnd<-the_data
+
 
   if (mode == 1){multiple <- TRUE
   } else if (mode == 2){multiple <- FALSE}

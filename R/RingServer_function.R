@@ -18,6 +18,9 @@
 #' @importFrom grid grid.draw
 #' @importFrom tidyselect contains
 #' @importFrom dplR write.rwl
+#' @importFrom shinyjs toggle
+#' @importFrom shinyjs show
+#' @importFrom shinyjs hide
 #' @import ggplot2
 
 RingServer <- function(input, output, session) {
@@ -84,10 +87,10 @@ RingServer <- function(input, output, session) {
   })
 
   # jump to Pairwise page from starting point when Pairwise initiiated
-  observeEvent(input$Go_pairwise, {
-    updateTabsetPanel(session, "navbar",
-                      selected = "pairwise")
-  })
+  # observeEvent(input$Go_pairwise, {
+  #   updateTabsetPanel(session, "navbar",
+  #                     selected = "pairwise")
+  # })
 
   # jump to aligned data page from pairwise results page
   observeEvent(input$Go_initiate_chrono, {
@@ -306,7 +309,10 @@ RingServer <- function(input, output, session) {
 
   # detrend the undated series
   detrending <- function(){
-
+    validate(
+      need(input$splinewindow < 201, "Splinewindow is too large"),
+      need(input$splinewindow > 5, "Splinewindow is too small")
+    )
     if ((ncol(undated$df_data)<=2) || (is.null(pairwise_data_check(undated$df_data)))){ NULL
     } else {
       if (input$multi_chron==2){
@@ -318,15 +324,21 @@ RingServer <- function(input, output, session) {
         if (input$pair_detrend){detrend_opt<-input$detrending_select
         } else {detrend_opt<-1}
 
-        detrended.data    <- normalise(the.data = undetrended.data, detrend_opt, as.numeric(input$splinewindow), shiny = TRUE)}
-      detrended_undated$df_data<-detrended.data
-      return(detrended.data)}
+        if (as.numeric(input$splinewindow)>5 || as.numeric(input$splinewindow) <=200){
+          detrended.data    <- normalise(the.data = undetrended.data, detrend_opt, as.numeric(input$splinewindow))
+          detrended_undated$df_data<-detrended.data
+          return(detrended.data)
+          } else {return(NULL)}
+        }
+      }
   }
+
 
   # Detrend the dated chronology and generate the arithemtic mean chronology
   chron_mean <- function(){
     validate(
-      need(input$splinewindow < 500, "Splinewindow is too large")
+      need(input$splinewindow < 201, "Splinewindow is too large"),
+      need(input$splinewindow > 5, "Splinewindow is too small")
     )
     if (ncol(chrono$df_data)<2){return(NULL)
     } else {
@@ -337,7 +349,7 @@ RingServer <- function(input, output, session) {
       if (input$chron_detrend){detrend_opt<-input$detrending_select
       } else {detrend_opt<-1}
       # if detrending is selected detrend the series in the chronology
-      dtnd.chron<-normalise(the.data = the_data, detrend_opt, as.numeric(input$splinewindow), shiny = TRUE)
+      dtnd.chron<-normalise(the.data = the_data, detrend_opt, as.numeric(input$splinewindow))
       chron_detrended$df_data <- dtnd.chron
       # if there is more than one series in the chronology, generate the arithmetic mean chronology
       if(ncol(dtnd.chron)>2){
@@ -467,69 +479,69 @@ RingServer <- function(input, output, session) {
   })
 
   # Plot options
-  observe({
+observe({
     req(input$text.size)
-    if (input$text.size <= 0){
-      shinyalert("Warning: Text size should be > 0.")
-      updateNumericInput(session, "text.size", value = 0.1)
-    }
+      if(input$text.size <0){
+        show(id = "text_help")
+      } else {hide(id = "text_help")}
   })
-  observe({
-    req(input$plot.line)
-    if (input$plot.line <= 0){
-      shinyalert("Warning: Plot line should be > 0.")
-      updateNumericInput(session, "plot.line", value = 0.1)
-    }
+
+
+observe({
+  req(input$plot.line)
+  if(input$plot.line <0){
+    show(id = "plot.line_help")
+  } else {hide(id = "plot.line_help")}
   })
-  observe({
-    req(input$line.width)
-    if (input$line.width <= 0){
-      shinyalert("Warning: The Axis line width should be > 0.")
-      updateNumericInput(session, "line.width", value = 0.1)
-    }
+
+observe({
+   req(input$line.width)
+    if(input$line.width<0){
+      show(id = "line.width_help")
+    } else {hide(id = "line.width_help")}
   })
+
+
   # Starting Point Page
 
   # check entered spline length is an acceptable value
   # This also impacts the spline length input on the Detrending plot page
-  observeEvent(input$splinewindow,{
+  observe({
     req(input$splinewindow)
-    if (input$splinewindow > 200){
-      shinyalert("Warning: Spline length is too long. Automatically set to 200.")
-      updateNumericInput(session, "splinewindow", value = 200)
-      updateNumericInput(session, "splinewindow_2", value = 200)
-    }
-    if (input$splinewindow < 5){
-      shinyalert("Warning: Spline length is too short. Automatically set to 5.")
-      updateNumericInput(session, "splinewindow", value = 5)
-      updateNumericInput(session, "splinewindow_2", value = 5)
-    }
+    if(input$splinewindow<5 || input$splinewindow > 200){
+      show(id = "spline_len_help1")
+    } else {hide(id = "spline_len_help1")}
+  })
+
+  observe({
+    req(input$splinewindow_2)
+    if(input$splinewindow_2<5 || input$splinewindow_2 > 200){
+      show(id = "spline_len_help2")
+    } else {hide(id = "spline_len_help2")}
   })
 
   # check neg_lag value is acceptable
   observe({
     req(input$neg_lag)
+    req(input$pos_lag)
     if (input$neg_lag > input$pos_lag){
-      shinyalert("Warning: Negative lag value should be lower than positive lag value.")
-      updateNumericInput(session, "neg_lag", value = input$pos_lag - 1)
-    }
+      show("low_lag_warn_1")
+    } else {hide("low_lag_warn_1")}
     if(input$neg_lag%%1!=0){
-      shinyalert("Warning: Negative lag value should be an integer. Automatically rounding down.")
-      updateNumericInput(session, "neg_lag", value = floor(input$neg_lag))
-    }
+      show("low_lag_warn_2")
+    } else {hide("low_lag_warn_2")}
   })
 
   # check pos_lag value is acceptable
   observe({
     req(input$pos_lag)
-    if (input$neg_lag > input$pos_lag){
-      shinyalert("Warning: Positive lag value should be greater than negative lag value.")
-      updateNumericInput(session, "pos_lag", value = input$neg_lag + 1)
-    }
+    req(input$neg_lag)
+    if (input$pos_lag > input$pos_lag){
+      show("up_lag_warn_1")
+    } else {hide("up_lag_warn_1")}
     if(input$pos_lag%%1!=0){
-      shinyalert("Warning: Negative lag value should be an integer. Automatically rounding down.")
-      updateNumericInput(session, "pos_lag", value = floor(input$pos_lag))
-    }
+      show("up_lag_warn_2")
+    } else {hide("up_lag_warn_2")}
   })
 
   # Results Page
@@ -537,65 +549,50 @@ RingServer <- function(input, output, session) {
   observe({
     req(input$PS_2_lag)
     if(input$PS_2_lag%%1!=0){
-      shinyalert("Warning: Custom lag value should be an integer. Automatically rounding down.")
-      updateNumericInput(session, "PS_2_lag", value = floor(input$PS_2_lag))
-    }
+      show("custom_lag_help")
+    } else {hide("custom_lag_help")}
   })
   # stats filters
   # R val
   observe({
     req(input$pair_r)
-    if(input$pair_r < 0){
-      shinyalert("Warning: Correlation (R) value should be >0. Automatically  setting to 0.")
-      updateNumericInput(session, "pair_r", value = 0)
-    }
-    if(input$pair_r > 1){
-      shinyalert("Warning: Correlation (R) value should be <1. Automatically  setting to 0.95.")
-      updateNumericInput(session, "pair_r", value = 0.95)
-    }
+    if(input$pair_r<0 || input$pair_r>1){
+      show("pair_r_help")
+    } else {hide("pair_r_help")}
   })
+
+
   # P val
   observe({
     req(input$pair_sig)
-    if(input$pair_sig < 0){
-      shinyalert("Warning: Probability (P) value should be >0. Automatically  setting to 0.")
-      updateNumericInput(session, "pair_sig", value = 0)
-    }
-    if(input$pair_sig > 1){
-      shinyalert("Warning: Probability (P) value should be <1. Automatically  setting to 0.95.")
-      updateNumericInput(session, "pair_sig", value = 0.95)
-    }
+    if(input$pair_sig<0 || input$pair_sig>1){
+      show("pair_sig_help")
+    } else {hide("pair_sig_help")}
   })
+
   # overlap
   observe({
     req(input$pair_overlap)
-    if(input$pair_overlap < 0){
-      shinyalert("Warning: OVerlap should be >0. Automatically  setting to 0.")
-      updateNumericInput(session, "pair_overlap", value = 0)
-    }
-    if(input$pair_overlap%%1!=0){
-      shinyalert("Warning: OVerlap should be an integer. Automatically  setting to rounding down.")
-      updateNumericInput(session, "pair_overlap", value = floor(input$pair_overlap))
-    }
+    if(input$pair_overlap<0){
+      show("pair_overlap_help")
+    } else {hide("pair_overlap_help")}
   })
+
   #problem sample window
   observe({
     req(input$pair_prob_samp_wind)
-    if(input$pair_prob_samp_wind < 5){
-      shinyalert("Warning: Problem sample running window should be >5. Automatically  setting to 5.")
-      updateNumericInput(session, "pair_prob_samp_wind", value = 5)
-    }
+    if(input$pair_prob_samp_wind<5){
+      show("pair_prob_help")
+    } else {hide("pair_prob_help")}
   })
 
   # Aligned data page
-
   #problem sample window
   observe({
     req(input$initiated_problems_bin)
-    if(input$initiated_problems_bin < 5){
-      shinyalert("Warning: Problem sample running window should be >5. Automatically  setting to 5.")
-      updateNumericInput(session, "initiated_problems_bin", value = 5)
-    }
+    if(input$initiated_problems_bin<5){
+      show("aligned_prob_help")
+    } else {hide("aligned_prob_help")}
   })
 
   ###############################################################
@@ -626,8 +623,13 @@ RingServer <- function(input, output, session) {
     req(input$text.size)
     req(input$line.width)
     req(input$plot.line)
+    validate(
+      need(input$splinewindow < 201, "Splinewindow is too large"),
+      need(input$splinewindow > 5, "Splinewindow is too small")
+    )
 
-    if (input$text.size > 0 && input$line.width > 0 && input$plot.line > 0){
+    if (input$text.size > 0 && input$line.width > 0 && input$plot.line > 0 && as.numeric(input$splinewindow) > 5 && as.numeric(input$splinewindow) < 201){
+
       detrending.plot.fun(undet.data = undated$df_data,
                           first_series = input$first_series,
                           detrending_select = input$detrending_select,
@@ -649,12 +651,15 @@ RingServer <- function(input, output, session) {
   ####################################################################
 
   # Run the lead lag analysis
-  interseries<-eventReactive(input$Go_pairwise,{
-    req(input$neg_lag)
-    req(input$pos_lag)
+  observeEvent(input$Go_pairwise,{
+    updateTabsetPanel(session, "navbar",
+                      selected = "pairwise")
+    if(!is.null(detrended_undated$df_data) || ncol(detrended_undated$df_data)>2){
 
     if (input$mode_select == 1){the_data <- detrended_undated$df_data
-    } else if (input$mode_select == 2){the_data <- chron_n_undated$df_data}
+    } else if (input$mode_select == 2){
+      the_data <- chron_n_undated$df_data
+    }
 
     progress <- Progress$new(session, min=1, max= 100, style = "notification")
     on.exit(progress$close())
@@ -663,15 +668,20 @@ RingServer <- function(input, output, session) {
     progress$set(value = 100)
     progress$set(message = 'Calculation in progress',
                  detail = 'This may take a while...')
-    run_pairwise<-lead_lag_analysis(the_data = the_data,
-                                    mode = input$mode_select,
-                                    neg_lag = as.numeric(input$neg_lag),
-                                    pos_lag = as.numeric(input$pos_lag),
-                                    complete = input$total_overlap,
-                                    shiny = TRUE)
-    pairwise_res$df_data<-as.data.frame(run_pairwise[1])
-    master_lead_lag$df_data<-as.data.frame(run_pairwise[2])[,-1]
-    })
+
+    if (!is.null(the_data) && ncol(the_data)>2 && nrow(the_data)>2){
+
+      run_pairwise<-lead_lag_analysis(the_data = the_data,
+                                      mode = input$mode_select,
+                                      neg_lag = as.numeric(input$neg_lag),
+                                      pos_lag = as.numeric(input$pos_lag),
+                                      complete = input$total_overlap,
+                                      shiny = TRUE)
+      pairwise_res$df_data<-as.data.frame(run_pairwise[1])
+      master_lead_lag$df_data<-as.data.frame(run_pairwise[2])[,-1]
+    } else {NULL}
+    }
+  })
 
   master_res_sort<-function(){
     if (ncol(master_lead_lag$df_data)<=2){NULL
@@ -779,11 +789,18 @@ RingServer <- function(input, output, session) {
 
   # Filter the results dispplayed in the table
   interseries_filt<-function(){
-    if(is.null(interseries())){return(NULL)
-    } else {
+    validate(
+      need(input$pair_sig <= 1, ""),
+      need(input$pair_sig >= 0, ""),
+      need(input$pair_r <= 1, ""),
+      need(input$pair_r >= 0, ""),
+      need(input$pair_overlap >= 0, "")
+    )
+    # if(is.null(interseries())){return(NULL)
+    # } else {
       the.data<-pairwise_res$df_data
       if(ncol(the.data)<2){NULL
-        } else {
+      } else {
         if(input$filter_1_check){
           tmp_1<-subset(the.data,(the.data[,1]==input$pairwise_filter_1))
           tmp_2<-subset(the.data,(the.data[,2]==input$pairwise_filter_1))
@@ -801,9 +818,8 @@ RingServer <- function(input, output, session) {
         the.data[,15]<-signif(the.data[,15],3)
         the.data[,16]<-signif(the.data[,16],5)
 
-
         return(the.data)}
-    }
+    # }
   }
 
   # Display the results table
@@ -889,6 +905,7 @@ RingServer <- function(input, output, session) {
   # adjust the x-axis scale
   # generate pairwise line plot
   pairwise_plot_fun<- function(font_size = input$text.size, axis_line_width = input$line.width, plot_line = input$plot.line){
+
     if (is.null(master_res_sort())){
       plot1<- RingdateR_error_message(message="Return to starting point, load some data and click run analysis")
       return(plot1)
@@ -1306,9 +1323,13 @@ RingServer <- function(input, output, session) {
 
   # Aligns the data in the large results tbale.
   quick_align<-function(){
-    req(input$pair_r)
-    req(input$pair_sig)
-    req(input$pair_overlap)
+    validate(
+      need(input$pair_sig <= 1, ""),
+      need(input$pair_sig >= 0, ""),
+      need(input$pair_r <= 1, ""),
+      need(input$pair_r >= 0, ""),
+      need(input$pair_overlap >= 0, "")
+    )
 
     if (input$pair_r > 1 || input$pair_r < 0 || input$pair_sig < 0 || input$pair_sig > 1){NULL
       } else {
@@ -1335,9 +1356,13 @@ RingServer <- function(input, output, session) {
   # replace the arithemtic mean chronology with the full detrended chronology data
 
   observe({
-    req(input$pair_r)
-    req(input$pair_sig)
-    req(input$pair_overlap)
+    validate(
+      need(input$pair_sig <= 1, ""),
+      need(input$pair_sig >= 0, ""),
+      need(input$pair_r <= 1, ""),
+      need(input$pair_r >= 0, ""),
+      need(input$pair_overlap >= 0, "")
+    )
 
     if (input$pair_r > 1 || input$pair_r < 0 || input$pair_sig < 0 || input$pair_sig > 1){NULL
     } else {
@@ -1400,7 +1425,7 @@ RingServer <- function(input, output, session) {
 
   # Generate the Full pairwise heat map
   single_heat_map_analysis<-eventReactive(input$go2, {
-    if(nrow(detrended_undated$df_data)<1 || nrow(chron_n_undated$df_data)<2){return(NULL)
+     if(is.null(detrended_undated$df_data) || ncol(detrended_undated$df_data)<2 ||is.null(chron_n_undated$df_data)){return(NULL)
     } else {
       if (input$mode_select == 1){the_data <- detrended_undated$df_data
       } else if (input$mode_select == 2){the_data <- chron_n_undated$df_data}
@@ -1450,6 +1475,9 @@ RingServer <- function(input, output, session) {
 
   #plot pairwise heatmap
   plotting_sing_hm<- function(font_size = input$text.size, axis_line_width = input$line.width, plot_line = input$plot.line){
+    req(input$text.size)
+    req(input$line.width)
+    req(input$plot.line)
     if(is.null(single_heat_map_analysis())){return(RingdateR_error_message("Insufficient overlap to perform running correlation analysis"))
     } else {
       output_correls<-single_heat_map_analysis()
@@ -1588,13 +1616,22 @@ RingServer <- function(input, output, session) {
       new.chrono<-initiate_chrono()
       if (input$chron_detrend){detrend_opt<-input$detrending_select
       } else {detrend_opt<-1}
-      new.chrono<-normalise(the.data = new.chrono, detrend_opt, as.numeric(input$splinewindow), shiny = TRUE)
+      new.chrono<-normalise(the.data = new.chrono, detrend_opt, as.numeric(input$splinewindow))
       final_chron_alinged$df_data<-new.chrono
       return(new.chrono)}
   }
 
   # performs the problem check on the Pairwise Results page
   pairwise_prob_check<-eventReactive(input$prob_samp_check,{
+    validate(
+      need(input$pair_sig <= 1, ""),
+      need(input$pair_sig >= 0, ""),
+      need(input$pair_r <= 1, ""),
+      need(input$pair_r >= 0, ""),
+      need(input$pair_overlap >= 0, ""),
+      need(input$filter_3_check,""),
+      need(input$filter_1_check,"")
+    )
     if (is.null(interseries_filt()) || nrow(interseries_filt())<1){
       shinyalert("The large results table is empty so no samples to check. Try adjusting the statistical or sample ID filters")
       return(NULL)
@@ -1688,9 +1725,11 @@ RingServer <- function(input, output, session) {
 
   # performs the secondary evaluation for problematic samples (on the aligned data page)
   plot_dplr_check<-eventReactive(input$reevaluate, {
+    validate(need(input$initiated_problems_bin > 4, ""))
     if (is.null(initiate_chrono())){
       NULL
     } else {
+
 
       prob_check(final_chron_alinged$df_data, as.numeric(input$initiated_problems_bin))
     }
@@ -2036,6 +2075,15 @@ RingServer <- function(input, output, session) {
 
 
   ######################Save data #############################
+  rv <- reactiveValues(download_flag = FALSE)
+
+  observeEvent(rv$download_flag, {
+    if(rv$download_flag){
+      shinyalert("File saved to downloads folder!")
+      rv$download_flag = FALSE
+    }
+  }, ignoreInit = TRUE)
+
 
   output$create_initiated_chron_rwl<- downloadHandler(
     filename = function() {
@@ -2043,6 +2091,7 @@ RingServer <- function(input, output, session) {
     },
     content = function(file) {
       suppressWarnings(write.rwl(create_rwl_initiated(), file))
+      rv$download_flag <- TRUE
     }
   )
 
@@ -2052,7 +2101,8 @@ RingServer <- function(input, output, session) {
     },
     content = function(file) {
       write.csv(create_two_column_initiated(), file, row.names = FALSE)
-    }
+      rv$download_flag <- TRUE
+    },
   )
 
   output$remove_initiated_series <- downloadHandler(
@@ -2061,6 +2111,7 @@ RingServer <- function(input, output, session) {
     },
     content = function(file) {
       write.csv(initiated_removed_frame(), file, row.names = FALSE)
+      rv$download_flag <- TRUE
     }
   )
 
@@ -2070,6 +2121,7 @@ RingServer <- function(input, output, session) {
     },
     content = function(file) {
       write.csv(interseries_filt()[,-5], file, row.names = FALSE)
+      rv$download_flag <- TRUE
     }
   )
 
@@ -2079,6 +2131,7 @@ RingServer <- function(input, output, session) {
     },
     content = function(file) {
       write.csv(initiate_chrono(), file, row.names = FALSE)
+      rv$download_flag <- TRUE
     }
   )
 
@@ -2088,6 +2141,7 @@ RingServer <- function(input, output, session) {
     },
     content = function(file) {
       write.csv(detrended_initiated_chrono(), file, row.names = FALSE)
+      rv$download_flag <- TRUE
     }
   )
 
@@ -2097,6 +2151,7 @@ RingServer <- function(input, output, session) {
     },
     content = function(file) {
       write.csv(detrending(), file, row.names = FALSE)
+      rv$download_flag <- TRUE
     }
   )
 
@@ -2114,6 +2169,7 @@ RingServer <- function(input, output, session) {
         )
       }
       ggsave(file, plot = detrending.plot(), device = device)
+      rv$download_flag <- TRUE
     })
 
   output$pair_plot_download <- downloadHandler(
@@ -2125,6 +2181,7 @@ RingServer <- function(input, output, session) {
         )
       }
       ggsave(file, plot = pairwise_plot_fun(font_size = input$text.size*0.7, axis_line_width = input$line.width*0.7, plot_line = input$plot.line*0.7), device = device)
+      rv$download_flag <- TRUE
     })
 
   output$pair_small_hm_downlaod <- downloadHandler(
@@ -2136,6 +2193,7 @@ RingServer <- function(input, output, session) {
         )
       }
       ggsave(file, plot = plot_pairwise_small_hm(font_size = input$text.size*0.7, axis_line_width = input$line.width*0.7, plot_line = input$plot.line*0.7), device = device)
+      rv$download_flag <- TRUE
     })
 
   output$pair_bar_plot_download <- downloadHandler(
@@ -2147,6 +2205,7 @@ RingServer <- function(input, output, session) {
         )
       }
       ggsave(file, plot = pairwise_bar_chart_fun(font_size = input$text.size*0.7, axis_line_width = input$line.width*0.7, plot_line = input$plot.line*0.7), device = device)
+      rv$download_flag <- TRUE
     })
 
   output$downloadsinghtmp <- downloadHandler(
@@ -2158,6 +2217,7 @@ RingServer <- function(input, output, session) {
         )
       }
       ggsave(file, plot =  plotting_sing_hm(font_size = input$text.size*0.8, axis_line_width = input$line.width*0.8, plot_line = input$plot.line*0.8), device = device)
+      rv$download_flag <- TRUE
     })
 
 
@@ -2837,6 +2897,13 @@ RingServer <- function(input, output, session) {
 
   ##################### Debug #######################################
   # Use to output a dataframe from the above functions to aid debugging
-  output$debug<-renderTable({quick_chron_alinged$df_data})
+  output$debug<-renderTable({NULL})
   output$debug2<-renderTable({NULL})
+
+  if (!interactive()) {
+    session$onSessionEnded(function() {
+      stopApp()
+      q("no")
+    })
+  }
 } # end of server

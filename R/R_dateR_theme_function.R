@@ -16,16 +16,16 @@
 
 R_dateR_theme<-function(text.size = 12, line.width = 1, l = 10, leg_size = 3){
   if (class(text.size)!="numeric" || text.size <= 0){
-    stop("Warning: an error occured in R_dateR_theme: text.size was not an integer")
+    stop("Warning: an error occured in R_dateR_theme: text.size was not a numeric value >0")
   }
   if (class(line.width)!="numeric" || line.width <= 0){
-    stop("Warning: an error occured in R_dateR_theme: line.width was not an integer")
+    stop("Warning: an error occured in R_dateR_theme: line.width was not a numeric value >0")
   }
   if (class(leg_size)!="numeric" || leg_size <= 0){
-    stop("Warning: an error occured in R_dateR_theme: leg_size was not an integer")
+    stop("Warning: an error occured in R_dateR_theme: leg_size was not a numeric value >0")
   }
   if (class(l)!="numeric"){
-    stop("Warning: an error occured in R_dateR_theme: l (left margin) was not an integer")
+    stop("Warning: an error occured in R_dateR_theme: l (left margin) was not a numeric value >0")
   }
 
   theme(

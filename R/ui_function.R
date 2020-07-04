@@ -109,13 +109,16 @@ ui <- function(){
                                 )
                 ),
 
-                dashboardSidebar( useShinyjs(),
+                dashboardSidebar(useShinyjs(),
                    useShinyalert(),
 
                                   tags$h2(id = "side_h2_1","Plot options"),
                                   numericInput("text.size", label = h2(id = "side_h2_2","Plot text size"), value = 12, min = 1, max = 48), # changes the plot text size
+                                  h2(id = "text_help", "Text size should be > 0"),
                                   numericInput("plot.line", label = h2(id = "side_h2_3"," Plotted line thickness"), value = 0.5, min = 0), # changes the plotted line thickness
+                                  h2(id = "plot.line_help", "line thickness should be > 0"),
                                   numericInput("line.width", label = h2(id = "side_h2_4"," Axis line weighting"), value = 0.5, min = 0), # Change the axis thickness
+                                  h2(id = "line.width_help", "Axis thickness should be > 0"),
                                   tags$hr(),
                                   h2(id = "side_h2_5","Text display settings"),
                                   selectInput("font_select", label = h2(id = "side_h2_6","Select font size"),
@@ -155,12 +158,17 @@ ui <- function(){
                                                                   ), selected = 3),
                                                      # checkboxInput("diff", h4(id = "st_pt_h4_3", "Detrend by subtraction?"), F),
                                                       numericInput("splinewindow", h4(id = "st_pt_h4_2", "Select a spline window (only applies to spline detrendning option)"), value = 21, min = 5, max = 200, step = 1),
-                                                    #  checkboxInput("PT", h4(id = "st_pt_h4_3", " Power Transform data?"), F),
+                                                     h3(id = "spline_len_help1", "Warning: Spline length should be >5 and <=200"),
+                                                     #  checkboxInput("PT", h4(id = "st_pt_h4_3", " Power Transform data?"), F),
                                                       checkboxInput("total_overlap", h4(id = "st_pt_h4_4", "Automatically set lag limits? (uses all possible leads/lags)"), TRUE),
                                                       h6(id = "st_pt_h6_1", "Alternatively set limits for lead-lag range"),
-                                                      numericInput("neg_lag",h4(id = "st_pt_h4_5", "Select negative lag (years)"), min = 0, value =-20),
-                                                      numericInput("pos_lag", h4(id = "st_pt_h4_6", "Select positive lag (years)"), min = 0, value =20),
-                                                      numericInput("cor_win", h4(id = "st_pt_h4_7", "Select correlation window (years)"), min = 5, value =21),
+                                                      numericInput("neg_lag",h4(id = "st_pt_h4_5", "Select lower lag limit (years)"), min = 0, value =-20),
+                                                     h3(id = "low_lag_warn_1", "Warning: Lowerlag should be lower than upper lag limit"),
+                                                     h3(id = "low_lag_warn_2", "Warning: Lower lag value should be an integer."),
+                                                     numericInput("pos_lag", h4(id = "st_pt_h4_6", "Select upper lag limit (years)"), min = 0, value =20),
+                                                     h3(id = "up_lag_warn_1", "Warning: Upper lag should be lower than upper lag limit"),
+                                                     h3(id = "up_lag_warn_2", "Warning: Upper lag value should be an integer."),
+                                                     numericInput("cor_win", h4(id = "st_pt_h4_7", "Select correlation window (years)"), min = 5, value =21),
                                                       h6(id = "st_pt_h6_2","Correlation window needs to be an odd number. Even numbers will be converted to odd by adding 1."),
                                                     htmlOutput("note")
                                                     )),
@@ -259,7 +267,8 @@ ui <- function(){
                                                                             "ModHugershoff" = 6,
                                                                             "First difference" = 7
                                                              ), selected = 3),
-                                                 numericInput("splinewindow_2", h4(id = "st_pt_h4_2", "Select a spline window (only applies to spline detrendning option)"), value = 21, min = 5, max = 200, step = 1)
+                                                 numericInput("splinewindow_2", h4(id = "st_pt_h4_2", "Select a spline window (only applies to spline detrendning option)"), value = 21, min = 5, max = 200, step = 1),
+                                                 h3(id = "spline_len_help2", "Spline length should be >5 and <=200"),
                                              )
                                            )),
 
@@ -286,7 +295,9 @@ ui <- function(){
                                                             selectInput("pairwise_series_1", label = h4(id="pw_rs_h4_5","Manually select first series"), h4(c(""))),
                                                             selectInput("pairwise_series_2", label = h4(id="pw_rs_h4_6","Manually select second series"), h4(c(""))),
                                                             selectInput("auto_lag", label = h4(id="pw_rs_h4_7","Select lag"),choices = list("Best match" = 1, "Second best" = 2, "Third best" = 3, "Custom lag" = 4), selected = 1),
-                                                            numericInput("PS_2_lag", h4(id="pw_rs_h4_8","Enter value for custom lag"), value =0)),
+                                                            numericInput("PS_2_lag", h4(id="pw_rs_h4_8","Enter value for custom lag"), value =0),
+                                                            h3(id = "custom_lag_help", "Warning: Custom lag value should be an integer")
+                                                            ),
                                                    tabPanel(h4(id="pw_rs_h4_9","Plot options"),
                                                             checkboxInput("pair_line_stand", h4(id="pw_rs_h4_10","Normalise the data in the plot"), FALSE),
                                                             selectInput("pairwise_colour_scale", label = h4(id="pw_rs_h4_11","Select colour scale"),choices = list("Blue-Grey-Red" = 1, "Grey-Red" = 2, "Grey-Blue" = 3, "White-Black" = 4), selected = 1),
@@ -305,8 +316,11 @@ ui <- function(){
                                                  div(style="text-align: right", actionButton("pw_stat_filt_hlp","", icon = icon("info"))),
                                                  checkboxInput("filter_3_check", h4(id="pw_rs_h4_19","Filter by stats"), FALSE),
                                                  numericInput("pair_r", h4(id="pw_rs_h4_20","R value"), value = 0.50),
+                                                 h3(id = "pair_r_help", "R value should be >0 and <1"),
                                                  numericInput("pair_sig", h4(id="pw_rs_h4_21","Significance value"), value =0.01),
-                                                 numericInput("pair_overlap", h4(id="pw_rs_h4_22","Overlap"), value =50)
+                                                 h3(id = "pair_sig_help", "Significance value value should be >0 and <1"),
+                                                 numericInput("pair_overlap", h4(id="pw_rs_h4_22","Overlap"), value =50),
+                                                 h3(id = "pair_overlap_help", "Overlape should be >0 ")
                                              ),
                                              box(width=3, title = h4(id="pw_rs_h4_23","Step 2: Filter results by series name"),
                                                  div(style="text-align: right", actionButton("pw_name_filt_hlp","", icon = icon("info"))),
@@ -318,6 +332,7 @@ ui <- function(){
                                              box(width = 3, title = h4(id="pw_rs_h4_26","Step 3: Check for Problematic Samples"),
                                                  div(style="text-align: right", actionButton("pw_prob_ck_hlp","", icon = icon("info"))),
                                                  numericInput("pair_prob_samp_wind", h4(id="pw_rs_h4_27","Set window to evaluate for problem samples (Years, must be even)"), value =20),
+                                                 h3(id = "pair_prob_help", "Overlape should be >5 "),
                                                  actionButton("prob_samp_check", h4(id="pw_rs_h4_28","Check for problematic samples")),
                                                  div(tableOutput("pairwise_prob_samples"), style = "font-size:24px")
 
@@ -385,13 +400,14 @@ ui <- function(){
                                                         actionButton("reevaluate", h4(id="al_dt_h4_5","Evaluate for problem samples")),
                                                         div(tableOutput("initiated_problems"), style="font-size:24px"),
                                                         numericInput("initiated_problems_bin", h4(id="al_dt_h4_6","Set window size for problem analysis (years; must be even)"), value = 20),
+                                                        h3(id="aligned_prob_help", "Warning: Problem sample running window should be >5."),
                                                         selectInput("align_prob_samp", label = h4(id="al_dt_h4_7","Select problem sample to evaluate"), c("")),
                                                         actionButton("aligned_prob_check", label = h4(id="al_dt_h4_8","Plot problem samples")),
                                                         tags$hr(),
                                                         h4(id="al_dt_h4_9","Plot options"),
                                                         checkboxInput("initiated_chron_plot_x_adj", h4(id="al_dt_h4_10","Adjust X axis"), FALSE),
                                                         numericInput("initiated_chron_plot_min_X", h4(id="al_dt_h4_11","Min X value"), value =""),
-                                                        numericInput("initiated_chron_plot_max_X", h4(id="al_dt_h4_12","Min X value"), value =""),
+                                                        numericInput("initiated_chron_plot_max_X", h4(id="al_dt_h4_12","Max X value"), value =""),
                                                         numericInput("rbar_wind_init", h4(id="al_dt_h4_13","Select window to calculate Rbar and EPS"), value = 25),
                                                         h4(id="al_dt_h4_14","window must not be greater than the length of the series"),
                                                         numericInput("init_sample_name_sz", h4(id="al_dt_h4_15","Sample ID  size"), 5)

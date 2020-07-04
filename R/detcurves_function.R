@@ -18,6 +18,9 @@ detcurves<-function(series_data, detrending_select = 1, splinewindow = 21){
     stop("Error in detcurves(). detrending_select must be a numeric integer from 1 to 7.")
   }
   if (class(splinewindow) != "numeric"){
+    stop("Error in normalise(). splinewindow must be a numeric integer.")
+  }
+  if (splinewindow <5 || splinewindow >200){
     stop("Error in normalise(). splinewindow must be a numeric integer from 5 to 500.")
   }
   if (class(series_data) != "data.frame"){

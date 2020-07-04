@@ -10,7 +10,6 @@
 #' @param pair_detrend A boolean to dictate whether detrending should be applied or not. Set to false by default.
 #' @param detrending_select Select the method for detrending. 1 = Do nothing, 2 = Z-scores, 3 = spline detrending, 4 = Mod. negative exponentia, 5 = Friedman, 6 = ModHugershoff, 7 = First difference. Spline is slected by default.
 #' @param splinewindow An integer to define the window to be used if spline detrending is selected. Set to 21 years by default.
-#' @param powerT A boolean to dictate whether or not to power transform the data.
 #' @param shiny A boolean to let the function know if it is being run in the shiny app or in the console.
 #' @importFrom readxl read_excel
 #' @importFrom dplR read.rwl
