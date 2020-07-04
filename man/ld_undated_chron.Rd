@@ -10,7 +10,6 @@ ld_undated_chron(
   pair_detrend = FALSE,
   detrending_select = 3,
   splinewindow = 21,
-  powerT = FALSE,
   shiny = FALSE
 )
 }
@@ -24,8 +23,6 @@ ld_undated_chron(
 \item{detrending_select}{Select the method for detrending. 1 = Do nothing, 2 = Z-scores, 3 = spline detrending, 4 = Mod. negative exponentia, 5 = Friedman, 6 = ModHugershoff, 7 = First difference. Spline is slected by default.}
 
 \item{splinewindow}{An integer to define the window to be used if spline detrending is selected. Set to 21 years by default.}
-
-\item{powerT}{A boolean to dictate whether or not to power transform the data.}
 
 \item{shiny}{A boolean to let the function know if it is being run in the shiny app or in the console.}
 }
