@@ -20,7 +20,7 @@ RingdateR is an R Package and interactive shiny based application for statistica
 ## Goal
 The overarching aim of RingdateR is to facilitate the rapid development of crossdated absolutely dated chronologies. Developing multi-centennial to millennial length chronologies is a painstaking and time-consuming task. This is especially the case if working with dead-collected samples that have an unknown antiquity. As such, to find samples that crossdate can take a significant amount of time as large numbers of samples need to be measured and compared with every other sample. Whilst existing software exists for performing such analyses, RingdateR has been specifically optimized for analysing large numbers of dead-collected samples. Ultimately it is hoped that RingdateR will provide a useful tool for both the dendrochronology and sclerochronology communities in their pursuit for developing ever longer chronologies.
 
-## RRunning RingdateR online
+## Running RingdateR online
 <a href="https://ringdater.shinyapps.io/launcher/">Use this link to launch the online version of RingdateR</a>.
 <b>Please note that we strongly recommend you download and run RingdateR in RStudio if you decide to use it regularly</b>. There is limited access to the online version and the online server will time out after 30 minutes of inactive use. Any analyses not downloaded will be lost if the server times out. There are no usage limits when using RingdateR in RStudio.
 
