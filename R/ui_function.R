@@ -131,10 +131,10 @@ ui <- function(){
                   div(id = "form",
                       tabsetPanel(id = "navbar",
                                   tabPanel(h4(id = "nav_h4_1", "Starting Point"), value ="start",
-                                           fluidRow(box(width=10, height = "100px", title = h3(id = "st_pt_h3_1", "Welcome to RingdateR (V1 beta)", actionButton("st_general_hlp", h6("I - Quick Help/about")))),
+                                           fluidRow(box(width=10, height = "100px", title = h3(id = "st_pt_h3_1", "Welcome to RingdateR (V0.1.0)", actionButton("st_general_hlp", h6("I - Quick Help/about")))),
 
                                                     div(style = "text-align: center; font-size:18px",
-                                                        actionButton("close",label = tags$b(p("Stop RingdateR. Returns to launcher")), icon = icon("fas fa-skull fa-2x"), onclick = "setTimeout(function(){window.close();},500);",
+                                                        actionButton("close",label = tags$b(p("Stop RingdateR.")), icon = icon("fas fa-skull fa-2x"), onclick = "setTimeout(function(){window.close();},500);",
                                                                      style ="white-space: normal;
                                                                               width: 250px;
 
