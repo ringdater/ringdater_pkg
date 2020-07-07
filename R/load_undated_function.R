@@ -26,7 +26,7 @@ load_undated<-function(files, col1 = "ring", series_names = NULL, shiny = FALSE)
       # get the file name ready to be used as sample ID
       ftype<-file_detect(files[k],3)
 
-      acc_ftypes <- c("txt", "pos", "csv", "lsx", "rwl")
+      acc_ftypes <- c("txt", "pos", "csv", "lsx", "rwl", "lps")
 
       if (!ftype %in% acc_ftypes){
         stop(paste0("Error in load_undated. File was unsupported file type. \n
