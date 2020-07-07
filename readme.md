@@ -4,7 +4,9 @@ Authors: David Reynolds, David Edge, Bryan Black
 Current Version: 0.1.0
 
 Last updated: 11/06/2020
-
+  <!-- badges: start -->
+  [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/ringdater/ringdater_pkg?branch=master&svg=true)](https://ci.appveyor.com/project/ringdater/ringdater_pkg)
+  <!-- badges: end -->
 <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
 <a href="https://github.com/ringdater/ringdater_pkg/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/ringdater/ringdater_pkg"></a>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
