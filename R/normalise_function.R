@@ -5,14 +5,20 @@
 #' @param the.data A dataframe containing the data to be detrended.
 #' @param detrending_select A numeric integer to define which detrending method to use. 1 = Do nothing, 2 = Z-scores, 3 = spline detrending, 4 = Mod. negative exponentia, 5 = Friedman, 6 = ModHugershoff, 7 = First difference. Spline is slected by default.
 #' @param splinewindow A numeric integer to define the length of the spline to be used in splne detrending (if option 3 selected).
+#' @param ARmod set to true to apply prewhitening to series
+#' @param logT set to true to apply log transformation to data
 #' @export
 #' @examples
 #' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
 #' undated_data <- load_undated(undated_path)
-#' normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
+#' normalise(the.data = undated_data,
+#'           detrending_select = 3,
+#'           splinewindow = 21,
+#'           ARmod = TRUE,
+#'           logT = TRUE)
 
 
-normalise<-function(the.data, detrending_select = 1, splinewindow = 21){
+normalise<-function(the.data, detrending_select = 1, splinewindow = 21, ARmod = FALSE, logT = FALSE){
   if (!detrending_select %in% c(1:7)){
     stop("Error in normalise(). detrending_select must be a numeric integer from 1 to 7.")
 
@@ -66,6 +72,15 @@ normalise<-function(the.data, detrending_select = 1, splinewindow = 21){
         tmp_diff<-c()
       }
 
+      if(ARmod){
+        A <- whitenSeries(A)
+      }
+      if(logT){
+        #Add small constant to avoid taking log of negative number
+        A <- A + (abs(min(A, na.rm = T)) + 1)*7/6
+        #Log transform each individual value
+        A <- log(A)
+      }
 
       det_tmp<-comb.NA(det_tmp, A, fill = NA)
       series_a<-series_a+1

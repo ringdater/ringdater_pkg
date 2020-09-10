@@ -325,7 +325,7 @@ RingServer <- function(input, output, session) {
         } else {detrend_opt<-1}
 
         if (as.numeric(input$splinewindow)>5 || as.numeric(input$splinewindow) <=200){
-          detrended.data    <- normalise(the.data = undetrended.data, detrend_opt, as.numeric(input$splinewindow))
+          detrended.data    <- normalise(the.data = undetrended.data, detrend_opt, as.numeric(input$splinewindow), ARmod = input$ARmod, logT = input$logT)
           detrended_undated$df_data<-detrended.data
           return(detrended.data)
           } else {return(NULL)}
@@ -349,7 +349,7 @@ RingServer <- function(input, output, session) {
       if (input$chron_detrend){detrend_opt<-input$detrending_select
       } else {detrend_opt<-1}
       # if detrending is selected detrend the series in the chronology
-      dtnd.chron<-normalise(the.data = the_data, detrend_opt, as.numeric(input$splinewindow))
+      dtnd.chron<-normalise(the.data = the_data, detrend_opt, as.numeric(input$splinewindow), ARmod = input$ARmod, logT = input$logT)
       chron_detrended$df_data <- dtnd.chron
       # if there is more than one series in the chronology, generate the arithmetic mean chronology
       if(ncol(dtnd.chron)>2){
@@ -636,7 +636,10 @@ observe({
                           splinewindow = as.numeric(input$splinewindow),
                           font_size = as.numeric(input$text.size),
                           axis_line_width = as.numeric(input$line.width),
-                          plot_line = as.numeric(input$plot.line))
+                          plot_line = as.numeric(input$plot.line),
+                          ARmod = input$ARmod,
+                          logT = input$logT
+                          )
     }
   }
 
@@ -1616,7 +1619,7 @@ observe({
       new.chrono<-initiate_chrono()
       if (input$chron_detrend){detrend_opt<-input$detrending_select
       } else {detrend_opt<-1}
-      new.chrono<-normalise(the.data = new.chrono, detrend_opt, as.numeric(input$splinewindow))
+      new.chrono<-normalise(the.data = new.chrono, detrend_opt, as.numeric(input$splinewindow), ARmod = input$ARmod, logT = input$logT)
       final_chron_alinged$df_data<-new.chrono
       return(new.chrono)}
   }
@@ -2155,6 +2158,15 @@ observe({
     }
   )
 
+  output$summary_report <- downloadHandler(
+    filename = function() {
+      paste(input$summary_report_name,"_", Sys.Date(), ".csv", sep="")
+    },
+    content = function(file) {
+      write.csv(initiated_chron_correl_replace(), file, row.names = FALSE)
+      rv$download_flag <- TRUE
+    }
+  )
 
 
 

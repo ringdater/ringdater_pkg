@@ -4,7 +4,13 @@
 \alias{normalise}
 \title{Detrend a set of ring width series contained in a data.frame}
 \usage{
-normalise(the.data, detrending_select = 1, splinewindow = 21)
+normalise(
+  the.data,
+  detrending_select = 1,
+  splinewindow = 21,
+  ARmod = FALSE,
+  logT = FALSE
+)
 }
 \arguments{
 \item{the.data}{A dataframe containing the data to be detrended.}
@@ -12,6 +18,10 @@ normalise(the.data, detrending_select = 1, splinewindow = 21)
 \item{detrending_select}{A numeric integer to define which detrending method to use. 1 = Do nothing, 2 = Z-scores, 3 = spline detrending, 4 = Mod. negative exponentia, 5 = Friedman, 6 = ModHugershoff, 7 = First difference. Spline is slected by default.}
 
 \item{splinewindow}{A numeric integer to define the length of the spline to be used in splne detrending (if option 3 selected).}
+
+\item{ARmod}{set to true to apply prewhitening to series}
+
+\item{logT}{set to true to apply log transformation to data}
 }
 \description{
 This function detrends data in a dataframe
@@ -19,6 +29,10 @@ This function detrends data in a dataframe
 \examples{
 undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
 undated_data <- load_undated(undated_path)
-normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
+normalise(the.data = undated_data,
+          detrending_select = 3,
+          splinewindow = 21,
+          ARmod = TRUE,
+          logT = TRUE)
 }
 \keyword{detrending}

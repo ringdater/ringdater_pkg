@@ -11,7 +11,9 @@ detrending.plot.fun(
   splinewindow = 21,
   font_size = 12,
   axis_line_width = 1,
-  plot_line = 1
+  plot_line = 1,
+  ARmod = FALSE,
+  logT = FALSE
 )
 }
 \arguments{
@@ -25,9 +27,13 @@ detrending.plot.fun(
 
 \item{font_size}{A numeric integer to define the size of axis labels}
 
-\item{axis_line_width}{A numeric integer to define the thickness ofthe axis lines}
+\item{axis_line_width}{A numeric integer to define the thickness of the axis lines}
 
 \item{plot_line}{A numeric integer to define the thickness of the plotted lines}
+
+\item{ARmod}{a boolean to dictate wheteher or not to apply AR1 pre-whitening.}
+
+\item{logT}{A boolean to dictate whether or not to log transform the detrended data.}
 }
 \description{
 This function produces a plot of the raw and detrended ring width data as well as the corresponding autocorrelation.

@@ -8,8 +8,10 @@
 #' @param detrending_select A numeric integer to define which detrending method to use. 1 = Do nothing, 2 = Z-scores, 3 = spline detrending, 4 = Mod. negative exponentia, 5 = Friedman, 6 = ModHugershoff, 7 = First difference. Spline is slected by default.
 #' @param splinewindow A numeric integer to define the length of the spline to be used in splne detrending (if option 3 selected).
 #' @param font_size A numeric integer to define the size of axis labels
-#' @param axis_line_width A numeric integer to define the thickness ofthe axis lines
+#' @param axis_line_width A numeric integer to define the thickness of the axis lines
 #' @param plot_line A numeric integer to define the thickness of the plotted lines
+#' @param ARmod a boolean to dictate wheteher or not to apply AR1 pre-whitening.
+#' @param logT A boolean to dictate whether or not to log transform the detrended data.
 #' @examples
 #' path <- system.file("extdata", "undated_example.csv", package="ringdater")
 #' the_data <- load_undated(path)
@@ -19,7 +21,7 @@
 #'                    detrending_select = 3,
 #'                    splinewindow = 21)
 
-detrending.plot.fun<- function(undet.data, first_series, detrending_select = 3, splinewindow = 21, font_size = 12, axis_line_width = 1, plot_line = 1){
+detrending.plot.fun<- function(undet.data, first_series, detrending_select = 3, splinewindow = 21, font_size = 12, axis_line_width = 1, plot_line = 1, ARmod = FALSE, logT = FALSE){
 
   if (class(undet.data) != "data.frame"){
     stop("Error in detrending.plot.fun: undet.data must be a data.frame")
@@ -49,7 +51,7 @@ detrending.plot.fun<- function(undet.data, first_series, detrending_select = 3, 
   undet.data         <-comb.NA(un.det.years,undet.data, fill = NA)
   undet.data         <-subset(undet.data,complete.cases(undet.data))
 
-  det_nd<- normalise(undet.data, detrending_select = detrending_select, splinewindow = splinewindow)
+  det_nd<- normalise(undet.data, detrending_select = detrending_select, splinewindow = splinewindow, ARmod = ARmod, logT = logT)
 
   curve<- detcurves(series_data = undet.data, detrending_select = detrending_select, splinewindow = splinewindow)
 

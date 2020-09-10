@@ -156,6 +156,8 @@ ui <- function(){
                                                                                  "ModHugershoff" = 6,
                                                                                  "First difference" = 7
                                                                   ), selected = 3),
+                                                      checkboxInput("ARmod", h4(id = "st_pt_h4_4", "Apply AR1 pre-whitening"), TRUE),
+                                                      checkboxInput("logT", h4(id = "st_pt_h4_4", "Apply Log transform"), TRUE),
                                                      # checkboxInput("diff", h4(id = "st_pt_h4_3", "Detrend by subtraction?"), F),
                                                       numericInput("splinewindow", h4(id = "st_pt_h4_2", "Select a spline window (only applies to spline detrendning option)"), value = 21, min = 5, max = 200, step = 1),
                                                      h3(id = "spline_len_help1", "Warning: Spline length should be >5 and <=200"),
@@ -418,9 +420,11 @@ ui <- function(){
                                                         downloadButton("initiated.chrono.detrend", h4(id="al_dt_h4_17","Save the detrended aligned series")),
                                                         downloadButton("remove_initiated_series", h4(id="al_dt_h4_18","Save undated file with dated series removed")),
                                                         downloadButton("create_initiated_chron_rwl", h4(id="al_dt_h4_19","Save RWL file")),
-                                                        downloadButton("initiated_two_column", h4(id="al_dt_h4_20","Save mean chronology"))#,
+                                                        downloadButton("initiated_two_column", h4(id="al_dt_h4_20","Save mean chronology"))
                                            )),
                                            fluidRow(box(width= 9,
+                                                        downloadButton("summary_report", h4(id="al_dt_h4_20","Save summary report")),
+                                                        textInput("summary_report_name", label = h4("Summary report file name (do not add extension):"), "summery_report"),
                                                         div(style="text-align: left", actionButton("al_pw_correl_with_replacement_hlp","", icon = icon("info"))),
                                                         h4(id="al_dt_h4_21","Correlations between individual series and mean chronology with replacement"),
                                                         div(tableOutput("initiated_chron_correl_replace"), style ="font-size: 24px")
