@@ -2913,6 +2913,7 @@ observe({
 
     output$summary_report_tmp <- downloadHandler(
       filename = function() {
+        shinyalert("File saving to downloads folder...", timer = 2000 )
         if (input$format == 1){format = "HTML"
         } else if (input$format == 2){format = "Word"}
 
