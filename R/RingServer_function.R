@@ -22,6 +22,7 @@
 #' @importFrom shinyjs show
 #' @importFrom shinyjs hide
 #' @import ggplot2
+#' @import rmarkdown
 
 RingServer <- function(input, output, session) {
 
@@ -1666,16 +1667,16 @@ observe({
     )
   })
 
-  Sample_dist_fun<-function(){
+  Sample_dist_fun<-function(ft_size = as.numeric(input$text.size), line.width = as.numeric(input$line.width), plot.line = input$plot.line, sample_id = as.numeric(input$init_sample_name_sz)){
 
     the_data<-initiate_chrono()
     plot_data<-dated_line_plot(the_data)
 
     plot_1<-ggplot()+
-      geom_line(data = plot_data, aes(x=plot_data[,3], y = plot_data[,2], group = plot_data[,1]), size = input$plot.line, colour = "black") +
-      geom_point(data = plot_data, aes(x=plot_data[,3], y = plot_data[,2], group = plot_data[,1]), size = input$plot.line, colour = "black") +
-      geom_text(data = plot_data, aes(x=max(plot_data[,3])+20, y = plot_data[,2], group = plot_data[,1], label = plot_data[,1]), size = input$init_sample_name_sz) +
-      R_dateR_theme(text.size = as.numeric(input$text.size), line.width = as.numeric(input$line.width),l=20) + xlab("Year") + ylab("Number of samples") +
+      geom_line(data = plot_data, aes(x=plot_data[,3], y = plot_data[,2], group = plot_data[,1]), size = plot.line, colour = "black") +
+      geom_point(data = plot_data, aes(x=plot_data[,3], y = plot_data[,2], group = plot_data[,1]), size = plot.line, colour = "black") +
+      geom_text(data = plot_data, aes(x=max(plot_data[,3])+20, y = plot_data[,2], group = plot_data[,1], label = plot_data[,1]), size = sample_id) +
+      R_dateR_theme(text.size = ft_size, line.width = line.width, l=20) + xlab("Year") + ylab("Number of samples") +
       scale_x_continuous(breaks = x.scale.bar(round(min(plot_data[,3]), -1), round(max(plot_data[,3]), -1)))
 
     if (input$reevaluate>=1){
@@ -1690,7 +1691,7 @@ observe({
           prob_samps<-rbind(prob_samps,tmp)
           a<-a+1
         }
-        plot_1<-plot_1 + geom_line(data = prob_samps, aes(x=prob_samps[,3], y = prob_samps[,2], group = prob_samps[,1]), size = input$plot.line, colour = "red") +
+        plot_1<-plot_1 + geom_line(data = prob_samps, aes(x=prob_samps[,3], y = prob_samps[,2], group = prob_samps[,1]), size = plot.line, colour = "red") +
           geom_point(data = prob_samps, aes(x=prob_samps[,3], y = prob_samps[,2], group = prob_samps[,1]), colour = "red")
 
       }
@@ -1924,12 +1925,13 @@ observe({
 
   output$align_prob_heatmap <- renderPlot({final_prob_plot()}, height=1000)
 
-  plot_initiated_chron<-function(){
+  plot_initiated_chron<-function(text.size = as.numeric(input$text.size), line.width = as.numeric(input$plot.line),
+                                 plot.line = input$plot.line){
     req(input$rbar_wind_init)
 
     if (is.null(initiate_chrono())){
       plot1<- RingdateR_error_message(message="No aligned data to plot")
-      return(plot1)
+      plot1
     } else {
 
       new.chrono<-detrended_initiated_chrono()
@@ -1965,12 +1967,11 @@ observe({
       } else {x.lab<-"Increment number" }
 
       plot1<-  ggplot()+
-        geom_line(data = new, aes(x = new[,1], y = new[,2], group = new[,3]), size = input$plot.line, alpha = 0.5, na.rm=TRUE) +
-        R_dateR_theme(text.size = as.numeric(input$text.size), line.width = as.numeric(input$plot.line),l=20) +
-        geom_line(data=chron_dat, aes(x=chron_dat[,1], y=chron_dat[,2]), colour = "red", size = input$plot.line+0.25, na.rm=TRUE) +
+        geom_line(data = new, aes(x = new[,1], y = new[,2], group = new[,3]), size = plot.line, alpha = 0.5, na.rm=TRUE) +
+        R_dateR_theme(text.size = text.size, line.width = line.width,l=20) +
+        geom_line(data=chron_dat, aes(x=chron_dat[,1], y=chron_dat[,2]), colour = "red", size = plot.line+0.25, na.rm=TRUE) +
         ylab("Standardised increment width") + xlab(x.lab) +
         scale_x_continuous(breaks = x.scale.bar(round(min(new[,1]),-1),round(max(new[,1]),-1)))
-
 
       if(is.null(N.plot.dat) || ncol(N.plot.dat)<2){
         plot2<-RingdateR_error_message(message="EPS Rbar window length must be greater than 5 and less than 66% of the total length of the series")
@@ -1978,11 +1979,11 @@ observe({
       } else {
 
         plot2<-ggplot()+
-          geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,4]), size=input$plot.line, na.rm=TRUE)+
-          geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,5]), size=input$plot.line, na.rm=TRUE, color="red") +
-          R_dateR_theme(text.size = as.numeric(input$text.size), line.width = as.numeric(input$line.width),l=20)  +
+          geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,4]), size=plot.line, na.rm=TRUE)+
+          geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,5]), size=plot.line, na.rm=TRUE, color="red") +
+          R_dateR_theme(text.size = text.size, line.width = line.width,l=20)  +
           scale_x_continuous(breaks = x.scale.bar(round(min(new[,1]),-1),round(max(new[,1]),-1)), limits = c(min(new[,1]),max(new[,1]))) +
-          geom_hline(yintercept = 0.85, colour = "red",linetype = 2, size=input$plot.line) + ylab("Rbar and EPS") + xlab("Year")
+          geom_hline(yintercept = 0.85, colour = "red",linetype = 2, size=plot.line) + ylab("Rbar and EPS") + xlab("Year")
 
       }
 
@@ -1990,7 +1991,7 @@ observe({
       g2<-  ggplotGrob(plot2)
       g<-rbind(g1, g2, size = "first")
       both <-  grid.draw(g)
-      return(both)
+      both
     }
   }
 
@@ -2052,6 +2053,7 @@ observe({
       colnames(error)<-c("You need at least three series in the initiated chronology to be able to calculate correlations with replacement")
       return(error)  } else {
         res_tab<-correl_replace(detrended_initiated_chrono())
+        row.names(res_tab) <- 1:nrow(res_tab)
         return(res_tab)
       }
     }
@@ -2158,15 +2160,15 @@ observe({
     }
   )
 
-  output$summary_report <- downloadHandler(
-    filename = function() {
-      paste(input$summary_report_name,"_", Sys.Date(), ".csv", sep="")
-    },
-    content = function(file) {
-      write.csv(initiated_chron_correl_replace(), file, row.names = FALSE)
-      rv$download_flag <- TRUE
-    }
-  )
+  # output$summary_report <- downloadHandler(
+  #   filename = function() {
+  #     paste(input$summary_report_name,"_", Sys.Date(), ".csv", sep="")
+  #   },
+  #   content = function(file) {
+  #     write.csv(initiated_chron_correl_replace(), file, row.names = FALSE)
+  #     rv$download_flag <- TRUE
+  #   }
+  # )
 
 
 
@@ -2906,6 +2908,40 @@ observe({
                           )
     )
   }
+
+
+
+    output$summary_report_tmp <- downloadHandler(
+      filename = function() {
+        if (input$format == 1){format = "HTML"
+        } else if (input$format == 2){format = "Word"}
+
+        paste(input$summary_report_name, sep = '.', switch(
+          format, HTML = 'html', Word = 'docx'
+        ))
+      },
+
+      content = function(file) {
+        src <- normalizePath('inst/report.Rmd')
+
+        # temporarily switch to the temp dir, in case you do not have write
+        # permission to the current working directory
+        owd <- setwd(tempdir())
+        on.exit(setwd(owd))
+        file.copy(src, 'report.Rmd', overwrite = TRUE)
+
+        if (input$format == 1){format = "HTML"
+        } else if (input$format == 2){format = "Word"}
+
+        out <- render('report.Rmd', switch(
+          format,
+          HTML = html_document(), Word = word_document()
+        ))
+        file.rename(out, file)
+        rv$download_flag <- TRUE
+      }
+
+    )
 
   ##################### Debug #######################################
   # Use to output a dataframe from the above functions to aid debugging

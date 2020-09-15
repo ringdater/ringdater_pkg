@@ -82,6 +82,10 @@ normalise<-function(the.data, detrending_select = 1, splinewindow = 21, ARmod = 
         A <- log(A)
       }
 
+      if(detrending_select>1){
+        A <- scale(A, center = T, scale = T) + 1
+      }
+
       det_tmp<-comb.NA(det_tmp, A, fill = NA)
       series_a<-series_a+1
     }

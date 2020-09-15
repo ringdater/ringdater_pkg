@@ -15,7 +15,6 @@ RoxygenNote: 7.1.1
 Depends: R (>= 4.0.0)
 Suggests: 
     knitr,
-    rmarkdown,
     testthat
 VignetteBuilder: knitr
 Imports: 
@@ -32,6 +31,7 @@ Imports:
     htmlwidgets,
     magrittr,
     readxl,
+    rmarkdown,
     shinycssloaders,
     shinydashboard,
     shinyjs,

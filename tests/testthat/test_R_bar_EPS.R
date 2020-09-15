@@ -2,6 +2,7 @@ context("R_bar_EPS")
 library(ringdater)
 
 test_that("R_bar_EPS generates a datframe of Rbar and EPS values", {
+  registerDoParallel(cores=2)
   chron_path  <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
   chron_data  <- load_chron(chron_path)
   chrono_det  <- normalise(the.data = chron_data, detrending_select = 3, splinewindow = 21)

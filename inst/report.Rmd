@@ -1,0 +1,84 @@
+---
+title: " RingdateR output log"
+output:
+  html_document:
+    theme: cosmo
+    toc: no
+---
+```{r run_info, echo = FALSE}
+
+time <- Sys.time()
+```
+
+Run time: `r time`
+
+```{r det_mode, echo = FALSE}
+  det_val <- as.numeric(input$detrending_select)  
+
+  if (det_val == 1){
+    det_method = "No detrending applied"
+  } else if (det_val == 2){
+    det_method <- "Convert to z-scores"
+  } else if (det_val == 3){
+    det_method <- paste0(input$splinewindow, " year spline")
+  } else if (det_val == 4){
+    det_method <- "Mod. negative exponential"
+  } else if (det_val == 5){
+    det_method <- "Friedman"
+  } else if (det_val == 6){
+    det_method <- "ModHugershoff"
+  } else if (det_val == 7){
+    det_method <- "First difference"
+  } else {det_method <- "no number"}
+```
+
+### Detrending settings applied:
+Detrending mode: `r det_method`
+
+Prewhitening: `r input$ARmod`
+
+Log Transform:`r input$logT`
+
+### Correlations between each series and the arithemtic mean chronology with replacement
+(The sample being analysed is excluded from the chronology)
+
+```{r table, echo = FALSE}
+  the_data<-initiated_chron_correl_replace()
+
+  knitr::kable(the_data, floating.environment="sidewaystable", digits = 32)
+```
+
+### Chronology and EPS plots
+
+EPS and Rbar window: `r input$rbar_wind_init` years with 50% overlap
+
+```{r chron_plot, echo = FALSE, out.width = '100%'}
+  print(plot_initiated_chron(text.size = as.numeric(input$text.size)*0.6, 
+                                 line.width = as.numeric(input$plot.line)*0.75,
+                                 plot.line = input$plot.line*0.75
+                                 ))
+  
+```
+  
+### Potential problem samples
+
+Window used to evaluate for problems: `r input$initiated_problems_bin` years (with 50% overlap)
+  
+```{r problems, echo = FALSE}
+  probs <- prob_check(final_chron_alinged$df_data,
+                      as.numeric(input$initiated_problems_bin))
+  row.names(probs) <- 1:nrow(probs)
+  
+  knitr::kable(probs, floating.environment="sidewaystable")
+  
+```
+
+### Distribution of aligned samples
+
+```{r sample_dist, echo = FALSE, out.width = '100%', dpi = 120}
+  Sample_dist_fun(ft_size = (as.numeric(input$text.size)*0.6), 
+                  line.width = as.numeric(input$line.width), 
+                  plot.line = input$plot.line, 
+                  sample_id = (as.numeric(input$init_sample_name_sz)*0.6)
+                  )
+```

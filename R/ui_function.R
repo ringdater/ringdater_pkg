@@ -98,9 +98,12 @@ ui <- function(){
                                                         [type = 'number'] {font-size:30px;
                                                         height:40px;}
                                                         [type = 'text'] {font-size:30px;
-                                                        height:40px;}
+                                                                        height:40px;}
 
                                                         input[type=checkbox] {transform: scale(1.5); margin-top:10px;}
+
+                                                        input[type=checkbox] {font-size:30px;
+                                                                              height:40px;}
 
                                                         .main-sidebar{width: 230px;}
                                                         .left-side, .main-sidebar {padding-top: 75px;
@@ -159,7 +162,7 @@ ui <- function(){
                                                       checkboxInput("ARmod", h4(id = "st_pt_h4_4", "Apply AR1 pre-whitening"), TRUE),
                                                       checkboxInput("logT", h4(id = "st_pt_h4_4", "Apply Log transform"), TRUE),
                                                      # checkboxInput("diff", h4(id = "st_pt_h4_3", "Detrend by subtraction?"), F),
-                                                      numericInput("splinewindow", h4(id = "st_pt_h4_2", "Select a spline window (only applies to spline detrendning option)"), value = 21, min = 5, max = 200, step = 1),
+                                                      numericInput("splinewindow", h4(id = "st_pt_h4_2", "Select a spline window (only applies to spline detrendning option)"), value = 32, min = 5, max = 200, step = 1),
                                                      h3(id = "spline_len_help1", "Warning: Spline length should be >5 and <=200"),
                                                      #  checkboxInput("PT", h4(id = "st_pt_h4_3", " Power Transform data?"), F),
                                                       checkboxInput("total_overlap", h4(id = "st_pt_h4_4", "Automatically set lag limits? (uses all possible leads/lags)"), TRUE),
@@ -269,7 +272,7 @@ ui <- function(){
                                                                             "ModHugershoff" = 6,
                                                                             "First difference" = 7
                                                              ), selected = 3),
-                                                 numericInput("splinewindow_2", h4(id = "st_pt_h4_2", "Select a spline window (only applies to spline detrendning option)"), value = 21, min = 5, max = 200, step = 1),
+                                                 numericInput("splinewindow_2", h4(id = "st_pt_h4_2", "Select a spline window (only applies to spline detrendning option)"), value = 32, min = 5, max = 200, step = 1),
                                                  h3(id = "spline_len_help2", "Spline length should be >5 and <=200"),
                                              )
                                            )),
@@ -423,8 +426,12 @@ ui <- function(){
                                                         downloadButton("initiated_two_column", h4(id="al_dt_h4_20","Save mean chronology"))
                                            )),
                                            fluidRow(box(width= 9,
-                                                        downloadButton("summary_report", h4(id="al_dt_h4_20","Save summary report")),
-                                                        textInput("summary_report_name", label = h4("Summary report file name (do not add extension):"), "summery_report"),
+                                                        downloadButton("summary_report_tmp", h4(id="al_dt_h4_20","Save summary report")),
+                                                        textInput("summary_report_name", label = h4("Summary report file name (do not add extension):"), "Summary_report"),
+                                                        selectInput("format", label = h4(id="pw_ht_h4_11","Document format"),choices = list("HTML" = 1, "Word" = 2), selected = 1),
+
+                                                        # radioButtons(inputId = 'format', label = 'Document format',  choices = c('HTML', 'Word'),
+                                                        #              inline = TRUE),
                                                         div(style="text-align: left", actionButton("al_pw_correl_with_replacement_hlp","", icon = icon("info"))),
                                                         h4(id="al_dt_h4_21","Correlations between individual series and mean chronology with replacement"),
                                                         div(tableOutput("initiated_chron_correl_replace"), style ="font-size: 24px")
