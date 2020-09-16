@@ -234,6 +234,8 @@ RingServer <- function(input, output, session) {
   # Load a dated chronology for Chronology Analysis Mode
   observeEvent(input$file2, {
     chrono$df_data <- load_chron(input$file2$datapath)
+    chron_detrended$df_data <- normalise(the.data = chrono$df_data, as.numeric(input$detrending_select), as.numeric(input$splinewindow), ARmod = input$ARmod, logT = input$logT)
+
   })
 
   # perform a quick check that the undated series are formated correctly
@@ -263,6 +265,8 @@ RingServer <- function(input, output, session) {
 
     chron_loading$df_data <- the_data
     chrono$df_data <- the_data
+    chron_detrended$df_data <- normalise(the.data = chrono$df_data, as.numeric(input$detrending_select), as.numeric(input$splinewindow), ARmod = input$ARmod, logT = input$logT)
+
     return(the_data)
   }
 
@@ -2084,7 +2088,7 @@ observe({
 
   observeEvent(rv$download_flag, {
     if(rv$download_flag){
-      shinyalert("File saved to downloads folder!")
+      shinyalert("File saved to downloads folder!", timer = 1500)
       rv$download_flag = FALSE
     }
   }, ignoreInit = TRUE)
@@ -2913,7 +2917,8 @@ observe({
 
     output$summary_report_tmp <- downloadHandler(
       filename = function() {
-        shinyalert("File saving to downloads folder...", timer = 2000 )
+        # shinyalert("File saving to downloads folder...", timer = 2000 )
+
         if (input$format == 1){format = "HTML"
         } else if (input$format == 2){format = "Word"}
 
@@ -2923,6 +2928,13 @@ observe({
       },
 
       content = function(file) {
+        progress <- Progress$new(session, min=1, max= 100, style = "notification")
+        on.exit(progress$close())
+
+        progress$set(message = 'Report is being processed')
+        progress$set(value = 100)
+        progress$set(message = 'Report is being processed',
+                     detail = 'This may take a while...')
         src <- normalizePath('inst/report.Rmd')
 
         # temporarily switch to the temp dir, in case you do not have write
@@ -2939,9 +2951,52 @@ observe({
           HTML = html_document(), Word = word_document()
         ))
         file.rename(out, file)
+        progress$close()
         rv$download_flag <- TRUE
-      }
 
+      }
+    )
+
+    output$chron_evaluate <- downloadHandler(
+      filename = function() {
+        # shinyalert("File saving to downloads folder...", timer = 2000 )
+
+        if (input$chron_format == 1){format = "HTML"
+        } else if (input$chron_format == 2){format = "Word"}
+
+        paste(input$chron_report_name, sep = '.', switch(
+          format, HTML = 'html', Word = 'docx'
+        ))
+      },
+
+      content = function(file) {
+        progress <- Progress$new(session, min=1, max= 100, style = "notification")
+        on.exit(progress$close())
+
+        progress$set(message = 'Report is being processed')
+        progress$set(value = 100)
+        progress$set(message = 'Report is being processed',
+                     detail = 'This may take a while...')
+        src <- normalizePath('inst/chron_report.Rmd')
+
+        # temporarily switch to the temp dir, in case you do not have write
+        # permission to the current working directory
+        owd <- setwd(tempdir())
+        on.exit(setwd(owd))
+        file.copy(src, 'report.Rmd', overwrite = TRUE)
+
+        if (input$chron_format == 1){format = "HTML"
+        } else if (input$chron_format == 2){format = "Word"}
+
+        out <- render('report.Rmd', switch(
+          format,
+          HTML = html_document(), Word = word_document()
+        ))
+        file.rename(out, file)
+        progress$close()
+        rv$download_flag <- TRUE
+
+      }
     )
 
   ##################### Debug #######################################

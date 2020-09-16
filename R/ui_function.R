@@ -230,7 +230,15 @@ ui <- function(){
                                                       solidHeader = TRUE,
                                                       selectInput("mode_select", label = "", choices = list("Pairwise Anlysis Mode"=1, "Chronology Analysis Mode"=2), selected = 1),
                                                       actionButton("Go_pairwise", h4(id = "st_pt_h4_17","Run the analyses"), icon = icon("rocket"))
-                                                      )
+                                                      ),
+                                                  box( width = NULL, title = h2(id = "st_pt_h2_7","Alt. step: Evaluate the loaded chronology"), status = "primary",
+                                                       solidHeader = TRUE,
+                                                       h4("Produce a report of the crossdating statistics for the loaded chronology"),
+                                                       textInput("chron_report_name", label = h4("Report file name (do not add extension):"), "Chronology_report"),
+                                                       selectInput("chron_format", label = h4(id="pw_ht_h4_11","Document format"),choices = list("HTML" = 1, "Word" = 2), selected = 1),
+                                                       downloadButton("chron_evaluate", h4(id = "st_pt_h4_17","Produce report"), icon = icon("rocket")),
+                                                       numericInput(inputId = "chron_eval_EPS", label = h4("Window for EPS"), value = 50)
+                                                  )
                                                   ))),
 
                                   ###################################################################
