@@ -7,6 +7,7 @@
 #' @import shiny
 #' @import shinydashboard
 #' @import shinycssloaders
+#' @importFrom shinyWidgets dropdownButton
 #' @importFrom magrittr %>%
 
 ui <- function(){
@@ -234,10 +235,24 @@ ui <- function(){
                                                   box( width = NULL, title = h2(id = "st_pt_h2_7","Alt. step: Evaluate the loaded chronology"), status = "primary",
                                                        solidHeader = TRUE,
                                                        h4("Produce a report of the crossdating statistics for the loaded chronology"),
-                                                       textInput("chron_report_name", label = h4("Report file name (do not add extension):"), "Chronology_report"),
-                                                       selectInput("chron_format", label = h4(id="pw_ht_h4_11","Document format"),choices = list("HTML" = 1, "Word" = 2), selected = 1),
-                                                       downloadButton("chron_evaluate", h4(id = "st_pt_h4_17","Produce report"), icon = icon("rocket")),
-                                                       numericInput(inputId = "chron_eval_EPS", label = h4("Window for EPS"), value = 50)
+
+                                                       div(style="display:inline-block; ", dropdownButton(
+                                                         tags$h4("Report settings"),
+                                                         textInput("chron_report_name", label = h4("Report file name (do not add extension):"), "Chronology_report"),
+                                                         selectInput("chron_format", label = h4(id="pw_ht_h4_11","Document format"),choices = list("HTML" = 1, "Word" = 2, "pdf" = 3), selected = 1),
+                                                         checkboxInput(inputId = "chron_eval_verbose", label = h4("Verbose report?"), value = FALSE),
+                                                         numericInput(inputId = "chron_eval_EPS", label = h4("Window for EPS"), value = 50),
+                                                         numericInput(inputId = "chron_eval_probs", label = h4("Window for problem check"), value = 30),
+                                                         circle = FALSE, status = NULL,
+                                                         label =h4("Report settings"),
+                                                         inputId = "mydropdown",
+                                                         icon = icon("gear"), width = "400px"
+                                                       )),
+                                                       div(style="display:inline-block; float:right;", downloadButton("chron_evaluate", h4(id = "st_pt_h4_17","Produce report"), icon = icon("rocket")))
+
+
+
+
                                                   )
                                                   ))),
 
@@ -434,12 +449,22 @@ ui <- function(){
                                                         downloadButton("initiated_two_column", h4(id="al_dt_h4_20","Save mean chronology"))
                                            )),
                                            fluidRow(box(width= 9,
-                                                        downloadButton("summary_report_tmp", h4(id="al_dt_h4_20","Save summary report")),
-                                                        textInput("summary_report_name", label = h4("Summary report file name (do not add extension):"), "Summary_report"),
-                                                        selectInput("format", label = h4(id="pw_ht_h4_11","Document format"),choices = list("HTML" = 1, "Word" = 2), selected = 1),
 
-                                                        # radioButtons(inputId = 'format', label = 'Document format',  choices = c('HTML', 'Word'),
-                                                        #              inline = TRUE),
+                                                        div(style="display:inline-block; margin:10px;", dropdownButton(
+                                                          tags$h4("Report settings"),
+                                                          textInput("summary_report_name", label = h4("Summary report file name (do not add extension):"), "Summary_report"),
+                                                          selectInput("format", label = h4(id="pw_ht_h4_11","Document format"),choices = list("HTML" = 1, "Word" = 2, "pdf" = 3), selected = 1),
+                                                          checkboxInput(inputId = "summary_verbose", label = h4("Verbose report?"), value = FALSE),
+                                                          numericInput(inputId = "summary_EPS", label = h4("Window for EPS"), value = 50),
+                                                          numericInput(inputId = "summary_probs", label = h4("Window for problem check"), value = 30),
+
+                                                          circle = FALSE, status = NULL,
+                                                          label =h4("Report settings"),
+                                                          inputId = "mydropdown",
+                                                          icon = icon("gear"), width = "400px"
+                                                        )),
+                                                        div(style="display:inline-block", downloadButton("summary_report_tmp", h4(id="al_dt_h4_20","Save summary report"))),
+
                                                         div(style="text-align: left", actionButton("al_pw_correl_with_replacement_hlp","", icon = icon("info"))),
                                                         h4(id="al_dt_h4_21","Correlations between individual series and mean chronology with replacement"),
                                                         div(tableOutput("initiated_chron_correl_replace"), style ="font-size: 24px")

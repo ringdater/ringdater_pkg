@@ -4,7 +4,7 @@
 \alias{lead_lag_bar}
 \title{Produce a bar chart of leaad-lag correlations and show the best three matches.}
 \usage{
-lead_lag_bar(the_data, sample_1, sample_2)
+lead_lag_bar(the_data, sample_1, sample_2, text.size = 12, line.width = 1)
 }
 \arguments{
 \item{the_data}{A dataframe created by lead_lag_analysis() function (lead_lag_analysis()[2]).}
@@ -12,6 +12,10 @@ lead_lag_bar(the_data, sample_1, sample_2)
 \item{sample_1}{A character string containing a sample ID. Must match the original sample IDs perfectly.}
 
 \item{sample_2}{A character string containing a sample ID. Must match the original sample IDs perfectly.}
+
+\item{text.size}{A numeric value to set the size of the font,}
+
+\item{line.width}{A numeric value to set the width of the axis line.}
 }
 \description{
 This function creates are bar chart ofthe lead-lag analyses from RingdateR

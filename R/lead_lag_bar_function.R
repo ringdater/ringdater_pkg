@@ -5,6 +5,9 @@
 #' @param the_data A dataframe created by lead_lag_analysis() function (lead_lag_analysis()[2]).
 #' @param sample_1 A character string containing a sample ID. Must match the original sample IDs perfectly.
 #' @param sample_2 A character string containing a sample ID. Must match the original sample IDs perfectly.
+#' @param text.size A numeric value to set the size of the font,
+#' @param line.width A numeric value to set the width of the axis line.
+#' @param
 #' @export
 #' @examples
 #' # undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
@@ -37,7 +40,7 @@
 #'              sample_1 = "mean_chronology",
 #'              sample_2 = "sample_a")
 
-lead_lag_bar<-function(the_data, sample_1, sample_2){
+lead_lag_bar<-function(the_data, sample_1, sample_2, text.size = 12, line.width = 1){
 
   if (class(the_data) != "data.frame"){
     stop("Error in correl_replace(). Required data are not a data.frame")
@@ -80,7 +83,7 @@ lead_lag_bar<-function(the_data, sample_1, sample_2){
 
     plot1<-ggplot()+
       geom_bar(data=selected, aes(x=selected[,1], weight= (selected[,4])), fill= "black", na.rm=T) +
-      R_dateR_theme(text.size = 12, line.width = 1) +ylab("T_val") + xlab("Lag (Year)") +
+      R_dateR_theme(text.size = text.size, line.width = line.width) +ylab("T_val") + xlab("Lag (Year)") +
       geom_bar(data=best, aes(x=best[,1], weight= (best[,4])), fill= "red", na.rm=T) +
       geom_bar(data=second, aes(x=second[,1], weight= (second[,4])), fill= "blue", na.rm=T) +
       geom_bar(data=third, aes(x=third[,1], weight= (third[,4])), fill= "green", na.rm=T) +

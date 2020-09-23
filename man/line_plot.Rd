@@ -10,7 +10,8 @@ line_plot(
   series_2_nm,
   lag = 0,
   text.size = 12,
-  line.width = 1
+  line.width = 1,
+  plot.line = 0.5
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ line_plot(
 \item{text.size}{A numeric to set the axis font size}
 
 \item{line.width}{A numeric to set the width of the line}
+
+\item{plot.line}{A numeric value to set the width of the lines being plotted}
 }
 \description{
 PLot two timeseries and adjust the lag of the second series

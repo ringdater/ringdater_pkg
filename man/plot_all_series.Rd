@@ -4,10 +4,16 @@
 \alias{plot_all_series}
 \title{Plot all data in dataframe along with the arithmetic mean chronology}
 \usage{
-plot_all_series(aligned_data)
+plot_all_series(aligned_data, text.size = 12, plot.line = 0.5, line.width = 1)
 }
 \arguments{
 \item{aligned_data}{A data frame containing multiple ring width series aligned in time. First column should be years/ring count}
+
+\item{text.size}{A numeric to set the axis font size}
+
+\item{plot.line}{A numeric value to set the width of the lines being plotted}
+
+\item{line.width}{A numeric to set the width of the line}
 }
 \description{
 Generate a plot of all the aligned data along with the arithmetic mean chronology

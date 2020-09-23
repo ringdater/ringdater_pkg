@@ -73,7 +73,7 @@ load_undated<-function(files, col1 = "ring", series_names = NULL, shiny = FALSE)
         loading_df_data<-as.data.frame(read_excel(files[k], sheet = 1, na ="NA" ))
 
       } else  if(ftype=="rwl"){
-        loading_df_data<-read.rwl(files[k])
+        loading_df_data<-readRWL(files[k])
         loading_df_data <- as.data.frame(loading_df_data)
         loading_df_data <- cbind.data.frame(as.numeric(row.names(loading_df_data)),loading_df_data)
         row.names(loading_df_data)<-c()

@@ -9,6 +9,8 @@
 #' @importFrom utils read.table
 #' @importFrom utils head
 #' @importFrom utils write.csv
+#' @importFrom utils capture.output
+#' @importFrom utils write.table
 #' @importFrom stats complete.cases
 #' @importFrom dplyr select
 #' @importFrom zoo rollmean
@@ -21,6 +23,8 @@
 #' @importFrom shinyjs toggle
 #' @importFrom shinyjs show
 #' @importFrom shinyjs hide
+#' @importFrom shinyWidgets dropdownButton
+#' @importFrom shinyWidgets toggleDropdownButton
 #' @import ggplot2
 #' @import rmarkdown
 
@@ -49,6 +53,10 @@ RingServer <- function(input, output, session) {
         runjs(paste0('$("#', page_name,'_', ft ,'_',i,'").css("font-size","', ft_size, 'px")'))
       }
     }
+# report settings toggle
+    observeEvent(input$toggle2, {
+      toggleDropdownButton(inputId = "mydropdown")
+    }, ignoreInit = TRUE)
 
   # side bar fonts
     change_font(ft = "h2", page_name = "side", num = 6, change = input$font_select)
@@ -1994,8 +2002,8 @@ observe({
       g1 <- ggplotGrob(plot1)
       g2<-  ggplotGrob(plot2)
       g<-rbind(g1, g2, size = "first")
-      both <-  grid.draw(g)
-      both
+      grid.draw(g)
+
     }
   }
 
@@ -2920,10 +2928,12 @@ observe({
         # shinyalert("File saving to downloads folder...", timer = 2000 )
 
         if (input$format == 1){format = "HTML"
-        } else if (input$format == 2){format = "Word"}
+        } else if (input$format == 2){format = "Word"
+        } else if (input$format == 3){format = "pdf"
+        }
 
         paste(input$summary_report_name, sep = '.', switch(
-          format, HTML = 'html', Word = 'docx'
+          format, HTML = 'html', Word = 'docx', pdf = 'pdf'
         ))
       },
 
@@ -2944,7 +2954,9 @@ observe({
         file.copy(src, 'report.Rmd', overwrite = TRUE)
 
         if (input$format == 1){format = "HTML"
-        } else if (input$format == 2){format = "Word"}
+        } else if (input$format == 2){format = "Word"
+        } else if (input$format == 3){format = "pdf"
+        }
 
         out <- render('report.Rmd', switch(
           format,
@@ -2962,21 +2974,26 @@ observe({
         # shinyalert("File saving to downloads folder...", timer = 2000 )
 
         if (input$chron_format == 1){format = "HTML"
-        } else if (input$chron_format == 2){format = "Word"}
+        } else if (input$chron_format == 2){format = "Word"
+        } else if (input$chron_format == 3){format = "pdf"
+        }
 
         paste(input$chron_report_name, sep = '.', switch(
-          format, HTML = 'html', Word = 'docx'
+          format, HTML = 'html', Word = 'docx', pdf = 'pdf'
         ))
       },
 
       content = function(file) {
+
         progress <- Progress$new(session, min=1, max= 100, style = "notification")
         on.exit(progress$close())
 
-        progress$set(message = 'Report is being processed')
+
+
         progress$set(value = 100)
         progress$set(message = 'Report is being processed',
                      detail = 'This may take a while...')
+
         src <- normalizePath('inst/chron_report.Rmd')
 
         # temporarily switch to the temp dir, in case you do not have write
@@ -2986,11 +3003,13 @@ observe({
         file.copy(src, 'report.Rmd', overwrite = TRUE)
 
         if (input$chron_format == 1){format = "HTML"
-        } else if (input$chron_format == 2){format = "Word"}
+        } else if (input$chron_format == 2){format = "Word"
+        } else if (input$chron_format == 3){format = "pdf"
+        }
 
         out <- render('report.Rmd', switch(
           format,
-          HTML = html_document(), Word = word_document()
+          HTML = html_document(), Word = word_document(), pdf = pdf_document()
         ))
         file.rename(out, file)
         progress$close()

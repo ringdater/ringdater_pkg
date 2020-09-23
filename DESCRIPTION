@@ -36,6 +36,7 @@ Imports:
     shinydashboard,
     shinyjs,
     shinyalert,
+    shinyWidgets,
     stats,
     stringr,
     tidyselect,
@@ -43,4 +44,4 @@ Imports:
     zoo,
     zoocat,
     shiny,
-    shinyWidgets
+    

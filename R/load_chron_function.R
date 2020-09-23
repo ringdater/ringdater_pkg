@@ -27,10 +27,11 @@ load_chron<- function(file){
   }
 
   if(ftype=="rwl"){
-   chron_loading_df_data<-read.rwl(file)
-   chron_loading_df_data <- as.data.frame(chron_loading$df_data)
-   chron_loading_df_data <- cbind.data.frame(as.numeric(row.names(chron_loading$df_data)),chron_loading$df_data)
-    row.names(chron_loading$df_data)<-c()
+   chron_loading_df_data <- readRWL(file)
+   chron_loading_df_data <- as.data.frame(chron_loading_df_data)
+   chron_loading_df_data <- cbind.data.frame(as.numeric(row.names(chron_loading_df_data)),chron_loading_df_data)
+   row.names(chron_loading_df_data)<-c()
+
   } else if (ftype=="csv"){
    chron_loading_df_data<-read.csv(file, header = TRUE, stringsAsFactors = FALSE)
   } else if (ftype=="lsx"){

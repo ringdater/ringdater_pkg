@@ -68,7 +68,16 @@ heatmap_analysis<-function(the_data, s1, s2, neg_lag = -20, pos_lag = 20, win = 
 
   plot.data <-  running_lead_lag(the_data=the_data, s1=s1, s2=s2, neg_lag = neg_lag + center, pos_lag = pos_lag + center, win = win, complete = complete)
 
-  the_plot <- plotting_sing_hm(plot.data = plot.data, the_data=the_data, s1=s1, s2=s2, neg_lag = neg_lag + center, pos_lag = pos_lag + center, leg_size = leg_size)
+  the_plot <- plotting_sing_hm(plot.data = plot.data,
+                               the_data=the_data,
+                               s1=s1,
+                               s2=s2,
+                               neg_lag = neg_lag + center,
+                               pos_lag = pos_lag + center,
+                               leg_size = leg_size,
+                               font_size = font_size,
+                               axis_line_width = axis_line_width,
+                               plot_line = plot_line)
 
   return(the_plot)
 }

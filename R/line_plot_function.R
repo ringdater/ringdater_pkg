@@ -8,6 +8,7 @@
 #' @param lag A numeric integer to lag series series_2_nm by.
 #' @param text.size A numeric to set the axis font size
 #' @param line.width A numeric to set the width of the line
+#' @param plot.line A numeric value to set the width of the lines being plotted
 #' @export
 #' @examples
 #' test1 <- system.file("extdata", "undated_example.csv", package="ringdater")
@@ -16,7 +17,7 @@
 #' series_2 <- colnames(the_data)[3]
 #' line_plot(the_data = the_data, series_1_nm = series_1, series_2_nm = series_2, lag = -7)
 
-line_plot<-function(the_data, series_1_nm, series_2_nm, lag = 0, text.size = 12, line.width = 1){
+line_plot<-function(the_data, series_1_nm, series_2_nm, lag = 0, text.size = 12, line.width = 1, plot.line = 0.5){
 
   # example check for a dataframe with at least 2 columns of data.
   if (class(the_data) != "data.frame"){
@@ -54,8 +55,9 @@ line_plot<-function(the_data, series_1_nm, series_2_nm, lag = 0, text.size = 12,
     x.lab<- "Years"
 
     plot1<-ggplot()+
-      geom_line(data = series_1, aes(x=series_1[,1], y=series_1[,2]), na.rm=TRUE, colour="black", size = 0.5) + labs(title = plot.title) +
-      geom_line(data = series_2, aes(x=series_2[,1], y=series_2[,2]), na.rm=TRUE, colour="red", size = 0.5) + R_dateR_theme(text.size = text.size, line.width = line.width) +
+      geom_line(data = series_1, aes(x=series_1[,1], y=series_1[,2]), na.rm=TRUE, colour="black", size = plot.line) + labs(title = plot.title) +
+      geom_line(data = series_2, aes(x=series_2[,1], y=series_2[,2]), na.rm=TRUE, colour="red", size = plot.line) +
+      R_dateR_theme(text.size = text.size, line.width = line.width) +
       ylab("Standardised increment width") + xlab(x.lab) +
       scale_x_continuous(breaks = x.scale.bar(round(min(min(series_1[,1]),min(series_2[,1])), -1), round(max(max(series_1[,1]),max(series_2[,1])), -1)))
 
