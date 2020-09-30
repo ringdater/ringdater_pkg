@@ -3000,14 +3000,14 @@ observe({
         # permission to the current working directory
         owd <- setwd(tempdir())
         on.exit(setwd(owd))
-        file.copy(src, 'report.Rmd', overwrite = TRUE)
+        file.copy(src, 'chron_report.Rmd', overwrite = TRUE)
 
         if (input$chron_format == 1){format = "HTML"
         } else if (input$chron_format == 2){format = "Word"
         } else if (input$chron_format == 3){format = "pdf"
         }
 
-        out <- render('report.Rmd', switch(
+        out <- render('chron_report.Rmd', switch(
           format,
           HTML = html_document(), Word = word_document(), pdf = pdf_document()
         ))
