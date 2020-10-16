@@ -179,13 +179,25 @@ RingServer <- function(input, output, session) {
   }
 
   # Load the example data rather than using user loaded data
+  # observeEvent(input$example_undated, {
+  #   if (ncol(undated$df_data)>1){NULL
+  #   } else {
+  #     loading$df_data<-readRDS(file = "inst/undated.rds")
+  #     undated$df_data <- comb.NA(undated$df_data,loading$df_data, fill = NA)
+  #     undated$df_data<-undated$df_data[,-1] # remove the first
+  #     chrono$df_data <- readRDS(file = "inst/dated.rds")
+  #   }
+  # })
+
   observeEvent(input$example_undated, {
     if (ncol(undated$df_data)>1){NULL
     } else {
-      loading$df_data<-readRDS(file = "inst/undated.rds")
+      undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
+      loading$df_data<-load_undated(undated_path)
       undated$df_data <- comb.NA(undated$df_data,loading$df_data, fill = NA)
       undated$df_data<-undated$df_data[,-1] # remove the first
-      chrono$df_data <- readRDS(file = "inst/dated.rds")
+      chron_path <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
+      chrono$df_data <- load_chron(chron_path)
     }
   })
 
