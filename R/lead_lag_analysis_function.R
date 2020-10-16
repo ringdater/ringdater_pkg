@@ -14,7 +14,7 @@
 #' @examples
 #' # Load the preloaded example undated data:
 #' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
-#' undated_data <- load_undated(undated_path)
+#' undated_data <- load_undated(undated_path)\
 #' # Detrend the undated data:
 #' undated      <- normalise(the.data = undated_data, detrending_select = 3, splinewindow = 21)
 #'

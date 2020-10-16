@@ -3005,7 +3005,9 @@ observe({
         progress$set(message = 'Report is being processed',
                      detail = 'This may take a while...')
 
-        src <- normalizePath('inst/chron_report.Rmd')
+        report_path <- system.file("extdata", "chron_report.Rmd", package="ringdater")
+        # src <- normalizePath('inst/chron_report.Rmd')
+        src <- normalizePath(report_path)
 
         # temporarily switch to the temp dir, in case you do not have write
         # permission to the current working directory

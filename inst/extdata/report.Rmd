@@ -1,0 +1,218 @@
+---
+title: " RingdateR output log"
+output:
+  html_document:
+    theme: cosmo
+    toc: no
+---
+```{r run_info, echo = FALSE}
+
+start_time <- Sys.time()
+
+undated_data <- NULL
+dated_chron <- NULL
+
+# if (nrow(chron_detrended$df_data) < 1){
+#  undated_data <- "No data loaded"
+#  dated_chron <- "No data loaded"
+# } else {
+  undated_data <- input$file1$name
+  
+  dated_chron <- input$file2$name
+# }
+
+```
+
+Run time: `r start_time`
+
+Data loaded: `r undated_data`
+
+Chronology loaded: `r dated_chron`
+
+```{r det_mode, echo = FALSE}
+  det_val <- as.numeric(input$detrending_select)  
+
+  if (det_val == 1){
+    det_method = "No detrending applied"
+  } else if (det_val == 2){
+    det_method <- "Convert to z-scores"
+  } else if (det_val == 3){
+    det_method <- paste0(input$splinewindow, " year spline")
+  } else if (det_val == 4){
+    det_method <- "Mod. negative exponential"
+  } else if (det_val == 5){
+    det_method <- "Friedman"
+  } else if (det_val == 6){
+    det_method <- "ModHugershoff"
+  } else if (det_val == 7){
+    det_method <- "First difference"
+  } else {det_method <- "no number"}
+```
+
+### Detrending and report settings applied:
+Detrending mode: `r det_method`
+
+Prewhitening: `r input$ARmod`
+
+Log Transform:`r input$logT`
+
+Verbose :`r input$summary_verbose`
+
+If verbose = TRUE: all possible leads and lags are evaluated.
+If verbose = FALSE: lead-lag analysis is limited to a +/-20 year range of lags.
+
+Problem sample window: `r input$summary_probs` years (with 50% overlap)
+
+
+### Correlations between each series and the arithemtic mean chronology with replacement
+(The sample being analysed is excluded from the chronology)
+
+```{r table, echo = FALSE}
+  the_data<-initiated_chron_correl_replace()
+  row.names(the_data) <-1:nrow(the_data)
+  knitr::kable(the_data, floating.environment="sidewaystable", digits = 32)
+```
+
+### Chronology and EPS plots
+
+EPS and Rbar window: `r input$rbar_wind_init` years with 50% overlap
+
+```{r chron_plot, echo = FALSE, out.width = '100%'}
+  plot_initiated_chron(text.size = 8, 
+                                 line.width = 0.5,
+                                 plot.line = 0.5
+                                 )
+  
+```
+  
+
+  
+```{r problems, echo = FALSE}
+  probs <- prob_check(final_chron_alinged$df_data,
+                      as.numeric(input$summary_probs))
+  row.names(probs) <- 1:nrow(probs)
+  
+```
+
+### Distribution of aligned samples
+
+```{r sample_dist, echo = FALSE, out.width = '100%', dpi = 120}
+  Sample_dist_fun(ft_size = 8, 
+                  line.width = 0.5, 
+                  plot.line = 0.75, 
+                  sample_id = 0)
+                  
+```
+
+## Overview of correlations between each series and the arithmetic mean chronology
+```{r problem_sample_plots, echo = FALSE, out.width = '100%', fig.out = 10, dpi = 120}
+ 
+  full_data <- final_chron_alinged$df_data
+
+ for (i in 2:ncol(full_data)){
+
+  sample <- full_data[,i]
+  ex_sample <- full_data[,-c(1,i)]
+  years <- full_data[,1]
+  chron<-rowMeans(ex_sample, na.rm = TRUE)
+  combined<-data.frame(years, chron, sample)
+  colnames(combined) <- c("years", "chronology", colnames(full_data)[i])
+
+   test<-subset(combined, complete.cases(combined))
+  
+  if(nrow(test)>input$cor_win){
+    hm_plot <- heatmap_analysis(combined, 
+                                colnames(combined)[2], 
+                                colnames(combined)[3], 
+                                neg_lag = -5, 
+                                pos_lag = 5, 
+                                win = as.numeric(input$cor_win), 
+                                center = 0, 
+                                complete = FALSE, 
+                                sel_col_pal = 1, 
+                                font_size = 8, 
+                                axis_line_width = 0.5, 
+                                plot_line = 0.75, 
+                                leg_size = 1)
+  }
+  
+  chron_comp <- lead_lag_analysis(the_data = combined,
+                                 mode = 1, neg_lag = -20, pos_lag = 20,
+                                 complete = input$summary_verbose)
+
+  combined<-subset(combined, complete.cases(combined))
+
+  ln_plot <- line_plot(combined, colnames(combined)[2], colnames(combined)[3], lag = 0, text.size = 8, line.width = 0.5, plot.line = 0.5)
+  
+  bar_graph <- lead_lag_bar(the_data = as.data.frame(chron_comp[2]),
+                  sample_1 = colnames(combined)[2],
+                  sample_2 = colnames(combined)[3],
+                  text.size = 8, 
+                  line.width = 0.5)
+  
+
+  g1 <- ggplotGrob(ln_plot)
+  g2 <- ggplotGrob(bar_graph)
+  g3 <- ggplotGrob(hm_plot)
+  
+
+  g<-rbind(g1, g2, g3, size = "first")
+  grid::grid.newpage()
+  
+  print(colnames(combined)[3])
+  grid.draw(g)
+  
+  ######
+  
+    samp_names<-paste0("ser_1_",colnames(combined)[2], "_ser_2_",colnames(combined)[3], "_")
+    master_names<-c("lag", "R_Val", "P_Val", "T_val", "Overlap", "First_ring", "Last_ring")
+    master_names<-paste0(samp_names,master_names)
+
+  if(!master_names[1] %in% colnames(as.data.frame(chron_comp[2]))){
+    stop("Error in lead_lag_bar(): Resilts not found for selected samples")
+  }
+    matches <- c("Best match", "Second best", "Third best")
+    lag <-as.data.frame(chron_comp[2])[[master_names[1]]]
+    R_Val<-as.data.frame(chron_comp[2])[[master_names[2]]]
+    P_Val <-as.data.frame(chron_comp[2])[[master_names[3]]]
+    T_val <-as.data.frame(chron_comp[2])[[master_names[4]]]
+    Overlap <-as.data.frame(chron_comp[2])[[master_names[5]]]
+    First_ring	<-as.data.frame(chron_comp[2])[[master_names[6]]]
+    Last_ring <-as.data.frame(chron_comp[2])[[master_names[7]]]
+    selected<-data.frame(lag, R_Val, P_Val, T_val, Overlap, First_ring, Last_ring)
+
+    # remove neg values
+    selected<-subset(selected,(selected[,2]>0))
+
+    ordered<-selected[order(selected[,3]),]
+    ordered<-cbind(matches, ordered[1:3,])
+    row.names(ordered)<-1:3
+    
+    print(knitr::kable(ordered, floating.environment="sidewaystable"))
+
+   prob_found <- 0
+    for (i in 1:nrow(probs)){
+      if(probs[i,1] == colnames(combined)[3]){
+        prob_found <- i
+      } 
+    }
+    
+    if(prob_found >=1){
+        print(knitr::kable(probs[prob_found,],floating.environment="sidewaystable"))
+      } else {
+        print("Problem checker could not detect problems with this sample.")
+      }
+   
+    
+  combined<-NULL
+ }
+
+```
+
+```{r run_time, echo = FALSE}
+
+run_dur <- Sys.time() - start_time  
+
+```
+
+Run duration: `r run_dur` 
