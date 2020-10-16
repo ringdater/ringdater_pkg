@@ -118,12 +118,27 @@ EPS and Rbar window: `r input$rbar_wind_init` years with 50% overlap
   combined<-data.frame(years, chron, sample)
   colnames(combined) <- c("years", "chronology", colnames(full_data)[i])
 
-  hm_plot <- heatmap_analysis(combined, colnames(combined)[2], colnames(combined)[3], neg_lag = -5, pos_lag = 5, win = 21, center = 0, complete = FALSE, sel_col_pal = 1, font_size = 8, axis_line_width = 0.5, plot_line = 0.75, leg_size = 1)
+   test<-subset(combined, complete.cases(combined))
+  
+  if(nrow(test)>input$cor_win){
+    hm_plot <- heatmap_analysis(combined, 
+                                colnames(combined)[2], 
+                                colnames(combined)[3], 
+                                neg_lag = -5, 
+                                pos_lag = 5, 
+                                win = as.numeric(input$cor_win), 
+                                center = 0, 
+                                complete = FALSE, 
+                                sel_col_pal = 1, 
+                                font_size = 8, 
+                                axis_line_width = 0.5, 
+                                plot_line = 0.75, 
+                                leg_size = 1)
+  }
   
   chron_comp <- lead_lag_analysis(the_data = combined,
                                  mode = 1, neg_lag = -20, pos_lag = 20,
-                                 complete = input$summary_verbose,
-                                 shiny = FALSE)
+                                 complete = input$summary_verbose)
 
   combined<-subset(combined, complete.cases(combined))
 

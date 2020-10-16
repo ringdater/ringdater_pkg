@@ -18,8 +18,7 @@ test_that("lead_lag_analysis performs lead lag analyses between multiple timeser
                                 mode = 2,
                                 pos_lag= 20,
                                 neg_lag = -20,
-                                complete = FALSE,
-                                shiny = FALSE)
+                                complete = FALSE)
 
   expect_equal(length(chron_comp), 2)
   expect_equal(class(chron_comp), "list")

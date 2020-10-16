@@ -81,7 +81,7 @@ The summary of results of one such pairwise comparison is printed here:
 *The pairwise lead-lag analysis function returns a list. In order to access the data, we ask for the first item in the list with [[1]]. To choose one analysis, we subset by row, and to view the best match, we also subset the first several columns.*
 
 ```{r}
-pairwiseData <- lead_lag_analysis(the_data = detrendedData, mode = 1, neg_lag = -20, pos_lag = 20, complete = TRUE, shiny = FALSE)
+pairwiseData <- lead_lag_analysis(the_data = detrendedData, mode = 1, neg_lag = -20, pos_lag = 20, complete = TRUE)
 ```
 
 ```{r comment='', echo=FALSE, results='asis'}

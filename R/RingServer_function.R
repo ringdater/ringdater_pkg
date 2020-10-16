@@ -691,8 +691,7 @@ observe({
                                       mode = input$mode_select,
                                       neg_lag = as.numeric(input$neg_lag),
                                       pos_lag = as.numeric(input$pos_lag),
-                                      complete = input$total_overlap,
-                                      shiny = TRUE)
+                                      complete = input$total_overlap)
       pairwise_res$df_data<-as.data.frame(run_pairwise[1])
       master_lead_lag$df_data<-as.data.frame(run_pairwise[2])[,-1]
     } else {NULL}

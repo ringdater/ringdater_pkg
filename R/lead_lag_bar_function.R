@@ -7,7 +7,6 @@
 #' @param sample_2 A character string containing a sample ID. Must match the original sample IDs perfectly.
 #' @param text.size A numeric value to set the size of the font,
 #' @param line.width A numeric value to set the width of the axis line.
-#' @param
 #' @export
 #' @examples
 #' # undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
