@@ -4,6 +4,7 @@
 #' @keywords GUI
 #' @importFrom shinyalert useShinyalert
 #' @importFrom shinyjs useShinyjs
+#' @export
 #' @import shiny
 #' @import shinydashboard
 #' @import shinycssloaders
