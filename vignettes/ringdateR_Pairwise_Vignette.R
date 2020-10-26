@@ -18,7 +18,7 @@ font_size = 12, axis_line_width = 0.5, plot_line = 0.5)
 detrendedData <- normalise(the.data = exampleData, detrending_select = 3, splinewindow = 7)
 
 ## -----------------------------------------------------------------------------
-pairwiseData <- lead_lag_analysis(the_data = detrendedData, mode = 1, neg_lag = -20, pos_lag = 20, complete = TRUE, shiny = FALSE)
+pairwiseData <- lead_lag_analysis(the_data = detrendedData, mode = 1, neg_lag = -20, pos_lag = 20, complete = TRUE)
 
 ## ----comment='', echo=FALSE, results='asis'-----------------------------------
 df <- pairwiseData[[1]][1:10,]

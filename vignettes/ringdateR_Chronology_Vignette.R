@@ -24,7 +24,7 @@ knitr::kable(df, caption = "Preview of Combined Data", floating.environment="sid
 
 
 ## -----------------------------------------------------------------------------
-chron_comp <- lead_lag_analysis(the_data = chron_n_series, mode = 2, neg_lag = -20, pos_lag = 20, complete = TRUE, shiny = FALSE)
+chron_comp <- lead_lag_analysis(the_data = chron_n_series, mode = 2, neg_lag = -20, pos_lag = 20, complete = TRUE)
 
 ## ----comment='', echo=FALSE, results='asis'-----------------------------------
 df <- chron_comp[[1]][2:9,]

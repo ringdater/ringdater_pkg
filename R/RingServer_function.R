@@ -95,6 +95,7 @@ RingServer <- function(input, output, session) {
   observe({
     if (input$close > 0) stopApp()                             # stop shiny
   })
+  session$onSessionEnded(stopApp)
 
   # jump to Pairwise page from starting point when Pairwise initiiated
   # observeEvent(input$Go_pairwise, {
