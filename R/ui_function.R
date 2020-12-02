@@ -230,7 +230,7 @@ ui <- function(){
                                            column(3,
                                                   box( width = NULL, title = h2(id = "st_pt_h2_6","Step 4: Choose analysis pathway"), status = "primary",
                                                       solidHeader = TRUE,
-                                                      selectInput("mode_select", label = "", choices = list("Pairwise Anlysis Mode"=1, "Chronology Analysis Mode"=2), selected = 1),
+                                                      selectInput("mode_select", label = "", choices = list("Pairwise Analysis Mode"=1, "Chronology Analysis Mode"=2), selected = 1),
                                                       actionButton("Go_pairwise", h4(id = "st_pt_h4_17","Run the analyses"), icon = icon("rocket"))
                                                       ),
                                                   box( width = NULL, title = h2(id = "st_pt_h2_7","Alt. step: Evaluate the loaded chronology"), status = "primary",
