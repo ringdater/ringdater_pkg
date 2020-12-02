@@ -2483,7 +2483,7 @@ observe({
                               p("You are currently running RingdateR V1.1 beta (30th September 2019)."),
 
                               tags$b(p("Bugs and updates")),
-                              p("TThis version is a beta version for testing. Please let us know if there are any bugs
+                              p("This version is a beta version for testing. Please let us know if there are any bugs
                                 or features that you would like to be added to RingdateR. You can contact us by emailing
                                 davidreynolds@email.arizona.edu"),
 
@@ -2500,8 +2500,7 @@ observe({
                                 the Launch Page, and at the top of every Quick Help popup."),
 
                               tags$b(p("Privacy statement")),
-                              p("RingdateR does n0
-                              t store any user information. RingdateR online is run on a shinyapps.
+                              p("RingdateR does not store any user information. RingdateR online is run on a shinyapps.
                                 io server, essentially, in the same way that a user runs an R session on their local computer.
                                 This means that data uploaded into RingdateR online during a session will be deleted once the
                                 session is finished (either by closing the browser window or clicking the kill switch on the
@@ -2665,7 +2664,7 @@ observe({
 
                               p("Samples can be selected for plotting using either the manual sample selection method or by selecting
                                 a row from the main results table at the bottom of the page. To switch between these options use the
-                                [Selection options] drop down menu.."),
+                                [Selection options] drop down menu."),
 
                               p("Once two series have been selected, series two (shown as the red line in the line plot) is aligned
                                 in time relative to sample one. It is possible to control the alignment of the two samples using the
