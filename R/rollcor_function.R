@@ -24,11 +24,6 @@ rollcor <- function (x, y, width, show = TRUE, ...) {
     # cc[i] <- cor(coredata(x)[start : end], coredata(y)[start : end], ...)
     cc[i] <- cor(x[start : end], y[start : end], ...)
   }
-  # if (show == TRUE) {
-  #   grDevices::dev.new()
-  #   plot(cc, type = 'o', main = 'Sliding Correlations', xlab = 'Time', ylab = '')
-  #   return(invisible(cc))
-  # } else {
-    return(cc)
-  #}
+
+  return(cc)
 }
