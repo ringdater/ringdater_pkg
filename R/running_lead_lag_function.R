@@ -11,7 +11,6 @@
 #' @param complete A boolean to classify whether to run the lead-lag over the maximum range of
 #' leads and lags between the two selected samples
 #' @param win The window with which the running correlations are calculated over
-#' @importFrom zoocat rollcor
 #' @importFrom zoo rollmean
 #' @export
 #' @examples

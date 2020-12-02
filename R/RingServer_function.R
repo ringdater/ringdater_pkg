@@ -15,7 +15,6 @@
 #' @importFrom stats complete.cases
 #' @importFrom dplyr select
 #' @importFrom zoo rollmean
-#' @importFrom zoocat rollcor
 #' @importFrom shinyalert shinyalert
 #' @importFrom DescTools %like%
 #' @importFrom grid grid.draw
