@@ -115,8 +115,6 @@ ui <- function(){
                 ),
 
                 dashboardSidebar(useShinyjs(),
-                   useShinyalert(),
-
                                   tags$h2(id = "side_h2_1","Plot options"),
                                   numericInput("text.size", label = h2(id = "side_h2_2","Plot text size"), value = 12, min = 1, max = 48), # changes the plot text size
                                   h2(id = "text_help", "Text size should be > 0"),
@@ -139,7 +137,7 @@ ui <- function(){
                                            fluidRow(box(width=10, height = "100px", title = h3(id = "st_pt_h3_1", "Welcome to RingdateR (V0.1.0)", actionButton("st_general_hlp", h6("I - Quick Help/about")))),
 
                                                     div(style = "text-align: center; font-size:18px",
-                                                        actionButton("close",label = tags$b(p("Stop RingdateR.")), icon = icon("fas fa-skull fa-2x"), onclick = "setTimeout(function(){window.close();},500);",
+                                                        actionButton("close",label = tags$b(p("Stop RingdateR.")), icon = icon("fas fa-skull fa-2x", verify_fa = FALSE), onclick = "setTimeout(function(){window.close();},500);",
                                                                      style ="white-space: normal;
                                                                               width: 250px;
 
@@ -247,7 +245,7 @@ ui <- function(){
                                                          circle = FALSE, status = NULL,
                                                          label =h4("Report settings"),
                                                          inputId = "mydropdown",
-                                                         icon = icon("gear"), width = "400px"
+                                                         icon = icon("gear", verify_fa = FALSE), width = "400px"
                                                        )),
                                                        div(style="display:inline-block; float:right;", downloadButton("chron_evaluate", h4(id = "st_pt_h4_17","Produce report"), icon = icon("rocket")))
 
@@ -462,7 +460,7 @@ ui <- function(){
                                                           circle = FALSE, status = NULL,
                                                           label =h4("Report settings"),
                                                           inputId = "mydropdown",
-                                                          icon = icon("gear"), width = "400px"
+                                                          icon = icon("gear", verify_fa = FALSE), width = "400px"
                                                         )),
                                                         div(style="display:inline-block", downloadButton("summary_report_tmp", h4(id="al_dt_h4_20","Save summary report"))),
 
