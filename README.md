@@ -2,7 +2,7 @@
 Authors: David Reynolds, David Edge, Bryan Black
 Development build - Experimental
 
-Current Version: 0.1.1
+Current Version: 1.1
 
 Last updated: 30-5-24
 
