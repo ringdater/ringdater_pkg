@@ -3,7 +3,10 @@ Authors: David Reynolds, David Edge, Bryan Black
 
 Current Version: 0.1.0
 
-Last updated: 2-12-20
+Last updated: 13-6-22
+
+contact: d.reynolds2@exeter.ac.uk
+
   <!-- badges: start -->
   [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/ringdater/ringdater_pkg?branch=master&svg=true)](https://ci.appveyor.com/project/ringdater/ringdater_pkg)
   
