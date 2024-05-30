@@ -115,7 +115,7 @@ ui <- function(){
                 ),
 
                 dashboardSidebar(useShinyjs(),
-                   useShinyalert(),
+                   #ßuseShinyalert(),
 
                                   tags$h2(id = "side_h2_1","Plot options"),
                                   numericInput("text.size", label = h2(id = "side_h2_2","Plot text size"), value = 12, min = 1, max = 48), # changes the plot text size
@@ -189,6 +189,8 @@ ui <- function(){
                                                                 accept=c('text/csv', 'text/comma-separated- values,text/plain', '.csv', '.pos', '.lps', '.rwl', '.txt', '.xlsx')),
                                                       tags$hr(),
                                                       checkboxInput("pair_detrend", h4(id = "st_pt_h4_10", "Apply detrending"), TRUE),
+                                                      checkboxInput("apply_yrs", h4(id = "st_pt_h4_4", "Apply loaded years"), FALSE),
+                                                      checkboxInput("avg_replicates", h4(id = "st_pt_h4_4", "Average RingMeasurer Replicates"), TRUE),
                                                       selectInput("year_inc_select", h4(id = "st_pt_h4_11", "First column is years or increment count?"), choices = list("Years" = 1, "Increment count" = 2), selected = 1),
                                                       tags$hr()
 
@@ -263,6 +265,7 @@ ui <- function(){
                                            tabsetPanel(
                                              tabPanel(h4("Undated series"), value ="mand",
                                                       fluidRow(box(width=12,
+                                                                   downloadButton('download_undated_raw',label=h4(id = "ld_dt_h4_1","Save Undaed series (as .CSV)")),
                                                                    div(tableOutput("undated_data_table"), style = "font-size:24px")))),
                                              tabPanel(h4("Chronology data"), value ="chrono",
                                                       div(tableOutput("loaded_chronology_data_table"), style = "font-size:24px")),

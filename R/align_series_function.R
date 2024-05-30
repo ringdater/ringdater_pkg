@@ -109,7 +109,7 @@ align_series<-function(the_data, cross_dates, sel_target){
     tmp<-the_data[[sample_ID[i]]]
     tmp<-subset(tmp,(!is.na(tmp)))
 
-    min_date<-ser_dates[i,2]
+    min_date <-  ser_dates[i,2]
     dif<- abs(min_date - min_new_yr)
 
     if (dif>=1){
@@ -117,7 +117,7 @@ align_series<-function(the_data, cross_dates, sel_target){
       tmp<-c(NA_ser,tmp)
     }
     aligned_data<-comb.NA(aligned_data,tmp, fill = NA)
-    tmmp<-NULL
+    tmp<-NULL
   }
 
   colnames(aligned_data)<-c("Year", sample_ID)

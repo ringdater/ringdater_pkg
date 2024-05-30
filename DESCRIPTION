@@ -11,7 +11,7 @@ Description: An interactive application (Shiny app) for visual and statistical c
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.1
 Depends: R (>= 4.0.0)
 Suggests: 
     knitr,
@@ -43,4 +43,3 @@ Imports:
     xml2,
     zoo,
     shiny,
-    

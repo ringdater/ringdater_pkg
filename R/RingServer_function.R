@@ -218,10 +218,17 @@ RingServer <- function(input, output, session) {
         # make sure that the first column contains a continuous ring count for the full length of all the loaded undated chronologies.
         if (ncol(undated$df_data)<1){
           undated$df_data <- loaded_data
-        } else {undated$df_data <- comb.NA(undated$df_data, loaded_data[,-1], fill = NA) }
-        undated$df_data[,1]<-c(undated$df_data[1,1]:(undated$df_data[1,1] + nrow(undated$df_data) - 1))
 
-        detrended_undated$df_data <- undated$df_data
+        } else {
+          if (!input$apply_yrs){
+            undated$df_data <- comb.NA(undated$df_data, loaded_data[,-1], fill = NA)
+            undated$df_data[,1] <- c(undated$df_data[1,1]:(undated$df_data[1,1] + nrow(undated$df_data) - 1))
+          } else {
+            undated$df_data <- align_undated_load(undated$df_data, loading_df_data)
+          }
+        }
+
+          detrended_undated$df_data <- undated$df_data
       }
 
       # Load individual undated series (i.e. not undated chronologies)
@@ -233,18 +240,23 @@ RingServer <- function(input, output, session) {
         loaded_data<- as.data.frame(load_undated(files = input$file1$datapath,
                                                  series_names = input$file1$name,
                                                  col1 = col1,
-                                                 shiny = TRUE))
+                                                 shiny = TRUE,
+                                                 avg_ser = input$avg_replicates))
 
         if (ncol(undated$df_data)<1){
-
           undated$df_data <- loaded_data
-        } else {
-          undated$df_data <- comb.NA(undated$df_data, loaded_data[,-1], fill = NA)
 
+        } else {
+          if (!input$apply_yrs){
+            undated$df_data <- comb.NA(undated$df_data, loaded_data[,-1], fill = NA)
+          } else {
+            undated$df_data <- align_undated_load(undated$df_data, loaded_data)
+          }
+########
           if (ncol(loaded_data)==2){
             colnames(undated$df_data)[ncol(undated$df_data)]<-colnames(loaded_data)[2]
           }
-
+########
           }
           undated$df_data[,1]<-c(undated$df_data[1,1]:(undated$df_data[1,1] + nrow(undated$df_data) - 1))
 
@@ -339,7 +351,7 @@ RingServer <- function(input, output, session) {
       need(input$splinewindow < 201, "Splinewindow is too large"),
       need(input$splinewindow > 5, "Splinewindow is too small")
     )
-    if ((ncol(undated$df_data)<=2) || (is.null(pairwise_data_check(undated$df_data)))){ NULL
+    if ((ncol(undated$df_data)<2) || (is.null(pairwise_data_check(undated$df_data)))){ NULL
     } else {
       if (input$multi_chron==2){
         detrended.data    <- undated$df_data
@@ -939,7 +951,7 @@ observe({
       return(plot1)
     } else {
 
-      if (input$mode_select == 1){the.data <-detrending()
+      if (input$mode_select == 1){the.data <- detrending()
       } else if (input$mode_select == 2){the.data <- chron_n_undated$df_data}
 
       cross_dates<-master_res_sort()
@@ -2136,7 +2148,7 @@ observe({
 
   output$remove_initiated_series <- downloadHandler(
     filename = function() {
-      paste("data-", Sys.Date(), ".csv", sep="")
+      paste("undated_series_", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
       write.csv(initiated_removed_frame(), file, row.names = FALSE)
@@ -2144,9 +2156,21 @@ observe({
     }
   )
 
+
+  output$download_undated_raw <- downloadHandler(
+    filename = function() {
+      paste("Undated_compiled_data_", Sys.Date(), ".csv", sep="")
+    },
+    content = function(file) {
+      write.csv(undated$df_data, file, row.names = FALSE)
+      rv$download_flag <- TRUE
+    }
+  )
+
+
   output$pairwise_res_download <- downloadHandler(
     filename = function() {
-      paste("data-", Sys.Date(), ".csv", sep="")
+      paste("RingdateR_results_", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
       write.csv(interseries_filt()[,-5], file, row.names = FALSE)
@@ -2166,7 +2190,7 @@ observe({
 
   output$initiated.chrono.detrend <- downloadHandler(
     filename = function() {
-      paste("data-", Sys.Date(), ".csv", sep="")
+      paste("detrended_chrono", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
       write.csv(detrended_initiated_chrono(), file, row.names = FALSE)
@@ -2176,11 +2200,20 @@ observe({
 
   output$download_detrend <- downloadHandler(
     filename = function() {
-      paste("data-", Sys.Date(), ".csv", sep="")
+      paste("detrended_data_", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
-      write.csv(detrending(), file, row.names = FALSE)
-      rv$download_flag <- TRUE
+      if(ncol(detrended_undated$df_data) <2){
+        test <- data.frame(x= 1:5, y = 1:5)
+        write.csv(test, file, row.names = FALSE)
+        rv$download_flag <- TRUE
+      }
+      else {
+        write.csv(detrended_undated$df_data, file, row.names = FALSE)
+        rv$download_flag <- TRUE
+      }
+      # write.csv(detrending(), file, row.names = FALSE)
+      # rv$download_flag <- TRUE
     }
   )
 

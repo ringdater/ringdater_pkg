@@ -13,7 +13,7 @@
 #' undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")
 #' load_undated(undated_path)
 
-load_undated<-function(files, col1 = "ring", series_names = NULL, shiny = FALSE){
+load_undated<-function(files, col1 = "ring", series_names = NULL, shiny = FALSE, avg_ser = TRUE){
 
     loading_df_data <- data.frame(NULL)
     undated_df_data <- data.frame(NULL)
@@ -67,7 +67,14 @@ load_undated<-function(files, col1 = "ring", series_names = NULL, shiny = FALSE)
         loading_df_data<-as.data.frame(read_excel(files[k], sheet = 1, na ="NA" ))
 
       } else  if (ftype=="csv"){
-        loading_df_data<-read.csv(files[k], header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+        # check if the file is from Ring Measurer
+        #print("load_check")
+        tmp <- read.csv(files[k], header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+        #loading_df_data <- check_load_ringmeasurer_data(tmp)
+
+        loading_df_data <- check_load_ringmeasurer_data(tmp, avg_series = avg_ser)
+
+
 
       } else if (ftype == "lsx"){
         loading_df_data<-as.data.frame(read_excel(files[k], sheet = 1, na ="NA" ))
@@ -89,7 +96,16 @@ load_undated<-function(files, col1 = "ring", series_names = NULL, shiny = FALSE)
         old_names<-colnames(undated_df_data)
         new_names<-colnames(loading_df_data)[-1] # remove the year column name
   #      # Add the new undated chronology to the data.frame and then recombine the column names
-        undated_df_data <- comb.NA(undated_df_data, loading_df_data[,-1], fill = NA)
+
+        ########################################################################
+        if (!input$apply_yrs){
+          undated_df_data <- comb.NA(undated_df_data, loading_df_data[,-1], fill = NA)
+        } else if (input$apply_yrs){
+          # align the data in time if the option is set to keepo the year values
+
+          undated_df_data <- align_undated_load(undated_df_data, loading_df_data)
+        }
+        ########################################################################
         colnames(undated_df_data)<-c(old_names,new_names)
       }
 
