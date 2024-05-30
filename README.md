@@ -1,7 +1,8 @@
 # RingdateR Read Me
 Authors: David Reynolds, David Edge, Bryan Black
+Development build - Experimental
 
-Current Version: 0.1.0
+Current Version: 0.1.1
 
 Last updated: 13-6-22
 
