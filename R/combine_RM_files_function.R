@@ -1,8 +1,8 @@
-#' Loada bunch of Ring MEasurer measurement files in to a single CSV file
+#' Load a bunch of Ring Measurer measurement files in to a single CSV file
 #'
 #' This function creates a dataframe containing ring width data.
 #' @keywords RingdateR Ring Measurer
-#' @importFrom magrittr %<>%
+# #' @importFrom magrittr %<>%
 #' @param path A string containing the path for a directory containing measurement files - these can be in subdirectoriers
 #' @export
 #' @examples

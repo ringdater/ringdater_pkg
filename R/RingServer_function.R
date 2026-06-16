@@ -1033,9 +1033,9 @@ observe({
       }
 
       plot1<-ggplot()+
-        geom_line(data = series_1, aes(x=series_1[,1], y=series_1[,2]), na.rm=TRUE, colour="black", size = plot_line) + labs(title = plot.title) +
-        geom_line(data = series_2, aes(x=series_2[,1], y=series_2[,2]), na.rm=TRUE, colour="red", size = plot_line) +
-        R_dateR_theme(text.size = as.numeric(font_size) + 4, line.width = as.numeric(axis_line_width)) +
+        geom_line(data = series_1, aes(x=series_1[,1], y=series_1[,2]), na.rm=TRUE, colour="black", linewidth = plot_line) + labs(title = plot.title) +
+        geom_line(data = series_2, aes(x=series_2[,1], y=series_2[,2]), na.rm=TRUE, colour="red", linewidth = plot_line) +
+        R_dateR_theme(text_size = as.numeric(font_size) + 4, line_width = as.numeric(axis_line_width)) +
         ylab("Standardised increment width") + xlab(x.lab) +
         scale_x_continuous(breaks = x.scale.bar(round(min(x_axis_line_func()), -1), round(max(x_axis_line_func()), -1)))
 
@@ -1307,8 +1307,9 @@ observe({
 
 
       # Plot a heat map of the correlations
-      plot2<-ggplot(plot.data, aes(x=plot.data[,1], y=plot.data[,2]), na.rm=TRUE) + geom_raster(aes(fill = plot.data[,3])) +
-        R_dateR_theme(text.size = as.numeric(font_size) + 4, line.width = as.numeric(axis_line_width)) +
+      plot2<-ggplot(plot.data, aes(x=plot.data[,1], y=plot.data[,2])) +
+        geom_raster(aes(fill = plot.data[,3]), na.rm = TRUE) +
+        R_dateR_theme(text_size = as.numeric(font_size) + 4, line_width = as.numeric(axis_line_width)) +
         scale_fill_gradientn(colours = col_scale, limits = c(-1,1)) +labs(fill = "Correl. (R)", x = x.lab, y= y.lab)  +
         scale_y_continuous(breaks = seq(min(y.data), max(y.data), by = 2)) +
         scale_x_continuous(breaks = x.scale.bar(round(min(plot.data[,1]), -1), round(max(plot.data[,1]), -1)))
@@ -1342,7 +1343,7 @@ observe({
 
     return(ggplot()+
              geom_bar(data=test, aes(x=test[,1], weight= (test[,4])), fill= "black", na.rm=TRUE) +
-             R_dateR_theme(text.size = as.numeric(font_size), line.width = as.numeric(axis_line_width)) +
+             R_dateR_theme(text_size = as.numeric(font_size), line_width = as.numeric(axis_line_width)) +
              ylab("T_val") + xlab("Lag (Year)") +
              geom_bar(data=best, aes(x=best[,1], weight= (best[,4])), fill= "red", na.rm=TRUE) +
              geom_bar(data=second, aes(x=second[,1], weight= (second[,4])), fill= "blue", na.rm=TRUE) +
@@ -1554,8 +1555,9 @@ observe({
 
       } else {
 
-        plot2<-ggplot(plot.data, aes(x=plot.data[,1], y=plot.data[,2]), na.rm=TRUE) + geom_raster(aes(fill = plot.data[,3])) +
-          R_dateR_theme(text.size = as.numeric(font_size), line.width = as.numeric(axis_line_width)) +
+        plot2<-ggplot(plot.data, aes(x=plot.data[,1], y=plot.data[,2])) +
+          geom_raster(aes(fill = plot.data[,3]), na.rm=TRUE) +
+          R_dateR_theme(text_size = as.numeric(font_size), line_width = as.numeric(axis_line_width)) +
           scale_fill_gradientn(colours = col_scale, limits = c(-1,1)) +labs(fill = "Correl. (R)", x = x.lab, y= y.lab, title=plot.title) +
           scale_x_continuous(breaks = x.scale.bar(round(min(plot.data[,1]),-1), round(max(plot.data[,1]),-1))) +
           scale_y_continuous(breaks = y.scale.bar(min(plot.data[,2]),max(plot.data[,2])))
@@ -1709,10 +1711,10 @@ observe({
     plot_data<-dated_line_plot(the_data)
 
     plot_1<-ggplot()+
-      geom_line(data = plot_data, aes(x=plot_data[,3], y = plot_data[,2], group = plot_data[,1]), size = plot.line, colour = "black") +
+      geom_line(data = plot_data, aes(x=plot_data[,3], y = plot_data[,2], group = plot_data[,1]), linewidth = plot.line, colour = "black") +
       geom_point(data = plot_data, aes(x=plot_data[,3], y = plot_data[,2], group = plot_data[,1]), size = plot.line, colour = "black") +
       geom_text(data = plot_data, aes(x=max(plot_data[,3])+20, y = plot_data[,2], group = plot_data[,1], label = plot_data[,1]), size = sample_id) +
-      R_dateR_theme(text.size = ft_size, line.width = line.width, l=20) + xlab("Year") + ylab("Number of samples") +
+      R_dateR_theme(text_size = ft_size, line_width = line.width, l=20) + xlab("Year") + ylab("Number of samples") +
       scale_x_continuous(breaks = x.scale.bar(round(min(plot_data[,3]), -1), round(max(plot_data[,3]), -1)))
 
     if (input$reevaluate>=1){
@@ -1727,7 +1729,7 @@ observe({
           prob_samps<-rbind(prob_samps,tmp)
           a<-a+1
         }
-        plot_1<-plot_1 + geom_line(data = prob_samps, aes(x=prob_samps[,3], y = prob_samps[,2], group = prob_samps[,1]), size = plot.line, colour = "red") +
+        plot_1<-plot_1 + geom_line(data = prob_samps, aes(x=prob_samps[,3], y = prob_samps[,2], group = prob_samps[,1]), linewidth = plot.line, colour = "red") +
           geom_point(data = prob_samps, aes(x=prob_samps[,3], y = prob_samps[,2], group = prob_samps[,1]), colour = "red")
 
       }
@@ -1835,9 +1837,9 @@ observe({
       max_x_val<-c(max(new.chrono[,1], prob_sample[,1]))
 
       plot1<-ggplot()+
-        geom_line(data=new.chrono, aes(x=new.chrono[,1], y = new.chrono[,2]), color="red", size =  input$plot.line, na.rm=TRUE ) +
-        geom_line(data=prob_sample, aes(x=prob_sample[,1], y = prob_sample[,2]), color="black", size = input$plot.line, na.rm=TRUE) +
-        R_dateR_theme(text.size = input$text.size + 4,line.width = input$line.width,l = 20) +
+        geom_line(data=new.chrono, aes(x=new.chrono[,1], y = new.chrono[,2]), color="red", linewidth =  input$plot.line, na.rm=TRUE ) +
+        geom_line(data=prob_sample, aes(x=prob_sample[,1], y = prob_sample[,2]), color="black", linewidth = input$plot.line, na.rm=TRUE) +
+        R_dateR_theme(text_size = input$text.size + 4,line_width = input$line.width,l = 20) +
         scale_x_continuous(breaks = x.scale.bar(round(min(min_x_val),-1),round(max(max_x_val),-1)), limits = c(input$initiated_chron_plot_min_X,input$initiated_chron_plot_max_X)) +
         xlab("Year") + ylab("Standardised growth index") + labs(title = paste0("Mean chronology (red line), ", input$align_prob_samp, " (black line)"))
     }
@@ -1938,8 +1940,9 @@ observe({
       col_scale <- col_pal(input$pairwise_colour_scale)
 
       # Plot a heat map of the correlations
-      plot2<-ggplot(plot.data, aes(x=plot.data[,1], y=plot.data[,2]), na.rm=TRUE) + geom_raster(aes(fill = plot.data[,3])) +
-        R_dateR_theme(text.size = input$text.size + 4, line.width = input$line.width) +
+      plot2<-ggplot(plot.data, aes(x=plot.data[,1], y=plot.data[,2])) +
+        geom_raster(aes(fill = plot.data[,3]), na.rm = TRUE) +
+        R_dateR_theme(text_size = input$text.size + 4, line_width = input$line.width) +
         scale_fill_gradientn(colours = col_scale, limits = c(-1,1)) +labs(fill = "Correl. (R)", x = x.lab, y= y.lab)  +
         scale_y_continuous(breaks = seq(min(y.data), max(y.data), by = 2)) +
         scale_x_continuous(breaks = x.scale.bar(round(min(plot.data[,1]),-1),round(max(plot.data[,1]),-1)))
@@ -2003,9 +2006,9 @@ observe({
       } else {x.lab<-"Increment number" }
 
       plot1<-  ggplot()+
-        geom_line(data = new, aes(x = new[,1], y = new[,2], group = new[,3]), size = plot.line, alpha = 0.5, na.rm=TRUE) +
-        R_dateR_theme(text.size = text.size, line.width = line.width,l=20) +
-        geom_line(data=chron_dat, aes(x=chron_dat[,1], y=chron_dat[,2]), colour = "red", size = plot.line+0.25, na.rm=TRUE) +
+        geom_line(data = new, aes(x = new[,1], y = new[,2], group = new[,3]), linewidth = plot.line, alpha = 0.5, na.rm=TRUE) +
+        R_dateR_theme(text_size = text.size, line_width = line.width,l=20) +
+        geom_line(data=chron_dat, aes(x=chron_dat[,1], y=chron_dat[,2]), colour = "red", linewidth = plot.line+0.25, na.rm=TRUE) +
         ylab("Standardised increment width") + xlab(x.lab) +
         scale_x_continuous(breaks = x.scale.bar(round(min(new[,1]),-1),round(max(new[,1]),-1)))
 
@@ -2015,11 +2018,11 @@ observe({
       } else {
 
         plot2<-ggplot()+
-          geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,4]), size=plot.line, na.rm=TRUE)+
-          geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,5]), size=plot.line, na.rm=TRUE, color="red") +
-          R_dateR_theme(text.size = text.size, line.width = line.width,l=20)  +
+          geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,4]), linewidth=plot.line, na.rm=TRUE)+
+          geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,5]), linewidth=plot.line, na.rm=TRUE, color="red") +
+          R_dateR_theme(text_size = text.size, line_width = line.width,l=20)  +
           scale_x_continuous(breaks = x.scale.bar(round(min(new[,1]),-1),round(max(new[,1]),-1)), limits = c(min(new[,1]),max(new[,1]))) +
-          geom_hline(yintercept = 0.85, colour = "red",linetype = 2, size=plot.line) + ylab("Rbar and EPS") + xlab("Year")
+          geom_hline(yintercept = 0.85, colour = "red",linetype = 2, linewidth=plot.line) + ylab("Rbar and EPS") + xlab("Year")
 
       }
 

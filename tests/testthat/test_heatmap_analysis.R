@@ -10,5 +10,5 @@ test_that("heatmap_analysis generates a running correlation heatmap", {
  graph <- heatmap_analysis(the_data = undated, s1 = colnames(undated)[2], s2 = colnames(undated)[3],
                   neg_lag = -20, pos_lag = 20, win = 21, complete = FALSE)
 
- expect_equal(class(graph)[1], "gg")
+ expect_match(class(graph)[1], "ggplot")
 })

@@ -12,6 +12,9 @@
 #' @param plot_line A numeric integer to define the thickness of the plotted lines
 #' @param ARmod a boolean to dictate wheteher or not to apply AR1 pre-whitening.
 #' @param logT A boolean to dictate whether or not to log transform the detrended data.
+#' @import ggplot2
+#' @import grid
+#' @import gridExtra
 #' @examples
 #' path <- system.file("extdata", "undated_example.csv", package="ringdater")
 #' the_data <- load_undated(path)
@@ -61,22 +64,22 @@ detrending.plot.fun<- function(undet.data, first_series, detrending_select = 3, 
   x.lab<-"Increment number"
 
   plot1<- ggplot()+
-    geom_line(data = undet.data, aes(x = undet.data[,1], y = undet.data[,2]), na.rm=TRUE, alpha =0.75, size = plot_line) +
-    geom_line(data = curve, aes(x = curve[,1], y = curve[,2]), na.rm=TRUE, size = plot_line+0.5)+
-    R_dateR_theme(text.size = font_size, line.width = axis_line_width,l=20) +
+    geom_line(data = undet.data, aes(x = undet.data[,1], y = undet.data[,2]), na.rm=TRUE, alpha =0.75, linewidth = plot_line) +
+    geom_line(data = curve, aes(x = curve[,1], y = curve[,2]), na.rm=TRUE, linewidth = plot_line+0.5)+
+    R_dateR_theme(text_size = font_size, line_width = axis_line_width,l=20) +
     labs(title = paste0(first_series, " raw data. Thick black line = the detrneding curve applied")) + ylab("Increment width") + xlab(x.lab) +
     scale_x_continuous(breaks = x.scale.bar(min(as.numeric(undet.data[,1])), max(as.numeric(undet.data[,1]))))
 
   plot2<- ggplot()+
-    geom_line(data = det_nd, aes(x = det_nd[,1], y = det_nd[,2]), na.rm=TRUE, alpha =1, size = plot_line, colour = "red") +
-    R_dateR_theme(text.size = font_size, line.width = axis_line_width,l=20) +
+    geom_line(data = det_nd, aes(x = det_nd[,1], y = det_nd[,2]), na.rm=TRUE, alpha =1, linewidth = plot_line, colour = "red") +
+    R_dateR_theme(text_size = font_size, line_width = axis_line_width,l=20) +
     labs(title = "Detrended data") + ylab("Increment width") + xlab(x.lab) +
     scale_x_continuous(breaks = x.scale.bar(min(as.numeric(undet.data[,1])), max(as.numeric(undet.data[,1]))))
 
   plot3 <- ggplot()+
-    geom_line(data = raw_auto, aes(x = raw_auto[,1], y = raw_auto[,2]), na.rm=TRUE, size = plot_line) +
-    geom_line(data = det_aut, aes(x = det_aut[,1], y = det_aut[,2]), na.rm=TRUE, size = plot_line, colour = "red") +
-    R_dateR_theme(text.size = font_size, line.width = axis_line_width,l=20) +xlab("lag (Year)") + ylab("Correl. (R)") +
+    geom_line(data = raw_auto, aes(x = raw_auto[,1], y = raw_auto[,2]), na.rm=TRUE, linewidth = plot_line) +
+    geom_line(data = det_aut, aes(x = det_aut[,1], y = det_aut[,2]), na.rm=TRUE, linewidth = plot_line, colour = "red") +
+    R_dateR_theme(text_size = font_size, line_width = axis_line_width,l=20) +xlab("lag (Year)") + ylab("Correl. (R)") +
     labs(title="Black line = raw data auto correlation; Red line = detrended data autocorrelation") +
     scale_x_continuous(breaks = c(0:10))
 

@@ -36,7 +36,7 @@ test_that("plotting_sing_hm plots a running lead lag correaltion heat map", {
                                               neg_lag = -20,
                                               pos_lag = 20,
                                               sel_col_pal = 1,
-                                              leg_size = 1))[1], "gg")
+                                              leg_size = 1))[1], "ggplot2::ggplot")
   # Null data
   expect_error(plotting_sing_hm(plot.data = NULL,
                                 the_data = chrono_det,

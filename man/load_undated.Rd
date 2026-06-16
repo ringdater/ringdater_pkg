@@ -4,7 +4,13 @@
 \alias{load_undated}
 \title{Load multiple undated series into a single data frame}
 \usage{
-load_undated(files, col1 = "ring", series_names = NULL, shiny = FALSE)
+load_undated(
+  files,
+  col1 = "ring",
+  series_names = NULL,
+  shiny = FALSE,
+  avg_ser = TRUE
+)
 }
 \arguments{
 \item{files}{A list of set of files pathsas a character strings}
@@ -14,6 +20,8 @@ load_undated(files, col1 = "ring", series_names = NULL, shiny = FALSE)
 \item{series_names}{The file names, only used in the shiny server function.}
 
 \item{shiny}{a logical to set series names. If running in cosole can be ignored.}
+
+\item{avg_ser}{a boolean to determine if Ringmeasurer data should be averaged}
 }
 \description{
 This function creates a dataframe containing the data from multiple files loaded at one.

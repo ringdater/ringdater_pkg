@@ -7,36 +7,36 @@ test_that("R_dateR_theme modifies the ggplot theme", {
 
   expect_equal(class(ggplot(data = plot_data, aes(x = x, y=y))+
                        geom_point() +
-                       R_dateR_theme(text.size = 12,
-                                     line.width = 1,
+                       R_dateR_theme(text_size = 12,
+                                     line_width = 1,
                                      l = 10,
-                                     leg_size = 1))[1], "gg")
+                                     leg_size = 1))[1], "ggplot2::ggplot")
 
   expect_error(ggplot(data = plot_data, aes(x = x, y=y))+
                        geom_point() +
-                       R_dateR_theme(text.size = "not a number",
-                                     line.width = 1,
+                       R_dateR_theme(text_size = "not a number",
+                                     line_width = 1,
                                      l = 10,
                                      leg_size = 1))
 
   expect_error(ggplot(data = plot_data, aes(x = x, y=y))+
                    geom_point() +
-                   R_dateR_theme(text.size = 12,
-                                 line.width = "not a number",
+                   R_dateR_theme(text_size = 12,
+                                 line_width = "not a number",
                                  l = 10,
                                  leg_size = 1))
 
   expect_error(ggplot(data = plot_data, aes(x = x, y=y))+
                    geom_point() +
-                   R_dateR_theme(text.size = 12,
-                                 line.width = 1,
+                   R_dateR_theme(text_size = 12,
+                                 line_width = 1,
                                  l = "not a number",
                                  leg_size = 1))
 
   expect_error(ggplot(data = plot_data, aes(x = x, y=y))+
                    geom_point() +
-                   R_dateR_theme(text.size = 12,
-                                 line.width = 1,
+                   R_dateR_theme(text_size = 12,
+                                 line_width = 1,
                                  l = 10,
                                  leg_size = "not a number"))
 

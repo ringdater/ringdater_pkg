@@ -81,7 +81,7 @@ if (nrow(chron_detrended$df_data<1)){
   }
 
   
-  plot1 <- plot_all_series(chron_data, text.size = 8, plot.line = 0.5, line.width = 0.5)
+  plot1 <- plot_all_series(chron_data, text_size = 8, plot_line = 0.5, line_width = 0.5)
   
   if(is.null(N.plot.dat) || ncol(N.plot.dat)<2){
         plot2<-RingdateR_error_message(message="EPS and Rbar windowlength error.")
@@ -91,7 +91,7 @@ if (nrow(chron_detrended$df_data<1)){
       plot2<-ggplot()+
           geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,4]), size=0.75, na.rm=TRUE)+
         geom_line(data=N.plot.dat, aes(x=N.plot.dat[,1], y=N.plot.dat[,5]), size=0.75, na.rm=TRUE, color="red") +
-        R_dateR_theme(text.size = 8, line.width = 0.5, l=20)  +
+        R_dateR_theme(text_size = 8, line_width = 0.5, l=20)  +
         scale_x_continuous(breaks = x.scale.bar(round(min(chron_data[,1]),-1),round(max(chron_data[,1]),-1)), limits = c(min(chron_data[,1]),max(chron_data[,1]))) +
         geom_hline(yintercept = 0.85, colour = "red",linetype = 2, size=0.75) + ylab("Rbar and EPS") + xlab("Year")
     } 
@@ -125,7 +125,7 @@ plot_1<-ggplot()+
       geom_line(data = plot_data, aes(x=plot_data[,3], y = plot_data[,2], group = plot_data[,1]), size = 0.75, colour = "black") +
       geom_point(data = plot_data, aes(x=plot_data[,3], y = plot_data[,2], group = plot_data[,1]), size = 0.75, colour = "black") +
      # geom_text(data = plot_data, aes(x=max(plot_data[,3])+20, y = plot_data[,2], group = plot_data[,1], label = plot_data[,1]), size = 3) +
-      R_dateR_theme(text.size = 8, line.width = 0.5, l=20) + xlab("Year") + ylab("Number of samples") +
+      R_dateR_theme(text_size = 8, line_width = 0.5, l=20) + xlab("Year") + ylab("Number of samples") +
       scale_x_continuous(breaks = x.scale.bar(round(min(plot_data[,3]), -1), round(max(plot_data[,3]), -1)))
 
 print(plot_1)

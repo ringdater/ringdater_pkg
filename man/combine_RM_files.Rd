@@ -2,7 +2,7 @@
 % Please edit documentation in R/combine_RM_files_function.R
 \name{combine_RM_files}
 \alias{combine_RM_files}
-\title{Loada bunch of Ring MEasurer measurement files in to a single CSV file}
+\title{Load a bunch of Ring Measurer measurement files in to a single CSV file}
 \usage{
 combine_RM_files(path)
 }

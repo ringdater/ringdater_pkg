@@ -64,8 +64,9 @@ plotting_sing_hm<- function(plot.data , the_data, s1, s2, font_size = 12, axis_l
 
     # Plot a heat map of the correlations
 
-    plot2<-ggplot(plot.data, aes(x=plot.data[,1], y=plot.data[,2]), na.rm=TRUE) + geom_raster(aes(fill = plot.data[,3])) +
-      R_dateR_theme(text.size = as.numeric(font_size), line.width = as.numeric(axis_line_width), leg_size = leg_size) +
+    plot2<-ggplot(plot.data, aes(x=plot.data[,1], y=plot.data[,2])) +
+      geom_raster(aes(fill = plot.data[,3]), na.rm=TRUE) +
+      R_dateR_theme(text_size = as.numeric(font_size), line_width = as.numeric(axis_line_width), leg_size = leg_size) +
       scale_fill_gradientn(colours = col_scale, limits = c(-1,1)) +labs(fill = "Correl. (R)", x = x.lab, y= y.lab, title=plot.title) +
       scale_x_continuous(breaks = x.scale.bar(round(min(plot.data[,1]),-1), round(max(plot.data[,1]),-1))) +
       scale_y_continuous(breaks = y.scale.bar(min(plot.data[,2]),max(plot.data[,2])))

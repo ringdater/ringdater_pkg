@@ -1,0 +1,188 @@
+:root {
+    --main-green: #008d4c;
+    --text-white: #FFFFFF;
+    --text-black: #000000;
+}
+
+.custom-title {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      font-size: 36px;
+      padding-left: 10px;
+}
+
+.main-header .logo {
+      height: 50px;
+      padding: 0 !important;
+}
+
+.main-header .navbar {
+      margin-left: 0;
+}
+
+/* Main header */
+.main-header {
+    max-height: 75px;
+    min-width: 100%;
+    font-size: 40px;
+    background-color: var(--main-green);
+}
+
+.main-header.logo {
+    min-height: 50px;
+    padding-left: 0px;
+    font-weight: bold;
+    font-size: 35px;
+    padding-top: 15px;
+    padding-bottom: 150px;
+    background-color: var(--main-green);
+}
+
+.navbar {
+    min-height: 75px;
+}
+
+.sidebar-toggle {
+    height: 75px;
+    padding-top: 20px;
+    font-size: 200%;
+    background: #FFFFFF;
+}
+
+.icon {
+    height: 75px;
+}
+
+/* Headings */
+h1 {
+    color: var(--text-white);
+    padding-bottom: 10px;
+}
+
+h2 {
+    color: var(--text-white);
+    font-weight: bold;
+    padding-top: 0px;
+}
+
+h3 {
+    color: var(--text-black);
+    font-size: 30px;
+    font-weight: bold;
+    padding-top: 0px;
+}
+
+h4 {
+    color: var(--text-black);
+    font-size: 24px;
+    padding-top: 50px;
+}
+
+h5 {
+    color: var(--text-black);
+    font-size: 24px;
+}
+
+h6 {
+    color: var(--text-black);
+    font-size: 20px;
+}
+
+p {
+    color: var(--text-black);
+    font-size: 20px;
+}
+
+a {
+  color: black; /* default link color */
+}
+
+.clearfix {
+    overflow: auto;
+}
+
+/* Box styling */
+.box.box-solid.box-primary > .box-header {
+    color: var(--text-white);
+    height: 75px;
+    padding-top: 0px;
+    background: var(--main-green);
+}
+
+.box.box-solid.box-primary {
+    border-color: #222d32;
+    background: #FFFFFF;    
+    padding: 0;
+}
+
+/* Progress bar */
+.progress-bar {
+    background-color: var(--main-green);
+    background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.6) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0.6) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 40px 40px;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Notification */
+.shiny-notification {
+    height: 100px;
+    width: 800px;
+    position: fixed;
+    top: calc(50% - 50px);
+    left: calc(50% - 400px);
+    font-size: 24px;
+}
+
+/* Custom text */
+.text {
+    color: red;
+    font-size: 20px;
+    font-style: italic;
+}
+
+/* Form inputs */
+.selectize-input,
+.selectize-dropdown {
+    font-size: 24px;
+    line-height: 28px;
+}
+
+[type='number'],
+[type='text'] {
+    font-size: 30px;
+    height: 40px;
+}
+
+input[type=checkbox] {
+    transform: scale(1.5);
+    margin-top: 10px;
+    font-size: 30px;
+    height: 40px;
+}
+
+/* Sidebar */
+.main-sidebar {
+    width: 230px;
+    padding-top: 75px;
+}
+
+.left-side,
+.main-sidebar {
+    padding-top: 75px;
+    padding-left: 10px;
+}
+
+label, .form-group, .selectize-control, .custom-label, h4 {
+    color: black !important;
+}

@@ -21,7 +21,7 @@ heatmap_analysis(
 )
 }
 \arguments{
-\item{the_data}{A dataframe containing the timeseries. First column should contain dates.}
+\item{the_data}{A dataframe containing the time series. First column should contain dates.}
 
 \item{s1}{the name of a sample as a character string - must match a column name exactly}
 
@@ -35,9 +35,9 @@ heatmap_analysis(
 
 \item{center}{A numeric integer used to center the lead lag limits around. e.g. the pos lag is added to this value.}
 
-\item{complete}{A boolean to classify whther to run the lead-lag over the maximum range of leads and lags}
+\item{complete}{A boolean to classify whether to run the lead-lag over the maximum range of leads and lags}
 
-\item{sel_col_pal}{The colour pallate to use (numeric)}
+\item{sel_col_pal}{The colour palette to use (numeric)}
 
 \item{font_size}{The size of the font (numeric)}
 
@@ -48,7 +48,7 @@ heatmap_analysis(
 \item{leg_size}{A numeric integer to define the size of the colour bar legend.}
 }
 \description{
-This function rperforms the full running lead-lag analysis and produces a plot of the results
+This function performs the full running lead-lag analysis and produces a plot of the results
 }
 \examples{
 undated_path <- system.file("extdata", "undated_example.csv", package="ringdater")

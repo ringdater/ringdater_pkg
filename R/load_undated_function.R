@@ -6,6 +6,7 @@
 #' @param series_names The file names, only used in the shiny server function.
 #' @param shiny a logical to set series names. If running in cosole can be ignored.
 #' @param col1 A character string to label the first column (e.g. Year or Ring)
+#' @param avg_ser a boolean to determine if Ringmeasurer data should be averaged
 #' @importFrom magrittr %<>%
 #' @importFrom dplR read.rwl
 #' @export
@@ -71,7 +72,8 @@ load_undated<-function(files, col1 = "ring", series_names = NULL, shiny = FALSE,
         #print("load_check")
         tmp <- read.csv(files[k], header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
         #loading_df_data <- check_load_ringmeasurer_data(tmp)
-
+        print(tmp)
+        print("loaded csv")
         loading_df_data <- check_load_ringmeasurer_data(tmp, avg_series = avg_ser)
 
 

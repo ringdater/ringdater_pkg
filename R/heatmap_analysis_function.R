@@ -1,18 +1,18 @@
 #' running lead_lag analysis heat maps
 #'
-#' This function rperforms the full running lead-lag analysis and produces a plot of the results
+#' This function performs the full running lead-lag analysis and produces a plot of the results
 #' @keywords pairwise_lead_lag
-#' @param the_data A dataframe containing the timeseries. First column should contain dates.
+#' @param the_data A dataframe containing the time series. First column should contain dates.
 #' @param s1 the name of a sample as a character string - must match a column name exactly
 #' @param s2 the name of a sample  as a character string - must match a column name exactly
 #' @param neg_lag An integer
 #' @param pos_lag An integer
-#' @param complete A boolean to classify whther to run the lead-lag over the maximum range of leads and lags
+#' @param complete A boolean to classify whether to run the lead-lag over the maximum range of leads and lags
 #' @param win The window with which the running correlations are calculated over
 #' @param font_size The size of the font (numeric)
 #' @param axis_line_width The width of the axis (numeric)
 #' @param plot_line The width of the line (numeric)
-#' @param sel_col_pal The colour pallate to use (numeric)
+#' @param sel_col_pal The colour palette to use (numeric)
 #' @param center A numeric integer used to center the lead lag limits around. e.g. the pos lag is added to this value.
 #' @param leg_size A numeric integer to define the size of the colour bar legend.
 #' @export
@@ -36,7 +36,7 @@ heatmap_analysis<-function(the_data, s1, s2, neg_lag = -20, pos_lag = 20, win = 
     stop("Error in running_lead_lag: s2 is not a valid sample ID")
   }
   if(class(pos_lag) != "numeric" || pos_lag < neg_lag || pos_lag%%1 !=0){
-    stop("Error in running_lead_lag: pos_lag should be an numeric integer with a value greater than leg_lag")
+    stop("Error in running_lead_lag: pos_lag should be an numeric integer with a value greater than neg_lag")
   }
   if(class(neg_lag) != "numeric" || neg_lag > pos_lag || neg_lag%%1 !=0){
     stop("Error in running_lead_lag: neg_lag should be an numeric integer with a value less than pos_lag")

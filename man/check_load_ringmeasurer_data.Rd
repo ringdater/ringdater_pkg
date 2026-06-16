@@ -9,7 +9,7 @@ check_load_ringmeasurer_data(the_data, avg_series = TRUE)
 \arguments{
 \item{the_data}{A dataframe containing ring width measurements}
 
-\item{file}{A string holding the path to the data. used to get the sample ID that should be the file name}
+\item{avg_series}{a boolean to dictate whether replicate series areaveragede or not}
 }
 \description{
 This function creates a dataframe containing ring width data.

@@ -15,6 +15,6 @@ exmp_analysis_1 <- system.file("extdata", "chron_comp_1.csv", package="ringdater
               sample_1 = "mean_chronology",
               sample_2 = "sample_a")
 
- expect_equal(class(graph)[1], "gg")
+ expect_match(class(graph)[1], "ggplot")
 
 })

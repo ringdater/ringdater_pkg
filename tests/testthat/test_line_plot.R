@@ -10,6 +10,6 @@ test_that("line_plot produce a line plot of two timeseries withthe option to lag
  series_2 <- colnames(the_data)[3]
  graph <- line_plot(the_data = the_data, series_1_nm = series_1, series_2_nm = series_2, lag = -7)
 
- expect_equal(class(graph)[1], "gg")
+ expect_match(class(graph)[1], "ggplot")
 
 })

@@ -4,12 +4,12 @@
 \alias{R_dateR_theme}
 \title{Theme for plots in RingdateR}
 \usage{
-R_dateR_theme(text.size = 12, line.width = 1, l = 10, leg_size = 3)
+R_dateR_theme(text_size = 12, line_width = 1, l = 10, leg_size = 3)
 }
 \arguments{
-\item{text.size}{A numeric integer to define the size of the text displayed in the figures}
+\item{text_size}{A numeric integer to define the size of the text displayed in the figures}
 
-\item{line.width}{A numeric integer to set the width of the axis lines.}
+\item{line_width}{A numeric integer to set the width of the axis lines.}
 
 \item{l}{A numeric integer to define the size of the left margin}
 
@@ -19,9 +19,10 @@ R_dateR_theme(text.size = 12, line.width = 1, l = 10, leg_size = 3)
 Modify the theme used in the plots displayed in RingdateR
 }
 \examples{
-# plot_data <-data.frame(x = 1:10, y = 1:10)
-# ggplot(data = plot_data, aes(x = x, y=y))+
-# geom_point() + R_dateR_theme()
+library(ggplot2)
+plot_data <- data.frame(x = 1:10, y = 1:10)
+ggplot(data = plot_data, aes(x = x, y = y)) +
+geom_point() + R_dateR_theme()
 
 }
 \keyword{GUI}

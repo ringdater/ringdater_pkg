@@ -142,13 +142,13 @@ EPS and Rbar window: `r input$rbar_wind_init` years with 50% overlap
 
   combined<-subset(combined, complete.cases(combined))
 
-  ln_plot <- line_plot(combined, colnames(combined)[2], colnames(combined)[3], lag = 0, text.size = 8, line.width = 0.5, plot.line = 0.5)
+  ln_plot <- line_plot(combined, colnames(combined)[2], colnames(combined)[3], lag = 0, text_size = 8, line_width = 0.5, plot_line = 0.5)
   
   bar_graph <- lead_lag_bar(the_data = as.data.frame(chron_comp[2]),
                   sample_1 = colnames(combined)[2],
                   sample_2 = colnames(combined)[3],
-                  text.size = 8, 
-                  line.width = 0.5)
+                  text_size = 8, 
+                  line_width = 0.5)
   
 
   g1 <- ggplotGrob(ln_plot)

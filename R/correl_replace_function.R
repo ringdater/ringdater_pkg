@@ -6,7 +6,7 @@
 #'
 #' @keywords correlations
 #' @param the.data A dataframe containing at least three series and a year column
-#' @importFrom stats cor.test
+# #' @importFrom stats cor.test
 #' @export
 #' @examples
 #' file_path <- system.file("extdata", "dated_example_excel.xlsx", package="ringdater")
