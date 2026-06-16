@@ -35,7 +35,7 @@ install.packages("remotes")
 
 library(remotes)
 
-remotes::install_github("ringdater/ringdater")
+remotes::install_github("ringdater/ringdater-pkg")
 
 ## Requirements
 
