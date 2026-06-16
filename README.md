@@ -31,11 +31,11 @@ The overarching aim of RingdateR is to facilitate the rapid development of cross
 ## Running RingdateR in Rstudio
 RingdateR can be used as a package in Rstudio. The package can be downloaded and installed directly from Github using the following code:
 
-install.packages("devtools") 
+install.packages("remotes") 
 
-library(devtools)
+library(remotes)
 
-devtools::install_github("ringdater/ringdater_pkg")
+remotes::install_github("ringdater/ringdater")
 
 ## Requirements
 
